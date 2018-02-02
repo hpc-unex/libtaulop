@@ -1,0 +1,72 @@
+Code for estimating the cost of a Matrix Multiplication departing
+from a partition of the matrix on a heterogeneous environment.
+Authors:  
+	Juan A. Rico  (jarico@unex.es)
+	Juan C. Díaz  (juancarl@unex.es)
+Version: 0.1
+Date: Oct. 10th, 2016
+--------------------------------------------------------------------------
+
+This code is in an *early stage of development*.
+No configure/make toolchain is provided yet.
+
+For using the code follow the steps:
+
+1. Edit and modify the file config.h to match your system or conveniences.
+2. Edit and modify the main.cpp file (main()).
+3. Compile the code by using:
+	$ ./compile.sh
+4. Matrix partitions are described in files under ./matrices path
+5. Gnuplot files are generated under the ./squares path
+6. Execute the cost estimation tool using:
+	$ chmod +x code_tau-lop
+	$ ./code_tau-lop
+
+
+
+Version: 0.26
+Date: Nov. 4th, 2016
+--------------------------------------------------------------------------
+
+- First steps to separate the kernel of t-Lop code as a library:
+1. Process is split in Process and Rectangle, with different attributes. A Rectangle has nothing to
+   do with the kernel of t-Lop code. Rectangle inherits the Process Class, so it can be used in Comm.
+
+2. Definition of a more clear interface between kernel classes and their interfaces and the rest of 
+   matrix multiplication algorithms, etc. The interface with the kernel are mainly formed by the classes:
+
+      a) Sequence -> Represents a sequence of communications. It can contain collective representations.
+      b) Concurrent -> A set of sequential communications represented using the Sequence class.
+      c) Comm -> Represents a communication (it has a tau value, so it can be concurrent).
+      d) Process -> It represent a process, with the rank number and the node it runs on.
+
+- Several main() examples added, including basic examples using the kernel, and others using algorithms
+  for matrix multiplications.
+
+
+
+
+Version: 0.27
+Date: 
+--------------------------------------------------------------------------
+
+- Change the names of some files, avoiding the prefix algorithm:
+   taulop_param_channel.hpp /.cpp
+   taulop_param.hpp /.cpp
+
+   algorithm_taulop.hpp and .cpp -> algorithm_MxM.hpp and .cpp
+     Class TaulopAlgorithm is now MxM_Algorithm.
+
+- Partial (not definitive) solution for reading parameters from files. The kernel code in "taulop_param_channel.cpp"
+   and "taulop_params.cpp" read the files with the current format (specified in TaulopParamChannel constructor) from 
+   a folder. The name of the folder has to be specified in matrix_config.h, as a constant:
+
+      const string params_folder = "<params folder>";
+
+- Comm: Constructor is independent of the Matrix application. In the constructor, we eliminate the "b" param. 
+
+- FE_Algorithm class added, to predict the cost of a Finite Element application with a 5-point stencil in an 
+  heterogeneous machine with hybrid processes (single- and multi-threaded CPU and GPU). It departs from a matrix 
+  describing the partition in 2D, and predict the communication of up, down, left and right non-blocking send
+  and receive operations of the boundaries.
+

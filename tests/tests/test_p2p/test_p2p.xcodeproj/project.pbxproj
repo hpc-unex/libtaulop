@@ -1,0 +1,312 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		755F436A1EAF33A8006793D7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 755F43691EAF33A8006793D7 /* main.cpp */; };
+		755F43771EAF33C9006793D7 /* libtaulop.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 755F43761EAF33C3006793D7 /* libtaulop.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		755F43751EAF33C3006793D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 755F43711EAF33C3006793D7 /* taulop.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 75E6D6081DDB864F0057A699;
+			remoteInfo = taulop;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		755F43641EAF33A8006793D7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		755F43661EAF33A8006793D7 /* test_p2p */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test_p2p; sourceTree = BUILT_PRODUCTS_DIR; };
+		755F43691EAF33A8006793D7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		755F43711EAF33C3006793D7 /* taulop.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = taulop.xcodeproj; path = ../../taulop/taulop.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		755F43631EAF33A8006793D7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				755F43771EAF33C9006793D7 /* libtaulop.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		755F435D1EAF33A8006793D7 = {
+			isa = PBXGroup;
+			children = (
+				755F43681EAF33A8006793D7 /* test_p2p */,
+				755F43671EAF33A8006793D7 /* Products */,
+				755F43701EAF33C3006793D7 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		755F43671EAF33A8006793D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				755F43661EAF33A8006793D7 /* test_p2p */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		755F43681EAF33A8006793D7 /* test_p2p */ = {
+			isa = PBXGroup;
+			children = (
+				755F43691EAF33A8006793D7 /* main.cpp */,
+			);
+			path = test_p2p;
+			sourceTree = "<group>";
+		};
+		755F43701EAF33C3006793D7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				755F43711EAF33C3006793D7 /* taulop.xcodeproj */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		755F43721EAF33C3006793D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				755F43761EAF33C3006793D7 /* libtaulop.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		755F43651EAF33A8006793D7 /* test_p2p */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 755F436D1EAF33A8006793D7 /* Build configuration list for PBXNativeTarget "test_p2p" */;
+			buildPhases = (
+				755F43621EAF33A8006793D7 /* Sources */,
+				755F43631EAF33A8006793D7 /* Frameworks */,
+				755F43641EAF33A8006793D7 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test_p2p;
+			productName = test_p2p;
+			productReference = 755F43661EAF33A8006793D7 /* test_p2p */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		755F435E1EAF33A8006793D7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = jarico;
+				TargetAttributes = {
+					755F43651EAF33A8006793D7 = {
+						CreatedOnToolsVersion = 8.3.1;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 755F43611EAF33A8006793D7 /* Build configuration list for PBXProject "test_p2p" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 755F435D1EAF33A8006793D7;
+			productRefGroup = 755F43671EAF33A8006793D7 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 755F43721EAF33C3006793D7 /* Products */;
+					ProjectRef = 755F43711EAF33C3006793D7 /* taulop.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				755F43651EAF33A8006793D7 /* test_p2p */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		755F43761EAF33C3006793D7 /* libtaulop.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libtaulop.a;
+			remoteRef = 755F43751EAF33C3006793D7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXSourcesBuildPhase section */
+		755F43621EAF33A8006793D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				755F436A1EAF33A8006793D7 /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		755F436B1EAF33A8006793D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		755F436C1EAF33A8006793D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		755F436E1EAF33A8006793D7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"/Users/jarico/Google\\ Drive/code_tau_lop/taulop_code/taulop/kernel",
+					"/Users/jarico/Google\\ Drive/code_tau_lop/taulop_code/taulop/colls",
+				);
+				LIBRARY_SEARCH_PATHS = "/Users/jarico/Google\\ Drive/code_tau_lop/taulop_code/taulop/build/Debug";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		755F436F1EAF33A8006793D7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				HEADER_SEARCH_PATHS = (
+					"/Users/jarico/Google\\ Drive/code_tau_lop/taulop_code/taulop/kernel",
+					"/Users/jarico/Google\\ Drive/code_tau_lop/taulop_code/taulop/colls",
+				);
+				LIBRARY_SEARCH_PATHS = "/Users/jarico/Google\\ Drive/code_tau_lop/taulop_code/taulop/build/Debug";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		755F43611EAF33A8006793D7 /* Build configuration list for PBXProject "test_p2p" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				755F436B1EAF33A8006793D7 /* Debug */,
+				755F436C1EAF33A8006793D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		755F436D1EAF33A8006793D7 /* Build configuration list for PBXNativeTarget "test_p2p" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				755F436E1EAF33A8006793D7 /* Debug */,
+				755F436F1EAF33A8006793D7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 755F435E1EAF33A8006793D7 /* Project object */;
+}
