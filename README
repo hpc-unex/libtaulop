@@ -1,21 +1,25 @@
-Code for estimating the cost of a Matrix Multiplication departing
-from a partition of the matrix on a heterogeneous environment.
-Authors:  
-	Juan A. Rico  (jarico@unex.es)
-	Juan C. Díaz  (juancarl@unex.es)
-Version: 0.1
-Date: Oct. 10th, 2016
+tau-Lop library is a tool for automatizing the procedure of 
+modeling and quantifying the cost of parallel algorithms using
+the tau-Lop model.
+
+Version: 1.0
+Date: Feb. 5th, 2018
 --------------------------------------------------------------------------
 
-This code is in an *early stage of development*.
-No configure/make toolchain is provided yet.
-
-For using the code as is follow the steps:
+1) Installing the library:
 
 1. ./configure
 2. make
-3. sudo make install
-4. use -ltaulop in your executions (only if the installation folder is 'default' (usr/local/lib)
+3. make install
+4. make tests
 
 
-
+Visit http.unex.es/taulop for more information and elaborated examples.
+Contacting information:
+        Juan A. Rico  (jarico@unex.es)
+        Juan C. Díaz  (juancarl@unex.es)
+        Sergio Moreno (smoreno@unex.es)
+University of Extremadura,
+Avd. Universidad s/n,
+10004, Cáceres,
+Spain
