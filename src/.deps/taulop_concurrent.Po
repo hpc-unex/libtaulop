@@ -1,6 +1,6 @@
 src/taulop_concurrent.o: src/taulop_concurrent.cpp \
- /usr/include/stdc-predef.h /usr/local/include/taulop_concurrent.hpp \
- /usr/local/include/ilist.h /usr/include/c++/5/iostream \
+ /usr/include/stdc-predef.h include/taulop_concurrent.hpp include/ilist.h \
+ /usr/include/c++/5/iostream \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -73,20 +73,17 @@ src/taulop_concurrent.o: src/taulop_concurrent.cpp \
  /usr/include/c++/5/bits/locale_facets.tcc \
  /usr/include/c++/5/bits/basic_ios.tcc \
  /usr/include/c++/5/bits/ostream.tcc /usr/include/c++/5/istream \
- /usr/include/c++/5/bits/istream.tcc \
- /usr/local/include/taulop_sequence.hpp \
- /usr/local/include/transmission.hpp /usr/local/include/process.hpp \
- /usr/local/include/taulop_params.hpp /usr/local/include/config_taulop.h \
- /usr/local/include/taulop_params_channel.hpp \
- /usr/local/include/taulop_cost.hpp /usr/local/include/transmission.hpp \
- /usr/local/include/ilist.h /usr/local/include/config_taulop.h \
- /usr/local/include/taulop_operator.hpp
+ /usr/include/c++/5/bits/istream.tcc include/taulop_sequence.hpp \
+ include/transmission.hpp include/process.hpp include/taulop_params.hpp \
+ include/config_taulop.h include/taulop_params_channel.hpp \
+ include/taulop_cost.hpp include/transmission.hpp include/ilist.h \
+ include/config_taulop.h include/taulop_operator.hpp
 
 /usr/include/stdc-predef.h:
 
-/usr/local/include/taulop_concurrent.hpp:
+include/taulop_concurrent.hpp:
 
-/usr/local/include/ilist.h:
+include/ilist.h:
 
 /usr/include/c++/5/iostream:
 
@@ -282,24 +279,24 @@ src/taulop_concurrent.o: src/taulop_concurrent.cpp \
 
 /usr/include/c++/5/bits/istream.tcc:
 
-/usr/local/include/taulop_sequence.hpp:
+include/taulop_sequence.hpp:
 
-/usr/local/include/transmission.hpp:
+include/transmission.hpp:
 
-/usr/local/include/process.hpp:
+include/process.hpp:
 
-/usr/local/include/taulop_params.hpp:
+include/taulop_params.hpp:
 
-/usr/local/include/config_taulop.h:
+include/config_taulop.h:
 
-/usr/local/include/taulop_params_channel.hpp:
+include/taulop_params_channel.hpp:
 
-/usr/local/include/taulop_cost.hpp:
+include/taulop_cost.hpp:
 
-/usr/local/include/transmission.hpp:
+include/transmission.hpp:
 
-/usr/local/include/ilist.h:
+include/ilist.h:
 
-/usr/local/include/config_taulop.h:
+include/config_taulop.h:
 
-/usr/local/include/taulop_operator.hpp:
+include/taulop_operator.hpp:

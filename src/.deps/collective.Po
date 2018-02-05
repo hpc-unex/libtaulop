@@ -1,6 +1,6 @@
 src/collective.o: src/collective.cpp /usr/include/stdc-predef.h \
- /usr/local/include/collective.hpp /usr/local/include/communicator.hpp \
- /usr/local/include/mapping.hpp /usr/include/c++/5/iostream \
+ include/collective.hpp include/communicator.hpp include/mapping.hpp \
+ /usr/include/c++/5/iostream \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -73,15 +73,15 @@ src/collective.o: src/collective.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/5/bits/locale_facets.tcc \
  /usr/include/c++/5/bits/basic_ios.tcc \
  /usr/include/c++/5/bits/ostream.tcc /usr/include/c++/5/istream \
- /usr/include/c++/5/bits/istream.tcc /usr/local/include/config_taulop.h
+ /usr/include/c++/5/bits/istream.tcc include/config_taulop.h
 
 /usr/include/stdc-predef.h:
 
-/usr/local/include/collective.hpp:
+include/collective.hpp:
 
-/usr/local/include/communicator.hpp:
+include/communicator.hpp:
 
-/usr/local/include/mapping.hpp:
+include/mapping.hpp:
 
 /usr/include/c++/5/iostream:
 
@@ -277,4 +277,4 @@ src/collective.o: src/collective.cpp /usr/include/stdc-predef.h \
 
 /usr/include/c++/5/bits/istream.tcc:
 
-/usr/local/include/config_taulop.h:
+include/config_taulop.h:

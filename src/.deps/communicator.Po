@@ -1,6 +1,5 @@
 src/communicator.o: src/communicator.cpp /usr/include/stdc-predef.h \
- /usr/local/include/communicator.hpp /usr/local/include/mapping.hpp \
- /usr/include/c++/5/iostream \
+ include/communicator.hpp include/mapping.hpp /usr/include/c++/5/iostream \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -77,9 +76,9 @@ src/communicator.o: src/communicator.cpp /usr/include/stdc-predef.h \
 
 /usr/include/stdc-predef.h:
 
-/usr/local/include/communicator.hpp:
+include/communicator.hpp:
 
-/usr/local/include/mapping.hpp:
+include/mapping.hpp:
 
 /usr/include/c++/5/iostream:
 

@@ -1,7 +1,6 @@
 src/gather_binomial.o: src/gather_binomial.cpp /usr/include/stdc-predef.h \
- /usr/local/include/gather_binomial.hpp /usr/local/include/collective.hpp \
- /usr/local/include/communicator.hpp /usr/local/include/mapping.hpp \
- /usr/include/c++/5/iostream \
+ include/gather_binomial.hpp include/collective.hpp \
+ include/communicator.hpp include/mapping.hpp /usr/include/c++/5/iostream \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -74,16 +73,14 @@ src/gather_binomial.o: src/gather_binomial.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/5/bits/locale_facets.tcc \
  /usr/include/c++/5/bits/basic_ios.tcc \
  /usr/include/c++/5/bits/ostream.tcc /usr/include/c++/5/istream \
- /usr/include/c++/5/bits/istream.tcc /usr/local/include/config_taulop.h \
- /usr/local/include/transmission.hpp /usr/local/include/process.hpp \
- /usr/local/include/taulop_params.hpp \
- /usr/local/include/taulop_params_channel.hpp \
- /usr/local/include/collective.hpp /usr/local/include/communicator.hpp \
- /usr/local/include/taulop_concurrent.hpp /usr/local/include/ilist.h \
- /usr/local/include/taulop_sequence.hpp \
- /usr/local/include/transmission.hpp /usr/local/include/taulop_cost.hpp \
- /usr/local/include/taulop_sequence.hpp /usr/include/c++/5/cmath \
- /usr/include/math.h /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/c++/5/bits/istream.tcc include/config_taulop.h \
+ include/transmission.hpp include/process.hpp include/taulop_params.hpp \
+ include/taulop_params_channel.hpp include/collective.hpp \
+ include/communicator.hpp include/taulop_concurrent.hpp include/ilist.h \
+ include/taulop_sequence.hpp include/transmission.hpp \
+ include/taulop_cost.hpp include/taulop_sequence.hpp \
+ /usr/include/c++/5/cmath /usr/include/math.h \
+ /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
  /usr/include/x86_64-linux-gnu/bits/huge_val.h \
  /usr/include/x86_64-linux-gnu/bits/huge_valf.h \
@@ -96,13 +93,13 @@ src/gather_binomial.o: src/gather_binomial.cpp /usr/include/stdc-predef.h \
 
 /usr/include/stdc-predef.h:
 
-/usr/local/include/gather_binomial.hpp:
+include/gather_binomial.hpp:
 
-/usr/local/include/collective.hpp:
+include/collective.hpp:
 
-/usr/local/include/communicator.hpp:
+include/communicator.hpp:
 
-/usr/local/include/mapping.hpp:
+include/mapping.hpp:
 
 /usr/include/c++/5/iostream:
 
@@ -298,31 +295,31 @@ src/gather_binomial.o: src/gather_binomial.cpp /usr/include/stdc-predef.h \
 
 /usr/include/c++/5/bits/istream.tcc:
 
-/usr/local/include/config_taulop.h:
+include/config_taulop.h:
 
-/usr/local/include/transmission.hpp:
+include/transmission.hpp:
 
-/usr/local/include/process.hpp:
+include/process.hpp:
 
-/usr/local/include/taulop_params.hpp:
+include/taulop_params.hpp:
 
-/usr/local/include/taulop_params_channel.hpp:
+include/taulop_params_channel.hpp:
 
-/usr/local/include/collective.hpp:
+include/collective.hpp:
 
-/usr/local/include/communicator.hpp:
+include/communicator.hpp:
 
-/usr/local/include/taulop_concurrent.hpp:
+include/taulop_concurrent.hpp:
 
-/usr/local/include/ilist.h:
+include/ilist.h:
 
-/usr/local/include/taulop_sequence.hpp:
+include/taulop_sequence.hpp:
 
-/usr/local/include/transmission.hpp:
+include/transmission.hpp:
 
-/usr/local/include/taulop_cost.hpp:
+include/taulop_cost.hpp:
 
-/usr/local/include/taulop_sequence.hpp:
+include/taulop_sequence.hpp:
 
 /usr/include/c++/5/cmath:
 

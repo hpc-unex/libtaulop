@@ -1,5 +1,5 @@
 src/taulop_params.o: src/taulop_params.cpp /usr/include/stdc-predef.h \
- /usr/local/include/taulop_params.hpp /usr/local/include/config_taulop.h \
+ include/taulop_params.hpp include/config_taulop.h \
  /usr/include/c++/5/string \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h \
@@ -62,7 +62,7 @@ src/taulop_params.o: src/taulop_params.cpp /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/atomic_word.h \
  /usr/include/c++/5/ext/alloc_traits.h \
  /usr/include/c++/5/bits/basic_string.tcc \
- /usr/local/include/taulop_params_channel.hpp /usr/include/c++/5/iostream \
+ include/taulop_params_channel.hpp /usr/include/c++/5/iostream \
  /usr/include/c++/5/ostream /usr/include/c++/5/ios \
  /usr/include/c++/5/bits/ios_base.h \
  /usr/include/c++/5/bits/locale_classes.h \
@@ -113,9 +113,9 @@ src/taulop_params.o: src/taulop_params.cpp /usr/include/stdc-predef.h \
 
 /usr/include/stdc-predef.h:
 
-/usr/local/include/taulop_params.hpp:
+include/taulop_params.hpp:
 
-/usr/local/include/config_taulop.h:
+include/config_taulop.h:
 
 /usr/include/c++/5/string:
 
@@ -269,7 +269,7 @@ src/taulop_params.o: src/taulop_params.cpp /usr/include/stdc-predef.h \
 
 /usr/include/c++/5/bits/basic_string.tcc:
 
-/usr/local/include/taulop_params_channel.hpp:
+include/taulop_params_channel.hpp:
 
 /usr/include/c++/5/iostream:
 

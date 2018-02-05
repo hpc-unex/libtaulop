@@ -1,5 +1,5 @@
 src/taulop_params_channel.o: src/taulop_params_channel.cpp \
- /usr/include/stdc-predef.h /usr/local/include/taulop_params_channel.hpp \
+ /usr/include/stdc-predef.h include/taulop_params_channel.hpp \
  /usr/include/c++/5/iostream \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h \
@@ -73,7 +73,7 @@ src/taulop_params_channel.o: src/taulop_params_channel.cpp \
  /usr/include/c++/5/bits/locale_facets.tcc \
  /usr/include/c++/5/bits/basic_ios.tcc \
  /usr/include/c++/5/bits/ostream.tcc /usr/include/c++/5/istream \
- /usr/include/c++/5/bits/istream.tcc /usr/local/include/config_taulop.h \
+ /usr/include/c++/5/bits/istream.tcc include/config_taulop.h \
  /usr/include/c++/5/cstdlib /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
@@ -99,7 +99,7 @@ src/taulop_params_channel.o: src/taulop_params_channel.cpp \
 
 /usr/include/stdc-predef.h:
 
-/usr/local/include/taulop_params_channel.hpp:
+include/taulop_params_channel.hpp:
 
 /usr/include/c++/5/iostream:
 
@@ -295,7 +295,7 @@ src/taulop_params_channel.o: src/taulop_params_channel.cpp \
 
 /usr/include/c++/5/bits/istream.tcc:
 
-/usr/local/include/config_taulop.h:
+include/config_taulop.h:
 
 /usr/include/c++/5/cstdlib:
 

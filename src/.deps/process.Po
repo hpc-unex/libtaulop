@@ -1,5 +1,5 @@
 src/process.o: src/process.cpp /usr/include/stdc-predef.h \
- /usr/local/include/process.hpp /usr/include/c++/5/iostream \
+ include/process.hpp /usr/include/c++/5/iostream \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/os_defines.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -72,11 +72,11 @@ src/process.o: src/process.cpp /usr/include/stdc-predef.h \
  /usr/include/c++/5/bits/locale_facets.tcc \
  /usr/include/c++/5/bits/basic_ios.tcc \
  /usr/include/c++/5/bits/ostream.tcc /usr/include/c++/5/istream \
- /usr/include/c++/5/bits/istream.tcc /usr/local/include/config_taulop.h
+ /usr/include/c++/5/bits/istream.tcc include/config_taulop.h
 
 /usr/include/stdc-predef.h:
 
-/usr/local/include/process.hpp:
+include/process.hpp:
 
 /usr/include/c++/5/iostream:
 
@@ -272,4 +272,4 @@ src/process.o: src/process.cpp /usr/include/stdc-predef.h \
 
 /usr/include/c++/5/bits/istream.tcc:
 
-/usr/local/include/config_taulop.h:
+include/config_taulop.h:
