@@ -320,7 +320,7 @@ top_srcdir = @top_srcdir@
 lib_LIBRARIES = libtaulop.a
 libtaulop_adir = $(includedir)
 noinst_HEADERS = 
-libtaulop_a_HEADERS = include/ilist.h include/config_taulop.h \
+libtaulop_a_HEADERS = include/ilist.h config.h include/config_taulop.h \
 	include/process.hpp include/taulop_cost.hpp \
 	include/transmission.hpp include/taulop_kernel.hpp \
 	include/taulop_params.hpp include/taulop_operator.hpp \
