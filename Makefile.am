@@ -1,3 +1,4 @@
+AM_CXXFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/src
 
 lib_LIBRARIES           = libtaulop.a
 libtaulop_adir      = $(includedir)
