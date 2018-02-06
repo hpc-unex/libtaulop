@@ -20,15 +20,16 @@ CXXFLAGS=" $CXXFLAGS -std=c++11 "
 
 
 
-AC_ARG_WITH(params,
-[  --with-params[[=path]] - Specify the path of the parameter values in case of they are located
-                           #in a custom location.],,with_params=empty)
-
 
 
 ###############################################################################
 # with-params
 ###############################################################################
+
+AC_ARG_WITH(params,
+[  --with-params[[=path]] - Specify the path of the parameter values in case of they are located
+#in a custom location.],,with_params=empty)
+
 
 if test "$with_hwloc" = "empty"; then
 
