@@ -7,7 +7,7 @@
 //
 
 #include "process.hpp"
-#include "config_taulop.h"
+#include "taulop_config.h"
 #include <iostream>
 using namespace std;
 

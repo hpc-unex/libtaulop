@@ -1,8 +1,16 @@
 Installation Instructions
 *************************
 
-Copyright (C) 1994-1996, 1999-2002, 2004-2013 Free Software Foundation,
-Inc.
+Use toolchain tools for installing the library:
+
+1. ./configure [--prefix=...]
+2. make
+3. make install
+4. make tests
+
+
+Advanced Installation Instructions
+==================================
 
    Copying and distribution of this file, with or without modification,
 are permitted in any medium without royalty provided the copyright

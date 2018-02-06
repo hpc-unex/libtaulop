@@ -9,7 +9,7 @@
 #include "taulop_sequence.hpp"
 #include "transmission.hpp"
 #include "ilist.h"
-#include "config_taulop.h"
+#include "taulop_config.h"
 
 #include <iostream>
 using namespace std;

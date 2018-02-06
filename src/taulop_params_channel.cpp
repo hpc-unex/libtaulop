@@ -7,7 +7,7 @@
 //
 
 #include "taulop_params_channel.hpp"
-#include "config_taulop.h"
+#include "taulop_config.h"
 #include <cstdlib>
 #include <sstream>
 #include <fstream>

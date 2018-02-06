@@ -9,7 +9,7 @@
 #include "taulop_concurrent.hpp"
 #include "transmission.hpp"
 #include "ilist.h"
-#include "config_taulop.h"
+#include "taulop_config.h"
 #include "taulop_operator.hpp"
 
 #include <iostream>

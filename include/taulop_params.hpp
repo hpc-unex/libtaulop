@@ -9,7 +9,7 @@
 #ifndef taulop_params_hpp
 #define taulop_params_hpp
 
-#include "config_taulop.h"
+#include "taulop_config.h"
 #include "taulop_params_channel.hpp"
 
 #include <iostream>
