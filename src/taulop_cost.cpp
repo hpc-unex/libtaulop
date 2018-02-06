@@ -21,7 +21,7 @@ TauLopCost::TauLopCost () {
 
 TauLopCost::~TauLopCost () {
     
-    Transmission *c = NULL;
+    Transmission *c = nullptr;
     
     this->cost->moveToBegin();
     while (! this->cost->end()) {
@@ -47,8 +47,8 @@ void TauLopCost::add (Transmission *c) {
 
 void TauLopCost::add (const TauLopCost *tc) {
     
-    Transmission *c   = NULL;
-    Transmission *aux = NULL;
+    Transmission *c   = nullptr;
+    Transmission *aux = nullptr;
     
     this->cost->moveToEnd();
     
@@ -143,8 +143,8 @@ long TauLopCost::getVolume (int chn) {
 
 void TauLopCost::compact () {
     
-    Transmission *c  = NULL;
-    Transmission *c2 = NULL;
+    Transmission *c  = nullptr;
+    Transmission *c2 = nullptr;
     IList<Transmission *> *l_aux = new IList<Transmission *> ();
     
     
@@ -206,7 +206,7 @@ void TauLopCost::compact () {
 
 void TauLopCost::show () {
     
-    Transmission *c = NULL;
+    Transmission *c = nullptr;
     
     this->cost->moveToBegin();
     while (! this->cost->end()) {

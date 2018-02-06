@@ -12,8 +12,8 @@
 
 
 Transmission::Transmission () {
-    this->p_src    =  NULL;
-    this->p_dst    =  NULL;
+    this->p_src    =  nullptr;
+    this->p_dst    =  nullptr;
     this->node_src =  NODE_UNDEFINED;
     this->node_dst =  NODE_UNDEFINED;
     this->channel  = -1;
@@ -66,8 +66,8 @@ Transmission::Transmission (Process *p_src, Process *p_dst, int m, int tau) {
 }
 
 Transmission::Transmission (int channel, int n, int m, int tau) {
-    this->p_src    = NULL;
-    this->p_dst    = NULL;
+    this->p_src    = nullptr;
+    this->p_dst    = nullptr;
     this->node_src = NODE_UNDEFINED;
     this->node_dst = NODE_UNDEFINED;
     this->channel  = channel;
@@ -79,8 +79,8 @@ Transmission::Transmission (int channel, int n, int m, int tau) {
 }
 
 Transmission::Transmission (int channel, int m, int tau) {
-    this->p_src    = NULL;
-    this->p_dst    = NULL;
+    this->p_src    = nullptr;
+    this->p_dst    = nullptr;
     this->node_src = NODE_UNDEFINED;
     this->node_dst = NODE_UNDEFINED;
     this->channel  = channel;
@@ -139,7 +139,7 @@ int Transmission::getSrcRank () {
     
     int rank = -1;
     
-    if (this->p_src != NULL) {
+    if (this->p_src != nullptr) {
         rank = this->p_src->getRank();
     }
     
@@ -151,7 +151,7 @@ int Transmission::getDstRank () {
 
     int rank = -1;
     
-    if (this->p_dst != NULL) {
+    if (this->p_dst != nullptr) {
         rank = this->p_dst->getRank();
     }
     
@@ -269,8 +269,8 @@ bool Transmission::areSequential (const Transmission *c) {
     int r1_src = -1;
     int r2_src = -1;
     
-    if (this->p_src != NULL)  r1_src = p_src->getRank();
-    if (c->p_src    != NULL)  r2_src = c->p_src->getRank();
+    if (this->p_src != nullptr)  r1_src = p_src->getRank();
+    if (c->p_src    != nullptr)  r2_src = c->p_src->getRank();
     
     if (r1_src == r2_src)
         return true;
@@ -287,7 +287,7 @@ void Transmission::add (const Transmission *c) {
 
 void Transmission::show () {
     
-    if ((p_src != NULL) && (p_dst != NULL)) {
+    if ((p_src != nullptr) && (p_dst != nullptr)) {
         cout << p_src->getRank() << " -> " << p_dst->getRank() << endl;
     } else {
         cout << "X -> Y" << endl;

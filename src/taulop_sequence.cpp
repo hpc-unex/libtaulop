@@ -23,7 +23,7 @@ TauLopSequence::TauLopSequence () {
 
 TauLopSequence::~TauLopSequence () {
     
-    Transmission *c = NULL;
+    Transmission *c = nullptr;
     
     this->l_seq->moveToBegin();
     while (! this->l_seq->empty()) {
@@ -48,7 +48,7 @@ void TauLopSequence::add (Transmission *c) {
 
 Transmission * TauLopSequence::get () {
     
-    Transmission *c = NULL;
+    Transmission *c = nullptr;
     
     this->l_seq->moveToBegin();
     this->l_seq->consult(c);
@@ -59,7 +59,7 @@ Transmission * TauLopSequence::get () {
 
 void TauLopSequence::substract (Transmission *min_c, int tau) {
     
-    Transmission *c = NULL;
+    Transmission *c = nullptr;
     
     double t_min = min_c->getCost();
     
@@ -137,8 +137,8 @@ bool TauLopSequence::empty () {
 
 void TauLopSequence::compact () {
     
-    Transmission *c  = NULL;
-    Transmission *c2 = NULL;
+    Transmission *c  = nullptr;
+    Transmission *c2 = nullptr;
     
     if (! this->l_seq->empty()) {
         this->l_seq->moveToBegin();
@@ -166,7 +166,7 @@ void TauLopSequence::compact () {
 
 void TauLopSequence::show () {
     
-    Transmission *c = NULL;
+    Transmission *c = nullptr;
 
     
     for (int field = 0; field < 3; field++) {
@@ -179,14 +179,14 @@ void TauLopSequence::show () {
             
             switch (field) {
                 case 0: // show procs
-                    if (c != NULL) {
+                    if (c != nullptr) {
                         cout << c->getSrcRank() << " -> " << c->getDstRank() << "\t\t\t";
                     } else {
                         cout << "       " << "\t\t";
                     }
                     break;
                 case 1: // show Transmission
-                    if (c != NULL) {
+                    if (c != nullptr) {
                         cout << c->getTau() << "||"  << c->getN() << "xT^" << c->getChannel() << "(" << c->getM() << ")";
                         if (this->l_seq->last()) cout << "  *-/ ";
                         else                     cout << "  *-> \t";
@@ -195,7 +195,7 @@ void TauLopSequence::show () {
                     }
                     break;
                 case 2: // show nodes
-                    if (c != NULL) {
+                    if (c != nullptr) {
                         cout << c->getSrcNode() << " -> " << c->getDstNode() << "\t\t\t";
                     } else {
                         cout << "          " << "\t\t";

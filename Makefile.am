@@ -1,11 +1,11 @@
-AM_CXXFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/src
+AM_CXXFLAGS = -std=c++11 -I$(top_srcdir)/include -I$(top_srcdir)/src
 
-lib_LIBRARIES           = libtaulop.a
-libtaulop_adir      = $(includedir)
-noinst_HEADERS          =
-libtaulop_a_HEADERS = 
-libtaulop_a_SOURCES =
-EXTRA_DIST              =
+lib_LIBRARIES        = libtaulop.a
+libtaulop_adir       = $(includedir)
+noinst_HEADERS       =
+libtaulop_a_HEADERS  = 
+libtaulop_a_SOURCES  =
+EXTRA_DIST           =
 
 
 include include/Makefile.am

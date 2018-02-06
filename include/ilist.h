@@ -28,8 +28,8 @@ private:
 
 		Node (const TYPE &elem) {
 			this->elem  = elem;
-			this->next  = NULL;
-			this->prev  = NULL;
+			this->next  = nullptr;
+			this->prev  = nullptr;
 		}
 	};
 
@@ -168,14 +168,14 @@ public:
 
 template <class TYPE>
 IList<TYPE>::IList () {
-	this->head  = NULL;
-	this->tail  = NULL;
-	this->poi   = NULL;
+	this->head  = nullptr;
+	this->tail  = nullptr;
+	this->poi   = nullptr;
 }
 
 template <class TYPE>
 bool IList<TYPE>::empty () {
-	return (this->head == NULL);
+	return (this->head == nullptr);
 }
 
 template <class TYPE>
@@ -191,7 +191,7 @@ void IList<TYPE>::moveToEnd (){
 template <class TYPE>
 void IList<TYPE>::next () {
 
-	if (this->poi!= NULL) {
+	if (this->poi!= nullptr) {
 		this->poi= this->poi->next;
 	}
 }
@@ -200,7 +200,7 @@ template <class TYPE>
 void IList<TYPE>::back (){
 
 	if (this->poi!= this->head) {
-		if (this->poi!= NULL) {
+		if (this->poi!= nullptr) {
 			this->poi= this->poi->prev;
 		} else {
 			this->poi = this->tail;
@@ -220,13 +220,13 @@ bool IList<TYPE>::last (){
 
 template <class TYPE>
 bool IList<TYPE>::end (){
-	return (this->poi == NULL);
+	return (this->poi == nullptr);
 }
 
 template <class TYPE>
 void IList<TYPE>::consult (TYPE &elem){
 
-	if (this->poi!= NULL) {
+	if (this->poi!= nullptr) {
 		elem = this->poi->elem;
 	}
 }
@@ -237,7 +237,7 @@ void IList<TYPE>::insert (const TYPE &elem) {
 
 	Node *aux = new Node (elem);
 
-	if (this->poi == NULL){
+	if (this->poi == nullptr){
 
 		if (empty()) { // Lista vacia
 			aux->next = this->poi;
@@ -251,10 +251,10 @@ void IList<TYPE>::insert (const TYPE &elem) {
 
 	} else {
 
-		if (this->poi->prev == NULL) { // Insert at the beginning
+		if (this->poi->prev == nullptr) { // Insert at the beginning
 			this->head = aux;
 			aux->next = this->poi;
-			aux->prev = NULL;
+			aux->prev = nullptr;
 			this->poi->prev = aux;
 		} else {  // Insert in an intermediate position
 			aux->prev  = this->poi->prev;
@@ -285,9 +285,9 @@ void IList<TYPE>::remove () {
 
 		this->poi= this->poi->next; // POI to the next element
 
-		if (aux->prev!=NULL)
+		if (aux->prev!=nullptr)
 			(aux->prev)->next = this->poi;
-		if (aux->next!=NULL)
+		if (aux->next!=nullptr)
 			this->poi->prev = aux->prev;
 
 		delete aux;
@@ -301,9 +301,9 @@ IList<TYPE>::~IList() {
 	while (!empty())
 		remove ();
 
-	this->head = NULL;
-	this->tail = NULL;
-	this->poi  = NULL;
+	this->head = nullptr;
+	this->tail = nullptr;
+	this->poi  = nullptr;
 }
 
 

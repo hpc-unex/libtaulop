@@ -22,7 +22,7 @@ TauLopConcurrent::TauLopConcurrent () {
 
 TauLopConcurrent::~TauLopConcurrent () {
     
-    TauLopSequence *s = NULL;
+    TauLopSequence *s = nullptr;
     
     this->l_conc->moveToBegin();
     while (! this->l_conc->empty()) {
@@ -46,7 +46,7 @@ void TauLopConcurrent::add (TauLopSequence *s) {
 
 TauLopSequence * TauLopConcurrent::get () {
     
-    TauLopSequence *s = NULL;
+    TauLopSequence *s = nullptr;
     
     this->l_conc->moveToBegin();
     this->l_conc->consult(s);
@@ -65,7 +65,7 @@ bool TauLopConcurrent::empty () {
 
 void TauLopConcurrent::evaluate (TauLopCost *tc) {
     
-    Transmission *c = NULL;
+    Transmission *c = nullptr;
     
 #if TLOP_DEBUG == 1
     // DBG:
@@ -78,7 +78,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
     //    to the cost. Then, it is removed from the rest.
     while (true) {
         
-        Transmission *min_c = NULL;
+        Transmission *min_c = nullptr;
         
         // 1a. An operator is the algorithm for calculating costs
         TauLopOperator *opr = new TauLopOperator ();
@@ -126,7 +126,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
             if (! seq->empty()) {
                 Transmission *c = seq->get();
                 
-                if (c != NULL) {
+                if (c != nullptr) {
                     int tau = opr->getConcurrency(c);
                     if (tau == 0)
                         cout << "DBG: Error, Comm not found in the concurrent list." << endl;
@@ -153,7 +153,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
 
 void TauLopConcurrent::show () {
     
-    TauLopSequence *seq = NULL;
+    TauLopSequence *seq = nullptr;
     int  count = 1;
     
     this->l_conc->moveToBegin();

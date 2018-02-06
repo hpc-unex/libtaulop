@@ -18,7 +18,7 @@ using namespace std;
 
 
 // Initialization of tatic variables
-TauLopParam* TauLopParam::single = NULL;
+TauLopParam* TauLopParam::single = nullptr;
 string TauLopParam::network = "";
 
 
@@ -173,7 +173,7 @@ void TauLopParam::setP2P  () {
 
 TauLopParam::~TauLopParam () {
     
-    TauLopParam::single = NULL;
+    TauLopParam::single = nullptr;
     
     delete [] this->v_chn[0];
     delete [] this->v_chn[1];

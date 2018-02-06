@@ -9,6 +9,12 @@ Use toolchain tools for installing the library:
 4. make tests
 
 
+The library has been tested on g++ and Clang compilers.
+Use g++ >= 4.6 version and if detect any problem with
+advanced C++ features add the flag: -std=c++11
+
+
+
 Advanced Installation Instructions
 ==================================
 
