@@ -78,7 +78,9 @@ double parallelAxB_coll (Communicator *comm, int N, int b, int nrows[]) {
             pivotRow = 0;
         }
         int size = N * b * sizeof(double);
-        t_bcast += bcast->evaluate(comm, &size, pivotProc);
+        TauLopCost *tc = bcast->evaluate(comm, &size, pivotProc);
+        t_bcast = t_bcast + tc->getTime();
+        delete tc;
     }
     
     return t_bcast;

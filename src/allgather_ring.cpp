@@ -31,12 +31,13 @@ AllgatherRing::~AllgatherRing () {
 }
 
 
-double AllgatherRing::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * AllgatherRing::evaluate (Communicator *comm, int *size, int root) {
     
     TauLopConcurrent *conc;
     TauLopSequence   *seq;
     Transmission     *c;
     Process          *p_src, *p_dst;
+    
     
     int P = comm->getSize();
     
@@ -77,19 +78,17 @@ double AllgatherRing::evaluate (Communicator *comm, int *size, int root) {
     conc->show();
 #endif
     
-    TauLopCost *t = new TauLopCost();
-    conc->evaluate(t);
+    TauLopCost *cost = new TauLopCost();
+    
+    conc->evaluate(cost);
     
 #if TLOP_DEBUG == 1
     cout << " -- Cost: " << endl;
-    t->show();
+    cost->show();
 #endif
     
-    double tm = t->getTime();
-    
-    delete t;
     delete conc;
     
-    return tm;
+    return cost;
 }
 

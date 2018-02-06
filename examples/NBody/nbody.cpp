@@ -89,14 +89,18 @@ double nbody_coll_ring (Communicator *comm, int n_bodies[]) {
     // 1. All processes interchange their mass center
     Collective *allg = new AllgatherRing ();
     int size = sizeof(Body);
-    t = allg->evaluate(comm, &size);
+    TauLopCost *tc_allg = allg->evaluate(comm, &size);
+    t = tc_allg->getTime();
+    delete tc_allg;
     
     // 2. Root gathers all data for showing
     Collective *gbin = new GatherVBinomial ();
     
     for (int i = 0; i < P; i++)
         rsize[i] = sizeof(Body) * n_bodies[i];
-    t = t + gbin->evaluate(comm, rsize, 0);
+    TauLopCost *tc_gat = gbin->evaluate(comm, rsize, 0);
+    t = t + tc_gat->getTime();
+    delete tc_gat;
     
     delete (AllgatherRing   *)allg;
     delete (GatherVBinomial *)gbin;
@@ -116,14 +120,19 @@ double nbody_coll_rda (Communicator *comm, int n_bodies[]) {
     // 1. All processes interchange their mass center
     Collective *allg = new AllgatherRDA ();
     int size = sizeof(Body);
-    t = allg->evaluate(comm, &size);
+    TauLopCost *tc_allg = allg->evaluate(comm, &size);
+    t = tc_allg->getTime();
+    delete tc_allg;
     
     // 2. Root gathers all data for showing
     Collective *gbin = new GatherVBinomial ();
     
     for (int i = 0; i < P; i++)
         rsize[i] = sizeof(Body) * n_bodies[i];
-    t = t + gbin->evaluate(comm, rsize, 0);
+    
+    TauLopCost *tc_gat = gbin->evaluate(comm, rsize, 0);
+    t = t + tc_gat->getTime();
+    delete tc_gat;
     
     delete (AllgatherRDA    *)allg;
     delete (GatherVBinomial *)gbin;

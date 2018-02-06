@@ -18,8 +18,6 @@ const int P = 8;
 
 int main (int argc, const char * argv[]) {
     
-    double t_bin  = 0.0;
-    
     TauLopParam::setInstance("IB");
     
     // 1. Create a communicator (group of P processes)
@@ -36,9 +34,10 @@ int main (int argc, const char * argv[]) {
     // 3. Execute an algorithm
     Collective *bin = new BcastBinomial();
     int bsize = 128 * 1024;
-    t_bin = bin->evaluate(world, &bsize, 0);
+    TauLopCost *t_bin = bin->evaluate(world, &bsize, 0);
 
-    cout << "Time: " << fixed << std::setprecision (3) << t_bin << endl;
+    cout << "Time: " << fixed << std::setprecision (3) << t_bin->getTime() << endl;
+    delete t_bin;
     
     // 5. Delete objects
     delete (BcastBinomial *)bin;

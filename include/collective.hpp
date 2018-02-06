@@ -11,6 +11,7 @@
 
 #include "communicator.hpp"
 #include "taulop_config.h"
+#include "taulop_cost.hpp"
 
 #include <iostream>
 using namespace std;
@@ -25,7 +26,7 @@ public:
     Collective  ();
     ~Collective ();
     
-    virtual double evaluate (Communicator *comm, int *size, int root = RANK_UNDEFINED) = 0;
+    virtual TauLopCost * evaluate (Communicator *comm, int *size, int root = RANK_UNDEFINED) = 0;
 };
 
 #endif /* collective_hpp */

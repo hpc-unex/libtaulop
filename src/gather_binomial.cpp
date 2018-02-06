@@ -30,17 +30,17 @@ GatherBinomial::~GatherBinomial () {
 }
 
 
-double GatherBinomial::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * GatherBinomial::evaluate (Communicator *comm, int *size, int root) {
     
     TauLopConcurrent *conc;
     TauLopSequence   *seq;
     Transmission     *c;
     Process          *p_src, *p_dst;
     
+    TauLopCost *cost = new TauLopCost();
+    
     int P = comm->getSize();
-    
-    double tm = 0.0;
-    
+        
     int mask  = 1;
     int stage = 0;
     
@@ -92,26 +92,21 @@ double GatherBinomial::evaluate (Communicator *comm, int *size, int root) {
         mask <<= 1;
         stage++;
         
-        TauLopCost *t = new TauLopCost();
-        
 #if TLOP_DEBUG == 1
         cout << " ----  Stage " << stage << endl;
         conc->show();
 #endif
         
-        conc->evaluate(t);
+        conc->evaluate(cost);
         
 #if TLOP_DEBUG == 1
-        cout << "  --------  Cost:  " << t->getTime() << endl;
-        t->show();
+        cout << "  --------  Cost:  " << endl;
+        cost->show();
 #endif
         
-        tm += t->getTime();
-        
-        delete t;
         delete conc;
     }
     
-    return tm;
+    return cost;
 }
 

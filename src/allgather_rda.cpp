@@ -31,13 +31,15 @@ AllgatherRDA::~AllgatherRDA () {
 }
 
 
-double AllgatherRDA::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * AllgatherRDA::evaluate (Communicator *comm, int *size, int root) {
     
     TauLopConcurrent *conc;
     TauLopSequence   *seq;
     Transmission     *c;
     Process          *p_src, *p_dst;
-    double            tm = 0;
+
+    
+    TauLopCost *cost = new TauLopCost();
     
     int P = comm->getSize();
     
@@ -78,19 +80,14 @@ double AllgatherRDA::evaluate (Communicator *comm, int *size, int root) {
         conc->show();
 #endif
         
-        TauLopCost *t = new TauLopCost();
-        conc->evaluate(t);
+        conc->evaluate(cost);
 #if TLOP_DEBUG == 1
         cout << " -- Cost: " << endl;
-        t->show();
+        cost->show();
 #endif
         
-        tm += t->getTime();
-        
-        delete t;
         delete conc;
-        
     }
     
-    return tm;
+    return cost;
 }

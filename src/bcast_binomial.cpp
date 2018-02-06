@@ -31,12 +31,14 @@ BcastBinomial::~BcastBinomial () {
 }
 
 
-double BcastBinomial::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * BcastBinomial::evaluate (Communicator *comm, int *size, int root) {
         
     TauLopConcurrent *conc;
     TauLopSequence   *seq;
     Transmission     *c;
     Process          *p_src, *p_dst;
+    
+    TauLopCost *cost = new TauLopCost();
     
     int P = comm->getSize();
     
@@ -77,26 +79,22 @@ double BcastBinomial::evaluate (Communicator *comm, int *size, int root) {
             p = p % P;
             
         }
-        TauLopCost *t = new TauLopCost();
         
 #if TLOP_DEBUG == 1
         cout << " ----  Stage " << stage << endl;
         conc->show();
 #endif
         
-        conc->evaluate(t);
+        conc->evaluate(cost);
         
 #if TLOP_DEBUG == 1
-        cout << "  --------  Cost:  " << t->getTime() << endl;
-        t->show();
+        cout << "  --------  Cost:  " << endl;
+        cost->show();
 #endif
         
-        tm += t->getTime();
-        
-        delete t;
         delete conc;
     }
     
-    return tm;
+    return cost;
 }
 

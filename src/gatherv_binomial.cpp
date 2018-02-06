@@ -30,7 +30,7 @@ GatherVBinomial::~GatherVBinomial () {
 }
 
 
-double GatherVBinomial::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * GatherVBinomial::evaluate (Communicator *comm, int *size, int root) {
     
     TauLopConcurrent *conc;
     TauLopSequence   *seq;
@@ -38,9 +38,7 @@ double GatherVBinomial::evaluate (Communicator *comm, int *size, int root) {
     Process          *p_src, *p_dst;
     
     int P = comm->getSize();
-    
-    double tm = 0.0;
-    
+        
     conc = new TauLopConcurrent ();
     
     for (int rank = 0; rank < P; rank++) {
@@ -64,28 +62,23 @@ double GatherVBinomial::evaluate (Communicator *comm, int *size, int root) {
         seq->add(c);
         
         conc->add(seq);
-        
-        //cout << "  " << rank << " -> " << root << " >> " << m << endl;
     }
     
-    TauLopCost *t = new TauLopCost();
+    TauLopCost *cost = new TauLopCost();
     
 #if TLOP_DEBUG == 1
     conc->show();
 #endif
     
-    conc->evaluate(t);
+    conc->evaluate(cost);
     
 #if TLOP_DEBUG == 1
-    cout << "  --------  Cost:  " << t->getTime() << endl;
-    t->show();
+    cout << "  --------  Cost:  " << endl;
+    cost->show();
 #endif
     
-    tm = t->getTime();
-    
-    delete t;
     delete conc;
 
-    return tm;
+    return cost;
 }
 

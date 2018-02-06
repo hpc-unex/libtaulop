@@ -37,8 +37,11 @@ double ex1_bcast (int P) {
     
     Collective *bcast  = new BcastBinomial();
     int size = 128 * 1024;
-    double t = bcast->evaluate(world, &size);
     
+    TauLopCost *tc = bcast->evaluate(world, &size);
+    double t = tc->getTime();
+    
+    delete tc;
     delete world;
     
     return t;
@@ -54,8 +57,10 @@ double ex2_bcast (int P) {
 
     Collective *bcast  = new BcastBinomial();
     int size = 128 * 1024;
-    double t = bcast->evaluate(world, &size);
-
+    TauLopCost *tc = bcast->evaluate(world, &size);
+    double t = tc->getTime();
+    delete tc;
+    
     delete world;
     
     return t;
@@ -72,8 +77,10 @@ double ex3_bcast (int P) {
     
     Collective *bcast  = new BcastLinear();
     int size = 128 * 1024;
-    double t = bcast->evaluate(world, &size);
+    TauLopCost *tc = bcast->evaluate(world, &size);
+    double t = tc->getTime();
     
+    delete tc;
     delete world;
     
     return t;
@@ -83,11 +90,6 @@ double ex3_bcast (int P) {
 int main_1 (int argc, const char * argv[]) {
     
     double t = 0.0;
-    
-    double t_bin  = 0.0;
-    double t_rda  = 0.0;
-    double t_ring = 0.0;
-    
     
     TauLopParam::setInstance("IB");
     
@@ -141,14 +143,17 @@ int main_1 (int argc, const char * argv[]) {
             
             cout << "[" << p << "," << m << "] \t ";
             
-            t_bin  = bin->evaluate (comm_coll, &m, 0);
-            cout << fixed << setprecision(3) << t_bin << "  \t  ";
+            TauLopCost *t_bin  = bin->evaluate (comm_coll, &m, 0);
+            cout << fixed << setprecision(3) << t_bin->getTime() << "  \t  ";
+            delete t_bin;
             
-            t_rda  = rda->evaluate (comm_coll, &m);
-            cout << fixed << setprecision(3) << t_rda << "  \t  ";
+            TauLopCost *t_rda  = rda->evaluate (comm_coll, &m);
+            cout << fixed << setprecision(3) << t_rda->getTime() << "  \t  ";
+            delete t_rda;
             
-            t_ring = ring->evaluate (comm_coll, &m);
-            cout << fixed << setprecision(3) << t_ring << "  \t  ";
+            TauLopCost *t_ring = ring->evaluate (comm_coll, &m);
+            cout << fixed << setprecision(3) << t_ring->getTime() << "  \t  ";
+            delete t_ring;
             
             cout << endl;
         }
@@ -180,8 +185,9 @@ int main_1 (int argc, const char * argv[]) {
         
         for (int root = 0; root < comm->getSize(); root++) {
             
-            t_bin  = bin->evaluate (comm, &m, root);
-            cout << fixed << setprecision(3) << t_bin << "  \t  ";
+            TauLopCost *t_bin  = bin->evaluate (comm, &m, root);
+            cout << fixed << setprecision(3) << t_bin->getTime() << "  \t  ";
+            delete t_bin;
             
         }
         
@@ -222,12 +228,14 @@ int main (int argc, const char * argv[]) {
         
         cout << "[" << comm->getSize() << "," << m << "] \t ";
         
-        t_rda  = rda->evaluate  (comm, &m);
-        t_ring = ring->evaluate (comm, &m);
+        TauLopCost *t_rda  = rda->evaluate  (comm, &m);
+        TauLopCost *t_ring = ring->evaluate (comm, &m);
         
-        cout << fixed << setprecision(3) << t_rda  << "  \t  ";
-        cout << fixed << setprecision(3) << t_ring << "  \t  ";
+        cout << fixed << setprecision(3) << t_rda->getTime()  << "  \t  ";
+        cout << fixed << setprecision(3) << t_ring->getTime() << "  \t  ";
         
+        delete t_rda;
+        delete t_ring;
         
         cout << endl;
     }

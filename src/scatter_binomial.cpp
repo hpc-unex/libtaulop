@@ -30,17 +30,18 @@ ScatterBinomial::~ScatterBinomial () {
 }
 
 
-double ScatterBinomial::evaluate (Communicator *comm, int n, int root) {
+TauLopCost * ScatterBinomial::evaluate (Communicator *comm, int n, int root) {
         
     TauLopConcurrent *conc;
     TauLopSequence   *seq;
     Transmission     *c;
     Process          *p_src, *p_dst;
     
+    
+    TauLopCost *cost = new TauLopCost();
+    
     int P = comm->getSize();
     
-    double tm = 0.0;
-        
     for (int stage = 0; pow(2, stage) < P; stage++) {
                 
         conc = new TauLopConcurrent ();
@@ -74,26 +75,22 @@ double ScatterBinomial::evaluate (Communicator *comm, int n, int root) {
             p = p % P;
             
         }
-        TauLopCost *t = new TauLopCost();
         
 #if TLOP_DEBUG == 1
         cout << " ----  Stage " << stage << endl;
         conc->show();
 #endif
         
-        conc->evaluate(t);
+        conc->evaluate(cost);
         
 #if TLOP_DEBUG == 1
-        cout << "  --------  Cost:  " << t->getTime() << endl;
-        t->show();
+        cout << "  --------  Cost:  " << endl;
+        cost->show();
 #endif
         
-        tm += t->getTime();
-        
-        delete t;
         delete conc;
     }
     
-    return tm;
+    return cost;
 }
 

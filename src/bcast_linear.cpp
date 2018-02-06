@@ -13,6 +13,7 @@
 #include "communicator.hpp"
 #include "taulop_concurrent.hpp"
 #include "taulop_sequence.hpp"
+#include "taulop_cost.hpp"
 
 #include <cmath>
 #include <iostream>
@@ -31,17 +32,15 @@ BcastLinear::~BcastLinear () {
 }
 
 
-double BcastLinear::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * BcastLinear::evaluate (Communicator *comm, int *size, int root) {
     
     TauLopConcurrent *conc;
     TauLopSequence   *seq;
     Transmission     *c;
     Process          *p_src, *p_dst;
-    
+        
     int P = comm->getSize();
-    
-    double tm = 0.0;
-    
+        
     conc = new TauLopConcurrent ();
     seq  = new TauLopSequence ();
     
@@ -60,26 +59,22 @@ double BcastLinear::evaluate (Communicator *comm, int *size, int root) {
     
     conc->add(seq);
     
-    TauLopCost *t = new TauLopCost();
-    
 #if TLOP_DEBUG == 1
     cout << " ----  Root " << root << endl;
     conc->show();
 #endif
     
-    conc->evaluate(t);
+    TauLopCost *cost = new TauLopCost();
+    
+    conc->evaluate(cost);
     
 #if TLOP_DEBUG == 1
-    cout << "  --------  Cost:  " << t->getTime() << endl;
-    t->show();
+    cout << "  --------  Cost:  " << endl;
+    cost->show();
 #endif
     
-    tm = t->getTime();
-    
-    delete t;
     delete conc;
     
-    
-    return tm;
+    return cost;
 }
 

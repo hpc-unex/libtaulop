@@ -11,6 +11,7 @@
 
 #include "collective.hpp"
 #include "communicator.hpp"
+#include "taulop_cost.hpp"
 
 #include <iostream>
 
@@ -39,7 +40,7 @@ public:
     //   2. Size of the message (vector of one element).
     //   3. No Root for this operation is allowed. It is needed only for supporting
     //      the Collective pure virtual method.
-    virtual  double evaluate (Communicator *comm, int *size, int root = 0);
+    virtual  TauLopCost * evaluate (Communicator *comm, int *size, int root = 0);
 };
 
 

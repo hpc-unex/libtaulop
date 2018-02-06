@@ -11,6 +11,7 @@
 
 #include "collective.hpp"
 #include "communicator.hpp"
+#include "taulop_cost.hpp"
 
 #include <iostream>
 
@@ -39,7 +40,7 @@ public:
     //      collective operation.
     //   2. Size of the message (vector of P elements with the size of process P_i in pos i).
     //   3. Root for this operation.
-    virtual  double evaluate (Communicator *comm, int *size, int root);
+    virtual  TauLopCost * evaluate (Communicator *comm, int *size, int root);
 };
 
 

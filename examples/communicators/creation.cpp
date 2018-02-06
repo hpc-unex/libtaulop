@@ -30,7 +30,7 @@ const int P = 16;
 
 
 
-int main_2 (int argc, const char * argv[]) {
+int main (int argc, const char * argv[]) {
     
     TauLopParam::setInstance("IB");
     

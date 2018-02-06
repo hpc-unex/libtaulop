@@ -11,6 +11,7 @@
 
 #include "collective.hpp"
 #include "communicator.hpp"
+#include "taulop_cost.hpp"
 
 #include <iostream>
 
@@ -38,7 +39,7 @@ public:
      ScatterBinomial ();
     ~ScatterBinomial ();
     
-    virtual  double evaluate (Communicator *comm, int n, int root);
+    virtual TauLopCost * evaluate (Communicator *comm, int n, int root);
 };
 
 
