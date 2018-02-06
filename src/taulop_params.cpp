@@ -7,6 +7,7 @@
 //
 
 #include "taulop_params.hpp"
+#include "config.h"
 
 #include <cmath>
 #include <cstdlib>
@@ -61,7 +62,7 @@ void TauLopParam::loadSizes () {
     
     string name = "sizes.txt";
     
-    name = params_folder + TauLopParam::network + "/" + name;
+    name = PARAMS_FOLDER + TauLopParam::network + "/" + name;
     
     ifs.open(name.c_str());
     if (!ifs.is_open()) {

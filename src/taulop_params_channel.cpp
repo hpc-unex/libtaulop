@@ -8,6 +8,8 @@
 
 #include "taulop_params_channel.hpp"
 #include "taulop_config.h"
+#include "config.h"
+
 #include <cstdlib>
 #include <sstream>
 #include <fstream>
@@ -42,7 +44,7 @@ void TaulopParamChannel::loadOs (string network) {
     
     string name = "o" + toString(this->channel_nr) + "_m.txt";
     
-    name = params_folder + network + "/" + name;
+    name = PARAMS_FOLDER + network + "/" + name;
     
     ifs.open(name.c_str());
     if (!ifs.is_open()) {
@@ -81,7 +83,7 @@ void TaulopParamChannel::loadLs (string network) {
     
     string name = "L" + toString(this->channel_nr) + "_m_t.txt";
     
-    name = params_folder + network + "/" + name;
+    name = PARAMS_FOLDER + network + "/" + name;
     
     ifs.open(name.c_str());
     if (!ifs.is_open()) {

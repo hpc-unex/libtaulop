@@ -19,6 +19,59 @@ AC_PROG_RANLIB
 CXXFLAGS=" $CXXFLAGS -std=c++11 "
 
 
+
+AC_ARG_WITH(params,
+[  --with-params[[=path]] - Specify the path of the parameter values in case of they are located
+                           #in a custom location.],,with_params=empty)
+
+
+
+###############################################################################
+# with-params
+###############################################################################
+
+if test "$with_hwloc" = "empty"; then
+
+  AC_DEFINE_UNQUOTED(PARAMS_FOLDER, "./params", [Parameter values are in the ./params subfolder.])
+
+else
+
+  AC_DEFINE_UNQUOTED(PARAMS_FOLDER, "$with_params", [Parameter values are in the custom folder: $with_params])
+
+fi
+
+
+
+
+
+
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
+
+
+echo \
+"------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+ ${PACKAGE_NAME} version ${PACKAGE_VERSION}
+
+ General Options
+
+  Prefix . . . . . . .: '${prefix}'
+  Compiler . . . . . .: '${CXX} ${CXXFLAGS}'
+
+ Debug Options
+
+ Library Configurations
+
+  Parameter Values . .: '$with_params'
+
+
+ Now type 'make @<:@<target>@:>@', where the optional <target> is:
+
+  all        - build library
+  install    - install everything
+  dist       - create the distribution tarball
+  tests      - build, but not execute, all tests
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------"
 

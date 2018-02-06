@@ -39,7 +39,7 @@ const int DEFAULT_CHN_NR = 2; // IMP: More than 2 channels is not supported by n
 
 // t-Lop code kernel will search for the parameter files under: ./params/<param_folder>/
 //   The value is 0 for TCP and 1 for IB.
-const string params_folder  = "/Users/jarico/Development/taulop_toolbox/params/ciemat/";
+//const string params_folder  = "/Users/jarico/Development/taulop_toolbox/params/ciemat/";
 const string IB_NET  = "IB";
 const string TCP_NET = "TCP";
 
