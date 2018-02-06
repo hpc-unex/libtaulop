@@ -62,7 +62,7 @@ void TauLopParam::loadSizes () {
     
     string name = "sizes.txt";
     
-    name = PARAMS_FOLDER + TauLopParam::network + "/" + name;
+    name = PARAMS_FOLDER + "/" + TauLopParam::network + "/" + name;
     
     ifs.open(name.c_str());
     if (!ifs.is_open()) {

@@ -44,7 +44,7 @@ void TaulopParamChannel::loadOs (string network) {
     
     string name = "o" + toString(this->channel_nr) + "_m.txt";
     
-    name = PARAMS_FOLDER + network + "/" + name;
+    name = PARAMS_FOLDER + "/" + network + "/" + name;
     
     ifs.open(name.c_str());
     if (!ifs.is_open()) {
@@ -83,7 +83,7 @@ void TaulopParamChannel::loadLs (string network) {
     
     string name = "L" + toString(this->channel_nr) + "_m_t.txt";
     
-    name = PARAMS_FOLDER + network + "/" + name;
+    name = PARAMS_FOLDER + "/" + network + "/" + name;
     
     ifs.open(name.c_str());
     if (!ifs.is_open()) {
