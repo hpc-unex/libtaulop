@@ -21,5 +21,8 @@
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
 
+/* Parameter values are in the custom folder: $with_params */
+#undef PARAMS_FOLDER
+
 /* Version number of package */
 #undef VERSION
