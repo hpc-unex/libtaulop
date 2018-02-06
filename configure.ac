@@ -14,6 +14,11 @@ AC_PROG_INSTALL
 AC_PROG_RANLIB
 
 
+# Options
+# (Feb. 6th, 2018) C++ 11 extensions (as nullptr):
+CXXFLAGS=" $CXXFLAGS -std=c++11 "
+
+
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
 

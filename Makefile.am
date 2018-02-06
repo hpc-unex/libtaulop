@@ -1,4 +1,4 @@
-AM_CXXFLAGS = -std=c++11 -I$(top_srcdir)/include -I$(top_srcdir)/src
+AM_CXXFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/src
 
 lib_LIBRARIES        = libtaulop.a
 libtaulop_adir       = $(includedir)
