@@ -13,8 +13,6 @@ include src/Makefile.am
 
 
 tests : all
-	@cd tests && $(MAKE) && mv pNBody NBody/ && mv pcommunicators communicators/ \
-	&& mv pParallelAxBt ParallelAxBt/ && mv ptest_colls test_colls/ \
-	&& mv ptest_p2p test_p2p/ && mv pWave2D Wave2D/
+	@cd tests && $(MAKE) 
 
 

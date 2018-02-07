@@ -76,9 +76,9 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-noinst_PROGRAMS = pcomm_creation$(EXEEXT) pcomm_simple$(EXEEXT) \
-	pNBody$(EXEEXT) pParallelAxBt$(EXEEXT) ptest_colls$(EXEEXT) \
-	ptest_p2p$(EXEEXT) pWave2D$(EXEEXT)
+noinst_PROGRAMS = test_p2p$(EXEEXT) test_colls$(EXEEXT) \
+	test_comm_creation$(EXEEXT) test_comm_simple$(EXEEXT) \
+	test_axbt$(EXEEXT) test_wave2d$(EXEEXT) test_nbody$(EXEEXT)
 subdir = tests
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -92,27 +92,43 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
-am_pNBody_OBJECTS = NBody/nbody.$(OBJEXT)
-pNBody_OBJECTS = $(am_pNBody_OBJECTS)
-pNBody_DEPENDENCIES =
-am_pParallelAxBt_OBJECTS = ParallelAxBt/axbt.$(OBJEXT)
-pParallelAxBt_OBJECTS = $(am_pParallelAxBt_OBJECTS)
-pParallelAxBt_DEPENDENCIES =
-am_pWave2D_OBJECTS = Wave2D/wave2d.$(OBJEXT)
-pWave2D_OBJECTS = $(am_pWave2D_OBJECTS)
-pWave2D_DEPENDENCIES =
-am_pcomm_creation_OBJECTS = communicators/creation.$(OBJEXT)
-pcomm_creation_OBJECTS = $(am_pcomm_creation_OBJECTS)
-pcomm_creation_DEPENDENCIES =
-am_pcomm_simple_OBJECTS = communicators/simple.$(OBJEXT)
-pcomm_simple_OBJECTS = $(am_pcomm_simple_OBJECTS)
-pcomm_simple_DEPENDENCIES =
-am_ptest_colls_OBJECTS = colls/colls.$(OBJEXT)
-ptest_colls_OBJECTS = $(am_ptest_colls_OBJECTS)
-ptest_colls_DEPENDENCIES =
-am_ptest_p2p_OBJECTS = p2p/p2p.$(OBJEXT)
-ptest_p2p_OBJECTS = $(am_ptest_p2p_OBJECTS)
-ptest_p2p_DEPENDENCIES =
+am_test_axbt_OBJECTS = ParallelAxBt/test_axbt-axbt.$(OBJEXT)
+test_axbt_OBJECTS = $(am_test_axbt_OBJECTS)
+test_axbt_DEPENDENCIES =
+test_axbt_LINK = $(CXXLD) $(test_axbt_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_colls_OBJECTS = colls/test_colls-colls.$(OBJEXT)
+test_colls_OBJECTS = $(am_test_colls_OBJECTS)
+test_colls_DEPENDENCIES =
+test_colls_LINK = $(CXXLD) $(test_colls_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_comm_creation_OBJECTS =  \
+	communicators/test_comm_creation-creation.$(OBJEXT)
+test_comm_creation_OBJECTS = $(am_test_comm_creation_OBJECTS)
+test_comm_creation_DEPENDENCIES =
+test_comm_creation_LINK = $(CXXLD) $(test_comm_creation_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_comm_simple_OBJECTS =  \
+	communicators/test_comm_simple-simple.$(OBJEXT)
+test_comm_simple_OBJECTS = $(am_test_comm_simple_OBJECTS)
+test_comm_simple_DEPENDENCIES =
+test_comm_simple_LINK = $(CXXLD) $(test_comm_simple_CXXFLAGS) \
+	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_nbody_OBJECTS = NBody/test_nbody-nbody.$(OBJEXT)
+test_nbody_OBJECTS = $(am_test_nbody_OBJECTS)
+test_nbody_DEPENDENCIES =
+test_nbody_LINK = $(CXXLD) $(test_nbody_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_p2p_OBJECTS = p2p/test_p2p-p2p.$(OBJEXT)
+test_p2p_OBJECTS = $(am_test_p2p_OBJECTS)
+test_p2p_DEPENDENCIES =
+test_p2p_LINK = $(CXXLD) $(test_p2p_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_wave2d_OBJECTS = Wave2D/test_wave2d-wave2d.$(OBJEXT)
+test_wave2d_OBJECTS = $(am_test_wave2d_OBJECTS)
+test_wave2d_DEPENDENCIES =
+test_wave2d_LINK = $(CXXLD) $(test_wave2d_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -129,6 +145,10 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
+AM_V_lt = $(am__v_lt_@AM_V@)
+am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
+am__v_lt_0 = --silent
+am__v_lt_1 = 
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 AM_V_CXX = $(am__v_CXX_@AM_V@)
@@ -142,14 +162,14 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(pNBody_SOURCES) $(pParallelAxBt_SOURCES) \
-	$(pWave2D_SOURCES) $(pcomm_creation_SOURCES) \
-	$(pcomm_simple_SOURCES) $(ptest_colls_SOURCES) \
-	$(ptest_p2p_SOURCES)
-DIST_SOURCES = $(pNBody_SOURCES) $(pParallelAxBt_SOURCES) \
-	$(pWave2D_SOURCES) $(pcomm_creation_SOURCES) \
-	$(pcomm_simple_SOURCES) $(ptest_colls_SOURCES) \
-	$(ptest_p2p_SOURCES)
+SOURCES = $(test_axbt_SOURCES) $(test_colls_SOURCES) \
+	$(test_comm_creation_SOURCES) $(test_comm_simple_SOURCES) \
+	$(test_nbody_SOURCES) $(test_p2p_SOURCES) \
+	$(test_wave2d_SOURCES)
+DIST_SOURCES = $(test_axbt_SOURCES) $(test_colls_SOURCES) \
+	$(test_comm_creation_SOURCES) $(test_comm_simple_SOURCES) \
+	$(test_nbody_SOURCES) $(test_p2p_SOURCES) \
+	$(test_wave2d_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -261,20 +281,27 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AM_CXXFLAGS = -I$(includedir)
-pcomm_creation_SOURCES = communicators/creation.cpp
-pcomm_creation_LDADD = -L$(libdir) -ltaulop
-pcomm_simple_SOURCES = communicators/simple.cpp
-pcomm_simple_LDADD = -L$(libdir) -ltaulop
-pNBody_SOURCES = NBody/nbody.cpp
-pNBody_LDADD = -L$(libdir) -ltaulop
-pParallelAxBt_SOURCES = ParallelAxBt/axbt.cpp
-pParallelAxBt_LDADD = -L$(libdir) -ltaulop
-ptest_colls_SOURCES = colls/colls.cpp
-ptest_colls_LDADD = -L$(libdir) -ltaulop
-ptest_p2p_SOURCES = p2p/p2p.cpp
-ptest_p2p_LDADD = -L$(libdir) -ltaulop
-pWave2D_SOURCES = Wave2D/wave2d.cpp
-pWave2D_LDADD = -L$(libdir) -ltaulop
+test_p2p_SOURCES = p2p/p2p.cpp
+test_p2p_CXXFLAGS = $(AM_CXXFLAGS)
+test_p2p_LDADD = -L$(libdir) -ltaulop
+test_colls_SOURCES = colls/colls.cpp
+test_colls_CXXFLAGS = $(AM_CXXFLAGS)
+test_colls_LDADD = -L$(libdir) -ltaulop
+test_comm_simple_SOURCES = communicators/simple.cpp
+test_comm_simple_CXXFLAGS = $(AM_CXXFLAGS)
+test_comm_simple_LDADD = -L$(libdir) -ltaulop
+test_comm_creation_SOURCES = communicators/creation.cpp
+test_comm_creation_CXXFLAGS = $(AM_CXXFLAGS)
+test_comm_creation_LDADD = -L$(libdir) -ltaulop
+test_nbody_SOURCES = NBody/nbody.cpp
+test_nbody_CXXFLAGS = $(AM_CXXFLAGS)
+test_nbody_LDADD = -L$(libdir) -ltaulop
+test_axbt_SOURCES = ParallelAxBt/axbt.cpp
+test_axbt_CXXFLAGS = $(AM_CXXFLAGS)
+test_axbt_LDADD = -L$(libdir) -ltaulop
+test_wave2d_SOURCES = Wave2D/wave2d.cpp
+test_wave2d_CXXFLAGS = $(AM_CXXFLAGS)
+test_wave2d_LDADD = -L$(libdir) -ltaulop
 all: all-am
 
 .SUFFIXES:
@@ -312,83 +339,86 @@ $(am__aclocal_m4_deps):
 
 clean-noinstPROGRAMS:
 	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
-NBody/$(am__dirstamp):
-	@$(MKDIR_P) NBody
-	@: > NBody/$(am__dirstamp)
-NBody/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) NBody/$(DEPDIR)
-	@: > NBody/$(DEPDIR)/$(am__dirstamp)
-NBody/nbody.$(OBJEXT): NBody/$(am__dirstamp) \
-	NBody/$(DEPDIR)/$(am__dirstamp)
-
-pNBody$(EXEEXT): $(pNBody_OBJECTS) $(pNBody_DEPENDENCIES) $(EXTRA_pNBody_DEPENDENCIES) 
-	@rm -f pNBody$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(pNBody_OBJECTS) $(pNBody_LDADD) $(LIBS)
 ParallelAxBt/$(am__dirstamp):
 	@$(MKDIR_P) ParallelAxBt
 	@: > ParallelAxBt/$(am__dirstamp)
 ParallelAxBt/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) ParallelAxBt/$(DEPDIR)
 	@: > ParallelAxBt/$(DEPDIR)/$(am__dirstamp)
-ParallelAxBt/axbt.$(OBJEXT): ParallelAxBt/$(am__dirstamp) \
+ParallelAxBt/test_axbt-axbt.$(OBJEXT): ParallelAxBt/$(am__dirstamp) \
 	ParallelAxBt/$(DEPDIR)/$(am__dirstamp)
 
-pParallelAxBt$(EXEEXT): $(pParallelAxBt_OBJECTS) $(pParallelAxBt_DEPENDENCIES) $(EXTRA_pParallelAxBt_DEPENDENCIES) 
-	@rm -f pParallelAxBt$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(pParallelAxBt_OBJECTS) $(pParallelAxBt_LDADD) $(LIBS)
-Wave2D/$(am__dirstamp):
-	@$(MKDIR_P) Wave2D
-	@: > Wave2D/$(am__dirstamp)
-Wave2D/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) Wave2D/$(DEPDIR)
-	@: > Wave2D/$(DEPDIR)/$(am__dirstamp)
-Wave2D/wave2d.$(OBJEXT): Wave2D/$(am__dirstamp) \
-	Wave2D/$(DEPDIR)/$(am__dirstamp)
-
-pWave2D$(EXEEXT): $(pWave2D_OBJECTS) $(pWave2D_DEPENDENCIES) $(EXTRA_pWave2D_DEPENDENCIES) 
-	@rm -f pWave2D$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(pWave2D_OBJECTS) $(pWave2D_LDADD) $(LIBS)
-communicators/$(am__dirstamp):
-	@$(MKDIR_P) communicators
-	@: > communicators/$(am__dirstamp)
-communicators/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) communicators/$(DEPDIR)
-	@: > communicators/$(DEPDIR)/$(am__dirstamp)
-communicators/creation.$(OBJEXT): communicators/$(am__dirstamp) \
-	communicators/$(DEPDIR)/$(am__dirstamp)
-
-pcomm_creation$(EXEEXT): $(pcomm_creation_OBJECTS) $(pcomm_creation_DEPENDENCIES) $(EXTRA_pcomm_creation_DEPENDENCIES) 
-	@rm -f pcomm_creation$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(pcomm_creation_OBJECTS) $(pcomm_creation_LDADD) $(LIBS)
-communicators/simple.$(OBJEXT): communicators/$(am__dirstamp) \
-	communicators/$(DEPDIR)/$(am__dirstamp)
-
-pcomm_simple$(EXEEXT): $(pcomm_simple_OBJECTS) $(pcomm_simple_DEPENDENCIES) $(EXTRA_pcomm_simple_DEPENDENCIES) 
-	@rm -f pcomm_simple$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(pcomm_simple_OBJECTS) $(pcomm_simple_LDADD) $(LIBS)
+test_axbt$(EXEEXT): $(test_axbt_OBJECTS) $(test_axbt_DEPENDENCIES) $(EXTRA_test_axbt_DEPENDENCIES) 
+	@rm -f test_axbt$(EXEEXT)
+	$(AM_V_CXXLD)$(test_axbt_LINK) $(test_axbt_OBJECTS) $(test_axbt_LDADD) $(LIBS)
 colls/$(am__dirstamp):
 	@$(MKDIR_P) colls
 	@: > colls/$(am__dirstamp)
 colls/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) colls/$(DEPDIR)
 	@: > colls/$(DEPDIR)/$(am__dirstamp)
-colls/colls.$(OBJEXT): colls/$(am__dirstamp) \
+colls/test_colls-colls.$(OBJEXT): colls/$(am__dirstamp) \
 	colls/$(DEPDIR)/$(am__dirstamp)
 
-ptest_colls$(EXEEXT): $(ptest_colls_OBJECTS) $(ptest_colls_DEPENDENCIES) $(EXTRA_ptest_colls_DEPENDENCIES) 
-	@rm -f ptest_colls$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(ptest_colls_OBJECTS) $(ptest_colls_LDADD) $(LIBS)
+test_colls$(EXEEXT): $(test_colls_OBJECTS) $(test_colls_DEPENDENCIES) $(EXTRA_test_colls_DEPENDENCIES) 
+	@rm -f test_colls$(EXEEXT)
+	$(AM_V_CXXLD)$(test_colls_LINK) $(test_colls_OBJECTS) $(test_colls_LDADD) $(LIBS)
+communicators/$(am__dirstamp):
+	@$(MKDIR_P) communicators
+	@: > communicators/$(am__dirstamp)
+communicators/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) communicators/$(DEPDIR)
+	@: > communicators/$(DEPDIR)/$(am__dirstamp)
+communicators/test_comm_creation-creation.$(OBJEXT):  \
+	communicators/$(am__dirstamp) \
+	communicators/$(DEPDIR)/$(am__dirstamp)
+
+test_comm_creation$(EXEEXT): $(test_comm_creation_OBJECTS) $(test_comm_creation_DEPENDENCIES) $(EXTRA_test_comm_creation_DEPENDENCIES) 
+	@rm -f test_comm_creation$(EXEEXT)
+	$(AM_V_CXXLD)$(test_comm_creation_LINK) $(test_comm_creation_OBJECTS) $(test_comm_creation_LDADD) $(LIBS)
+communicators/test_comm_simple-simple.$(OBJEXT):  \
+	communicators/$(am__dirstamp) \
+	communicators/$(DEPDIR)/$(am__dirstamp)
+
+test_comm_simple$(EXEEXT): $(test_comm_simple_OBJECTS) $(test_comm_simple_DEPENDENCIES) $(EXTRA_test_comm_simple_DEPENDENCIES) 
+	@rm -f test_comm_simple$(EXEEXT)
+	$(AM_V_CXXLD)$(test_comm_simple_LINK) $(test_comm_simple_OBJECTS) $(test_comm_simple_LDADD) $(LIBS)
+NBody/$(am__dirstamp):
+	@$(MKDIR_P) NBody
+	@: > NBody/$(am__dirstamp)
+NBody/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) NBody/$(DEPDIR)
+	@: > NBody/$(DEPDIR)/$(am__dirstamp)
+NBody/test_nbody-nbody.$(OBJEXT): NBody/$(am__dirstamp) \
+	NBody/$(DEPDIR)/$(am__dirstamp)
+
+test_nbody$(EXEEXT): $(test_nbody_OBJECTS) $(test_nbody_DEPENDENCIES) $(EXTRA_test_nbody_DEPENDENCIES) 
+	@rm -f test_nbody$(EXEEXT)
+	$(AM_V_CXXLD)$(test_nbody_LINK) $(test_nbody_OBJECTS) $(test_nbody_LDADD) $(LIBS)
 p2p/$(am__dirstamp):
 	@$(MKDIR_P) p2p
 	@: > p2p/$(am__dirstamp)
 p2p/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) p2p/$(DEPDIR)
 	@: > p2p/$(DEPDIR)/$(am__dirstamp)
-p2p/p2p.$(OBJEXT): p2p/$(am__dirstamp) p2p/$(DEPDIR)/$(am__dirstamp)
+p2p/test_p2p-p2p.$(OBJEXT): p2p/$(am__dirstamp) \
+	p2p/$(DEPDIR)/$(am__dirstamp)
 
-ptest_p2p$(EXEEXT): $(ptest_p2p_OBJECTS) $(ptest_p2p_DEPENDENCIES) $(EXTRA_ptest_p2p_DEPENDENCIES) 
-	@rm -f ptest_p2p$(EXEEXT)
-	$(AM_V_CXXLD)$(CXXLINK) $(ptest_p2p_OBJECTS) $(ptest_p2p_LDADD) $(LIBS)
+test_p2p$(EXEEXT): $(test_p2p_OBJECTS) $(test_p2p_DEPENDENCIES) $(EXTRA_test_p2p_DEPENDENCIES) 
+	@rm -f test_p2p$(EXEEXT)
+	$(AM_V_CXXLD)$(test_p2p_LINK) $(test_p2p_OBJECTS) $(test_p2p_LDADD) $(LIBS)
+Wave2D/$(am__dirstamp):
+	@$(MKDIR_P) Wave2D
+	@: > Wave2D/$(am__dirstamp)
+Wave2D/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) Wave2D/$(DEPDIR)
+	@: > Wave2D/$(DEPDIR)/$(am__dirstamp)
+Wave2D/test_wave2d-wave2d.$(OBJEXT): Wave2D/$(am__dirstamp) \
+	Wave2D/$(DEPDIR)/$(am__dirstamp)
+
+test_wave2d$(EXEEXT): $(test_wave2d_OBJECTS) $(test_wave2d_DEPENDENCIES) $(EXTRA_test_wave2d_DEPENDENCIES) 
+	@rm -f test_wave2d$(EXEEXT)
+	$(AM_V_CXXLD)$(test_wave2d_LINK) $(test_wave2d_OBJECTS) $(test_wave2d_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -402,13 +432,13 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@NBody/$(DEPDIR)/nbody.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@ParallelAxBt/$(DEPDIR)/axbt.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@Wave2D/$(DEPDIR)/wave2d.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@colls/$(DEPDIR)/colls.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@communicators/$(DEPDIR)/creation.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@communicators/$(DEPDIR)/simple.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@p2p/$(DEPDIR)/p2p.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@NBody/$(DEPDIR)/test_nbody-nbody.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@colls/$(DEPDIR)/test_colls-colls.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@communicators/$(DEPDIR)/test_comm_creation-creation.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@communicators/$(DEPDIR)/test_comm_simple-simple.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@p2p/$(DEPDIR)/test_p2p-p2p.Po@am__quote@
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)depbase=`echo $@ | sed 's|[^/]*$$|$(DEPDIR)/&|;s|\.o$$||'`;\
@@ -425,6 +455,104 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXXCOMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+ParallelAxBt/test_axbt-axbt.o: ParallelAxBt/axbt.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_axbt_CXXFLAGS) $(CXXFLAGS) -MT ParallelAxBt/test_axbt-axbt.o -MD -MP -MF ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Tpo -c -o ParallelAxBt/test_axbt-axbt.o `test -f 'ParallelAxBt/axbt.cpp' || echo '$(srcdir)/'`ParallelAxBt/axbt.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Tpo ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ParallelAxBt/axbt.cpp' object='ParallelAxBt/test_axbt-axbt.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_axbt_CXXFLAGS) $(CXXFLAGS) -c -o ParallelAxBt/test_axbt-axbt.o `test -f 'ParallelAxBt/axbt.cpp' || echo '$(srcdir)/'`ParallelAxBt/axbt.cpp
+
+ParallelAxBt/test_axbt-axbt.obj: ParallelAxBt/axbt.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_axbt_CXXFLAGS) $(CXXFLAGS) -MT ParallelAxBt/test_axbt-axbt.obj -MD -MP -MF ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Tpo -c -o ParallelAxBt/test_axbt-axbt.obj `if test -f 'ParallelAxBt/axbt.cpp'; then $(CYGPATH_W) 'ParallelAxBt/axbt.cpp'; else $(CYGPATH_W) '$(srcdir)/ParallelAxBt/axbt.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Tpo ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ParallelAxBt/axbt.cpp' object='ParallelAxBt/test_axbt-axbt.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_axbt_CXXFLAGS) $(CXXFLAGS) -c -o ParallelAxBt/test_axbt-axbt.obj `if test -f 'ParallelAxBt/axbt.cpp'; then $(CYGPATH_W) 'ParallelAxBt/axbt.cpp'; else $(CYGPATH_W) '$(srcdir)/ParallelAxBt/axbt.cpp'; fi`
+
+colls/test_colls-colls.o: colls/colls.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_colls_CXXFLAGS) $(CXXFLAGS) -MT colls/test_colls-colls.o -MD -MP -MF colls/$(DEPDIR)/test_colls-colls.Tpo -c -o colls/test_colls-colls.o `test -f 'colls/colls.cpp' || echo '$(srcdir)/'`colls/colls.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) colls/$(DEPDIR)/test_colls-colls.Tpo colls/$(DEPDIR)/test_colls-colls.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='colls/colls.cpp' object='colls/test_colls-colls.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_colls_CXXFLAGS) $(CXXFLAGS) -c -o colls/test_colls-colls.o `test -f 'colls/colls.cpp' || echo '$(srcdir)/'`colls/colls.cpp
+
+colls/test_colls-colls.obj: colls/colls.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_colls_CXXFLAGS) $(CXXFLAGS) -MT colls/test_colls-colls.obj -MD -MP -MF colls/$(DEPDIR)/test_colls-colls.Tpo -c -o colls/test_colls-colls.obj `if test -f 'colls/colls.cpp'; then $(CYGPATH_W) 'colls/colls.cpp'; else $(CYGPATH_W) '$(srcdir)/colls/colls.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) colls/$(DEPDIR)/test_colls-colls.Tpo colls/$(DEPDIR)/test_colls-colls.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='colls/colls.cpp' object='colls/test_colls-colls.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_colls_CXXFLAGS) $(CXXFLAGS) -c -o colls/test_colls-colls.obj `if test -f 'colls/colls.cpp'; then $(CYGPATH_W) 'colls/colls.cpp'; else $(CYGPATH_W) '$(srcdir)/colls/colls.cpp'; fi`
+
+communicators/test_comm_creation-creation.o: communicators/creation.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_comm_creation_CXXFLAGS) $(CXXFLAGS) -MT communicators/test_comm_creation-creation.o -MD -MP -MF communicators/$(DEPDIR)/test_comm_creation-creation.Tpo -c -o communicators/test_comm_creation-creation.o `test -f 'communicators/creation.cpp' || echo '$(srcdir)/'`communicators/creation.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) communicators/$(DEPDIR)/test_comm_creation-creation.Tpo communicators/$(DEPDIR)/test_comm_creation-creation.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='communicators/creation.cpp' object='communicators/test_comm_creation-creation.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_comm_creation_CXXFLAGS) $(CXXFLAGS) -c -o communicators/test_comm_creation-creation.o `test -f 'communicators/creation.cpp' || echo '$(srcdir)/'`communicators/creation.cpp
+
+communicators/test_comm_creation-creation.obj: communicators/creation.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_comm_creation_CXXFLAGS) $(CXXFLAGS) -MT communicators/test_comm_creation-creation.obj -MD -MP -MF communicators/$(DEPDIR)/test_comm_creation-creation.Tpo -c -o communicators/test_comm_creation-creation.obj `if test -f 'communicators/creation.cpp'; then $(CYGPATH_W) 'communicators/creation.cpp'; else $(CYGPATH_W) '$(srcdir)/communicators/creation.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) communicators/$(DEPDIR)/test_comm_creation-creation.Tpo communicators/$(DEPDIR)/test_comm_creation-creation.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='communicators/creation.cpp' object='communicators/test_comm_creation-creation.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_comm_creation_CXXFLAGS) $(CXXFLAGS) -c -o communicators/test_comm_creation-creation.obj `if test -f 'communicators/creation.cpp'; then $(CYGPATH_W) 'communicators/creation.cpp'; else $(CYGPATH_W) '$(srcdir)/communicators/creation.cpp'; fi`
+
+communicators/test_comm_simple-simple.o: communicators/simple.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_comm_simple_CXXFLAGS) $(CXXFLAGS) -MT communicators/test_comm_simple-simple.o -MD -MP -MF communicators/$(DEPDIR)/test_comm_simple-simple.Tpo -c -o communicators/test_comm_simple-simple.o `test -f 'communicators/simple.cpp' || echo '$(srcdir)/'`communicators/simple.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) communicators/$(DEPDIR)/test_comm_simple-simple.Tpo communicators/$(DEPDIR)/test_comm_simple-simple.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='communicators/simple.cpp' object='communicators/test_comm_simple-simple.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_comm_simple_CXXFLAGS) $(CXXFLAGS) -c -o communicators/test_comm_simple-simple.o `test -f 'communicators/simple.cpp' || echo '$(srcdir)/'`communicators/simple.cpp
+
+communicators/test_comm_simple-simple.obj: communicators/simple.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_comm_simple_CXXFLAGS) $(CXXFLAGS) -MT communicators/test_comm_simple-simple.obj -MD -MP -MF communicators/$(DEPDIR)/test_comm_simple-simple.Tpo -c -o communicators/test_comm_simple-simple.obj `if test -f 'communicators/simple.cpp'; then $(CYGPATH_W) 'communicators/simple.cpp'; else $(CYGPATH_W) '$(srcdir)/communicators/simple.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) communicators/$(DEPDIR)/test_comm_simple-simple.Tpo communicators/$(DEPDIR)/test_comm_simple-simple.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='communicators/simple.cpp' object='communicators/test_comm_simple-simple.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_comm_simple_CXXFLAGS) $(CXXFLAGS) -c -o communicators/test_comm_simple-simple.obj `if test -f 'communicators/simple.cpp'; then $(CYGPATH_W) 'communicators/simple.cpp'; else $(CYGPATH_W) '$(srcdir)/communicators/simple.cpp'; fi`
+
+NBody/test_nbody-nbody.o: NBody/nbody.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_nbody_CXXFLAGS) $(CXXFLAGS) -MT NBody/test_nbody-nbody.o -MD -MP -MF NBody/$(DEPDIR)/test_nbody-nbody.Tpo -c -o NBody/test_nbody-nbody.o `test -f 'NBody/nbody.cpp' || echo '$(srcdir)/'`NBody/nbody.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) NBody/$(DEPDIR)/test_nbody-nbody.Tpo NBody/$(DEPDIR)/test_nbody-nbody.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='NBody/nbody.cpp' object='NBody/test_nbody-nbody.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_nbody_CXXFLAGS) $(CXXFLAGS) -c -o NBody/test_nbody-nbody.o `test -f 'NBody/nbody.cpp' || echo '$(srcdir)/'`NBody/nbody.cpp
+
+NBody/test_nbody-nbody.obj: NBody/nbody.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_nbody_CXXFLAGS) $(CXXFLAGS) -MT NBody/test_nbody-nbody.obj -MD -MP -MF NBody/$(DEPDIR)/test_nbody-nbody.Tpo -c -o NBody/test_nbody-nbody.obj `if test -f 'NBody/nbody.cpp'; then $(CYGPATH_W) 'NBody/nbody.cpp'; else $(CYGPATH_W) '$(srcdir)/NBody/nbody.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) NBody/$(DEPDIR)/test_nbody-nbody.Tpo NBody/$(DEPDIR)/test_nbody-nbody.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='NBody/nbody.cpp' object='NBody/test_nbody-nbody.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_nbody_CXXFLAGS) $(CXXFLAGS) -c -o NBody/test_nbody-nbody.obj `if test -f 'NBody/nbody.cpp'; then $(CYGPATH_W) 'NBody/nbody.cpp'; else $(CYGPATH_W) '$(srcdir)/NBody/nbody.cpp'; fi`
+
+p2p/test_p2p-p2p.o: p2p/p2p.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_p2p_CXXFLAGS) $(CXXFLAGS) -MT p2p/test_p2p-p2p.o -MD -MP -MF p2p/$(DEPDIR)/test_p2p-p2p.Tpo -c -o p2p/test_p2p-p2p.o `test -f 'p2p/p2p.cpp' || echo '$(srcdir)/'`p2p/p2p.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) p2p/$(DEPDIR)/test_p2p-p2p.Tpo p2p/$(DEPDIR)/test_p2p-p2p.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='p2p/p2p.cpp' object='p2p/test_p2p-p2p.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_p2p_CXXFLAGS) $(CXXFLAGS) -c -o p2p/test_p2p-p2p.o `test -f 'p2p/p2p.cpp' || echo '$(srcdir)/'`p2p/p2p.cpp
+
+p2p/test_p2p-p2p.obj: p2p/p2p.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_p2p_CXXFLAGS) $(CXXFLAGS) -MT p2p/test_p2p-p2p.obj -MD -MP -MF p2p/$(DEPDIR)/test_p2p-p2p.Tpo -c -o p2p/test_p2p-p2p.obj `if test -f 'p2p/p2p.cpp'; then $(CYGPATH_W) 'p2p/p2p.cpp'; else $(CYGPATH_W) '$(srcdir)/p2p/p2p.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) p2p/$(DEPDIR)/test_p2p-p2p.Tpo p2p/$(DEPDIR)/test_p2p-p2p.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='p2p/p2p.cpp' object='p2p/test_p2p-p2p.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_p2p_CXXFLAGS) $(CXXFLAGS) -c -o p2p/test_p2p-p2p.obj `if test -f 'p2p/p2p.cpp'; then $(CYGPATH_W) 'p2p/p2p.cpp'; else $(CYGPATH_W) '$(srcdir)/p2p/p2p.cpp'; fi`
+
+Wave2D/test_wave2d-wave2d.o: Wave2D/wave2d.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_wave2d_CXXFLAGS) $(CXXFLAGS) -MT Wave2D/test_wave2d-wave2d.o -MD -MP -MF Wave2D/$(DEPDIR)/test_wave2d-wave2d.Tpo -c -o Wave2D/test_wave2d-wave2d.o `test -f 'Wave2D/wave2d.cpp' || echo '$(srcdir)/'`Wave2D/wave2d.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Wave2D/$(DEPDIR)/test_wave2d-wave2d.Tpo Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Wave2D/wave2d.cpp' object='Wave2D/test_wave2d-wave2d.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_wave2d_CXXFLAGS) $(CXXFLAGS) -c -o Wave2D/test_wave2d-wave2d.o `test -f 'Wave2D/wave2d.cpp' || echo '$(srcdir)/'`Wave2D/wave2d.cpp
+
+Wave2D/test_wave2d-wave2d.obj: Wave2D/wave2d.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_wave2d_CXXFLAGS) $(CXXFLAGS) -MT Wave2D/test_wave2d-wave2d.obj -MD -MP -MF Wave2D/$(DEPDIR)/test_wave2d-wave2d.Tpo -c -o Wave2D/test_wave2d-wave2d.obj `if test -f 'Wave2D/wave2d.cpp'; then $(CYGPATH_W) 'Wave2D/wave2d.cpp'; else $(CYGPATH_W) '$(srcdir)/Wave2D/wave2d.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Wave2D/$(DEPDIR)/test_wave2d-wave2d.Tpo Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Wave2D/wave2d.cpp' object='Wave2D/test_wave2d-wave2d.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_wave2d_CXXFLAGS) $(CXXFLAGS) -c -o Wave2D/test_wave2d-wave2d.obj `if test -f 'Wave2D/wave2d.cpp'; then $(CYGPATH_W) 'Wave2D/wave2d.cpp'; else $(CYGPATH_W) '$(srcdir)/Wave2D/wave2d.cpp'; fi`
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
