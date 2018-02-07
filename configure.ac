@@ -44,8 +44,12 @@ fi
 
 
 
+AC_CONFIG_FILES([
+	Makefile
+	tests/Makefile
+])
 
-AC_CONFIG_FILES([Makefile])
+
 AC_OUTPUT
 
 

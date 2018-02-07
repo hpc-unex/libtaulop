@@ -885,6 +885,11 @@ uninstall-am: uninstall-libLIBRARIES uninstall-libtaulop_aHEADERS
 	uninstall-libtaulop_aHEADERS
 
 
+tests : all
+	@cd tests && $(MAKE) && mv pNBody NBody/ && mv pcommunicators communicators/ \
+	&& mv pParallelAxBt ParallelAxBt/ && mv ptest_colls test_colls/ \
+	&& mv ptest_p2p test_p2p/ && mv pWave2D Wave2D/
+
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -7,13 +7,7 @@
 //
 
 
-#include "communicator.hpp"
-#include "collective.hpp"
-#include "bcast_binomial.hpp"
-#include "allgather_rda.hpp"
-#include "allgather_ring.hpp"
-#include "taulop_params.hpp"
-#include "config.h"
+#include "taulop_kernel.hpp"
 
 #include <iostream>
 #include <cmath>
