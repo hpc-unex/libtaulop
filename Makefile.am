@@ -13,6 +13,6 @@ include src/Makefile.am
 
 
 tests : all
-	@cd tests && mkdir $(exec_prefix)/bin && cd tests && $(MAKE) && mv test_* $(exec_prefix)/bin
+	@mkdir -p $(exec_prefix)/bin && cd tests && $(MAKE) && mv test_* $(exec_prefix)/bin
 
 
