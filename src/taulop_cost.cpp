@@ -19,6 +19,19 @@ TauLopCost::TauLopCost () {
     this->cost = new IList<Transmission *> ();
 }
 
+TauLopCost::TauLopCost (const TauLopCost *tc) {
+
+    this->cost = new IList<Transmission *> ();
+    Transmission *T;
+
+    tc->cost->moveToBegin();
+    while (! tc->cost->end()) {
+        tc->cost->consult(T);
+        this->cost->insert(new Transmission(T));
+        tc->cost->next();
+    }
+}
+
 TauLopCost::~TauLopCost () {
     
     Transmission *c = nullptr;

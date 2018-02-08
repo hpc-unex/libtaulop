@@ -24,6 +24,7 @@ private:
 public:
     
      TauLopCost ();
+     TauLopCost (const TauLopCost *tc);
     ~TauLopCost ();
     
     void   add     (Transmission *c);
