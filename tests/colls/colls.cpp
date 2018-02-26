@@ -87,24 +87,9 @@ double ex3_bcast (int P) {
 }
 
 
-int main_1 (int argc, const char * argv[]) {
+int ex4_colls (int P) {
     
     double t = 0.0;
-    
-    TauLopParam::setInstance("IB");
-    
-    // Binomial broadcast (default mapping)
-    t = ex1_bcast(16);
-    cout << "Binomial Broadcast (def) - Time: " << fixed << setprecision(3) << t << endl << endl;
-
-    // Binomial broadcast (Sequential mapping)
-    t = ex2_bcast(16);
-    cout << "Binomial Broadcast (SEQ) - Time: " << fixed << setprecision(3) << t << endl << endl;
-
-    // Linear broadcast (Sequential mapping)
-    t = ex3_bcast(16);
-    cout << "Linear Broadcast (SEQ) - Time:   " << fixed << setprecision(3) << t << endl << endl;
-
     
     // 1. Create a communicator (group of P processes)
     //    Default mapping is all processes in the same node.
@@ -206,18 +191,13 @@ int main_1 (int argc, const char * argv[]) {
 
 
 
-
-
-int main (int argc, const char * argv[]) {
+int ex5_allgather () {
     
-    double t_rda  = 0.0;
-    double t_ring = 0.0;
-    
-    TauLopParam::setInstance("IB");
     
     Collective *rda  = new AllgatherRDA();
     Collective *ring = new AllgatherRing();
     
+    const int P = 8;
     int nodes [P] = {0,1,1,2,0,2,1,0};
     Communicator *comm = new Communicator (P);
     Mapping *map = new Mapping(P, nodes);
@@ -246,5 +226,37 @@ int main (int argc, const char * argv[]) {
     delete (AllgatherRing *) ring;
     return 0;
 }
+
+
+
+
+int main (int argc, const char * argv[]) {
+    
+    double t      = 0.0;
+    
+    // Network parameters
+    TauLopParam::setInstance("IB");
+    
+    // Binomial broadcast (default mapping)
+    t = ex1_bcast(16);
+    cout << "Binomial Broadcast (def) - Time: " << fixed << setprecision(3) << t << endl << endl;
+    
+    // Binomial broadcast (Sequential mapping)
+    t = ex2_bcast(16);
+    cout << "Binomial Broadcast (SEQ) - Time: " << fixed << setprecision(3) << t << endl << endl;
+    
+    // Linear broadcast (Sequential mapping)
+    t = ex3_bcast(16);
+    cout << "Linear Broadcast (SEQ) - Time:   " << fixed << setprecision(3) << t << endl << endl;
+    
+    // Comparison of collectives
+    ex4_colls(16);
+    
+    // Comparison of allgather algorithms
+    ex5_allgather();
+
+    return 0;
+}
+
 
 
