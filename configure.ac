@@ -30,7 +30,7 @@ AC_ARG_WITH(params,
 [  --with-params[[=path]] - Specify the path of the parameter values in case of they are located in a custom location.],,with_params=empty)
 
 
-if test "$with_hwloc" = "empty"; then
+if test "$with_params" = "empty"; then
 
   AC_DEFINE_UNQUOTED(PARAMS_FOLDER, "./params", [Parameter values are in the ./params subfolder.])
 
