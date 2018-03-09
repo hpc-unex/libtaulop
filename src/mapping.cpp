@@ -73,6 +73,12 @@ int Mapping::getNode (int p) {
 }
 
 
+int Mapping::getP() {
+    return this->P;
+}
+
+
+
 void Mapping::show () {
     
     cout << "Nodes: [";
