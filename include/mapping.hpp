@@ -30,6 +30,7 @@ public:
     ~Mapping ();
     
     int getNode (int p);
+    int getP();
     
     void show ();
 };
