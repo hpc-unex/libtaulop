@@ -33,6 +33,8 @@ Mapping::Mapping  (int P, int *nodes) {
     }
 }
 
+/// ESTE ES EL CAMBIO
+
 
 Mapping::Mapping (int P, int Q, int predef_map) {
 
