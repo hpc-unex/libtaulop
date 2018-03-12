@@ -33,7 +33,6 @@ Mapping::Mapping  (int P, int *nodes) {
     }
 }
 
-/// ESTE ES EL CAMBIO
 
 
 Mapping::Mapping (int P, int Q, int predef_map) {
@@ -74,6 +73,10 @@ int Mapping::getNode (int p) {
     return this->nodes[p];
 }
 
+
+int Mapping::getP() {
+    return this->P;
+}
 
 void Mapping::show () {
     
