@@ -14,7 +14,7 @@
 
 class Mapping {
     
-private:
+protected:
     
     int  P; // # of processes
     // Array of nodes per rank.
