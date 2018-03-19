@@ -56,12 +56,6 @@ const string TCP_NET = "TCP";
 const int DATATYPE_SIZE  = sizeof(double);  // Type of each element in a block
 
 
-// Default mappings constants
-const int MAPPING_UNDEF = 0; // Undefined (random)
-const int MAPPING_SEQ   = 1; // Sequential mapping  (p / Q, Q = #cores/node)
-const int MAPPING_RR    = 2; // Round Robin mapping (p % Q, Q = #cores/node)
-
-
 // Default rank and node for a process
 const int RANK_UNDEFINED = -1;
 const int NODE_UNDEFINED = -1;
