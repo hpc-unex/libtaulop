@@ -189,7 +189,7 @@ int main (int argc, const char * argv[]) {
     t = nbody_coll_rda (world, n_bodies);
     cout << "NBody RDA - COLL Homogeneous:    " << fixed << std::setprecision (3) << t << " usec." << endl;
 
-    
+    delete map;
     
     
     
@@ -220,6 +220,8 @@ int main (int argc, const char * argv[]) {
     cout << "NBody RDA - COLL Homogeneous:    " << fixed << std::setprecision (3) << t << " usec." << endl;
     
     
+    delete map;
+
     delete world;
     
     
@@ -255,6 +257,7 @@ int main (int argc, const char * argv[]) {
     t = nbody_coll_rda (irr_comm, n_bodies);
     cout << "NBody RDA - COLL Homogeneous:    " << fixed << std::setprecision (3) << t << " usec." << endl;
     
+    delete irr_map;
     delete irr_comm;
     
     
