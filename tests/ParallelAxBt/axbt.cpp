@@ -166,7 +166,7 @@ int main (int argc, const char * argv[]) {
     cout << "Parallel AxB COLL Heterogeneous: " << fixed << std::setprecision (3) << t << " usec." << endl;
   
     
-    
+    delete map;
     
     
     // Homogeneous mapping with:
@@ -197,6 +197,8 @@ int main (int argc, const char * argv[]) {
     // 4. Parallel C=AxB^t using collectives. Heterogeneous version.
     t = parallelAxB_coll (world, N, b, nrows_het);
     cout << "Parallel AxB COLL Heterogeneous: " << fixed << std::setprecision (3) << t << " usec." << endl;
+
+    delete map;
 
     delete world;
 
@@ -236,6 +238,7 @@ int main (int argc, const char * argv[]) {
     t = parallelAxB_coll (irr_comm, N, b, nrows_het);
     cout << "Parallel AxB COLL Heterogeneous: " << fixed << std::setprecision (3) << t << " usec." << endl;
     
+    delete irr_map;
     delete irr_comm;
 
     
