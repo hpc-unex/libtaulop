@@ -59,8 +59,9 @@ double ex2_bcast (int P) {
     int size = 128 * 1024;
     TauLopCost *tc = bcast->evaluate(world, &size);
     double t = tc->getTime();
+
     delete tc;
-    
+    delete map;
     delete world;
     
     return t;
@@ -81,6 +82,7 @@ double ex3_bcast (int P) {
     double t = tc->getTime();
     
     delete tc;
+    delete map;
     delete world;
     
     return t;
@@ -185,6 +187,9 @@ int ex4_colls (int P) {
     delete (BcastBinomial *) bin;
     delete (AllgatherRDA  *) rda;
     delete (AllgatherRing *) ring;
+    delete map;
+    delete map_comm;
+    delete map_seq;
     delete world;
     return 0;
 }
@@ -220,6 +225,7 @@ int ex5_allgather () {
         cout << endl;
     }
     
+    delete map;
     delete comm;
     
     delete (AllgatherRDA  *) rda;
