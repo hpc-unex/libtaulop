@@ -51,10 +51,8 @@ Communicator *Communicator::create (int P, int *ranks) {
 
 
 void Communicator::map (Mapping *map) {
-    // 1. Deleting current mapping
-    delete this->mapping;
-    // 2. Changing by other one.
-    this->mapping = map;
+// TODO: Verify if size of mapping is equal to P
+    this->*mapping = *map; // assignation overloaded
 }
 
 
