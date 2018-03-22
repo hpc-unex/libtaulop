@@ -41,6 +41,7 @@ int main (int argc, const char * argv[]) {
     
     // 5. Delete objects
     delete (BcastBinomial *)bin;
+    delete map;
     delete world;
     return 0;
 }

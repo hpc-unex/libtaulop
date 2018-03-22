@@ -137,7 +137,7 @@ int main (int argc, const char * argv[]) {
     t = wave2d_coll (world, N, b);
     cout << "Parallel AxB COLL Homogeneous:   " << fixed << std::setprecision (3) << t << " usec." << endl;
     
-    
+    delete map;
     
 
     
@@ -163,7 +163,8 @@ int main (int argc, const char * argv[]) {
     t = wave2d_coll (world, N, b);
     cout << "Parallel AxB COLL Homogeneous:   " << fixed << std::setprecision (3) << t << " usec." << endl;
     
-    
+    delete map;
+
     delete world;
 
     
@@ -199,6 +200,7 @@ int main (int argc, const char * argv[]) {
     t = wave2d_coll (irr_comm, N, b);
     cout << "Parallel AxB COLL Homogeneous:   " << fixed << std::setprecision (3) << t << " usec." << endl;
     
+    delete irr_map;
     delete irr_comm;
     
     

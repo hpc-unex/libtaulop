@@ -35,6 +35,8 @@ public:
     Mapping  (int P, int Q, int predef_map);
     ~Mapping ();
     
+    Mapping& operator = (const Mapping &m);
+    
     int getNode (int p);
     int getP();
     
