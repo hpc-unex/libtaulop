@@ -69,6 +69,24 @@ Mapping::~Mapping () {
 }
 
 
+
+Mapping& Mapping::operator = (const Mapping &m) {
+   if (this != &m) {
+      if (m.P != this->getP()) { // new size
+          delete nodes;
+          this->P = m.P;
+          nodes = new int[this->P];
+      }
+      for (int i=0; i< this->P; i++)
+          this->nodes[i] = m.nodes[i];   
+   }
+   return *this;
+}
+
+
+
+
+
 int Mapping::getNode (int p) {
     return this->nodes[p];
 }
@@ -88,4 +106,3 @@ void Mapping::show () {
     cout << "]" << endl;
 
 }
-
