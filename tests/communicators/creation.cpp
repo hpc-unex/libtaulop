@@ -66,6 +66,8 @@ int main (int argc, const char * argv[]) {
     
     
     // 5. Delete objects
+    delete map;
+    delete map_comm;
     delete comm;
     delete world;
     return 0;
