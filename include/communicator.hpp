@@ -33,6 +33,7 @@ public:
     Communicator *create (int P, int *ranks);
     
     void map (Mapping *map);
+    void getMap(Mapping *map);
     
     int  getRank (int p);
     int  getSize ();
