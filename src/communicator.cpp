@@ -52,7 +52,7 @@ Communicator *Communicator::create (int P, int *ranks) {
 
 void Communicator::map (Mapping *map) {
 // TODO: Verify if size of mapping is equal to P
-    mapping = *map; // assignation overloaded
+    *mapping = *map; // assignation overloaded
 }
 
 
