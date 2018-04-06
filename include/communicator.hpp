@@ -32,11 +32,14 @@ public:
     
     Communicator *create (int P, int *ranks);
     
+    Communicator& operator = (const Communicator &c);
+    
     void map (Mapping *map);
+    void getMap(Mapping *map);
     
     int  getRank (int p);
     int  getSize ();
-    int  getNode (int p);
+    int  getNode (int p
     
     void show ();
 };

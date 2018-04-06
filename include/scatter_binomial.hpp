@@ -39,7 +39,7 @@ public:
      ScatterBinomial ();
     ~ScatterBinomial ();
     
-    virtual TauLopCost * evaluate (Communicator *comm, int n, int root);
+    virtual TauLopCost * evaluate (Communicator *comm, int *size, int root);
 };
 
 
