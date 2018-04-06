@@ -30,7 +30,7 @@ ScatterBinomial::~ScatterBinomial () {
 }
 
 
-TauLopCost * ScatterBinomial::evaluate (Communicator *comm, int n, int root) {
+TauLopCost * ScatterBinomial::evaluate (Communicator *comm, int *size, int root) {
         
     TauLopConcurrent *conc;
     TauLopSequence   *seq;
@@ -62,11 +62,11 @@ TauLopCost * ScatterBinomial::evaluate (Communicator *comm, int n, int root) {
             
             int channel = (p_src->getNode() == p_dst->getNode()) ? 0 : 1;
             
-            int size = n * pow(2, stage);
+            int stagesize = (*size) * pow(2, stage);
             int m    = 1;
             int tau  = 1;
             
-            c = new Transmission(p_src, p_dst, channel, m, size, tau);
+            c = new Transmission(p_src, p_dst, channel, m, stagesize, tau);
             seq->add(c);
             
             conc->add(seq);
