@@ -50,6 +50,22 @@ Communicator *Communicator::create (int P, int *ranks) {
 }
 
 
+Communicator& Communicator::operator = (const Communicator &c) {
+   if (this != &c) {
+      map(c.mapping);
+      if (c.P != this->P) { // new size
+          delete [] this->ranks;
+          this->P = c.P;
+          this->ranks = new int[this->P];
+      }
+      for (int i=0; i< this->P; i++)
+          this->ranks[i] = c.ranks[i];
+   }
+   return *this;
+}
+
+
+
 void Communicator::map (Mapping *map) {
 // TODO: Verify if size of mapping is equal to P
     *mapping = *map; // assignation overloaded
