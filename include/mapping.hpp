@@ -15,7 +15,8 @@
 // Default mappings constants
 const int MAPPING_UNDEF = 0; // Undefined (random)
 const int MAPPING_SEQ   = 1; // Sequential mapping  (p / Q, Q = #cores/node)
-const int MAPPING_
+const int MAPPING_RR    = 2; // Round Robin mapping (p % Q, Q = #cores/node)
+
 
 
 class Mapping {
