@@ -39,7 +39,7 @@ public:
     
     int  getRank (int p);
     int  getSize ();
-    int  getNode (int p
+    int  getNode (int p);
     
     void show ();
 };
