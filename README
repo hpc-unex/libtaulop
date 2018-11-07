@@ -1,0 +1,43 @@
+tau-Lop library is a tool for automatizing the procedure of 
+modeling and quantifying the cost of parallel algorithms using
+the tau-Lop model.
+
+Version: 1.0
+Date: Feb. 6th, 2018
+--------------------------------------------------------------------------
+
+1) Installing the library:
+
+1. ./configure
+2. make
+3. make install
+4. make tests
+
+
+--------------------------------------------------------------------------
+
+2) tau-Lop model is deeply described in the following papers:
+
+- Juan-Antonio Rico-Gallego, Alexey L. Lastovetsky, Juan Carlos Díaz Martín:
+Model-Based Estimation of the Communication Cost of Hybrid Data-Parallel Applications on Heterogeneous Clusters. 
+IEEE Trans. Parallel Distrib. Syst. 28(11): 3215-3228 (2017)
+
+- Juan-Antonio Rico-Gallego, Juan Carlos Díaz Martín, Alexey L. Lastovetsky:
+Extending τ-Lop to model concurrent MPI communications in multicore clusters. 
+Future Generation Comp. Syst. 61: 66-82 (2016)
+
+- Juan-Antonio Rico-Gallego, Juan Carlos Díaz Martín:
+τ-Lop: Modeling performance of shared memory MPI. 
+Parallel Computing 46: 14-31 (2015)
+
+
+3) Visit http://hpc.unex.es/taulop for more information and elaborated examples.
+
+Contacting information:
+        Juan A. Rico  (jarico@unex.es)
+        Juan C. Díaz  (juancarl@unex.es)
+        Sergio Moreno (smoreno@unex.es)
+University of Extremadura,
+Avd. Universidad s/n,
+10004, Cáceres,
+Spain

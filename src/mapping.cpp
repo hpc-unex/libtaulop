@@ -39,6 +39,8 @@ Mapping::Mapping (int P, int Q, int predef_map) {
 
     this->P = P;
     this->nodes = new int [P];
+	
+    int M = P / Q;
     
     for (int p = 0; p < P; p++) {
         
@@ -53,7 +55,7 @@ Mapping::Mapping (int P, int Q, int predef_map) {
                 break;
                 
             case MAPPING_RR:
-                this->nodes[p] = p % Q;
+                this->nodes[p] = p % M;
                 break;
                 
             default:

@@ -1,0 +1,50 @@
+
+tau-Lop library is a tool for automatizing the procedure of 
+modeling and quantifying the cost of parallel algorithms using
+the tau-Lop model.
+
+Authors:  
+	Juan A. Rico    (jarico@unex.es)
+	Juan C. Díaz    (juancarl@unex.es)
+	Sergio  Moreno  (smoreno@unex.es)
+Version: 1.0
+Date: Feb. 6th, 2018
+--------------------------------------------------------------------------
+
+For using the tau-Lop library follow the steps:
+
+1. Edit and modify the file taulop_config.h to match your system or conveniences.
+2. Compile the code by using the usual toolchain:
+	$ ./configure [--prefix=...]
+	$ make
+	$ make install
+3. Basic example programs are the test folder. You can compile them by:
+	$ make tests
+
+The code is fully functional but it is yet under continuous development.
+By now, it has been tested on Linux and Mac OSX platforms using g++ and Clang
+compilers. 
+If you find any error, please, contact us using the email addresses above.
+
+You can find more information about the library and the tau-Lop model at:
+
+	http://hpc.unex.es
+
+
+
+Version: 1.01
+Date: Feb. 6th, 2018
+--------------------------------------------------------------------------
+
+1) Included an option to configure for specifying the parameter values folder.
+Default is relative to the executable file linked to the library: "./params".
+
+Example:
+configure —prefix=/home/jdoe/software/libtaulop —with-params=/home/jdoe/taulop-tests/params
+
+2) Change in the interface to the collective operations. Now, they return a TauLopCost * object, 
+containing the sequence of concurrent transmissions. TauLop class provides with an interface to
+get the time and volume of the transmissions.
+This change makes the collective interface uniform with respect to point-to-point transmissions 
+interface.
+
