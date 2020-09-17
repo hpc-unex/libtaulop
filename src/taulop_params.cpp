@@ -9,7 +9,7 @@
 #include "taulop_params.hpp"
 #include "config.h"
 
-#include <cmath>
+#include <math.h>
 #include <cstdlib>
 #include <sstream>
 #include <fstream>

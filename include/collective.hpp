@@ -9,6 +9,7 @@
 #ifndef collective_hpp
 #define collective_hpp
 
+#include "graph.hpp"
 #include "communicator.hpp"
 #include "taulop_config.h"
 #include "taulop_cost.hpp"
@@ -18,14 +19,20 @@ using namespace std;
 
 
 class Collective {
-    
+
 private:
+	
+protected:
+	
+	Graph  graph;
     
 public:
     
-    Collective  ();
+     Collective ();
     ~Collective ();
-    
+	
+	void setGraph (Graph &g);
+	
     virtual TauLopCost * evaluate (Communicator *comm, int *size, int root = RANK_UNDEFINED) = 0;
 };
 

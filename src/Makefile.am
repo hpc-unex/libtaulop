@@ -17,7 +17,9 @@ libtaulop_a_SOURCES += src/process.cpp \
   src/gather_binomial.cpp \
   src/gatherv_binomial.cpp \
   src/scatter_binomial.cpp \
-  src/bcast_binomial_openmpi.cpp
+  src/bcast_binomial_openmpi.cpp \
+  src/graph.cpp \
+  src/graph_collective.cpp
 
 
 

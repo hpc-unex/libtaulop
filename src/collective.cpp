@@ -17,3 +17,7 @@ Collective::Collective  () {
 Collective::~Collective () {
     
 }
+
+void Collective::setGraph (Graph &g) {
+	this->graph = g;
+}

@@ -13,6 +13,7 @@
 #include "communicator.hpp"
 #include "mapping.hpp"
 #include "collective.hpp"
+#include "graph.hpp"
 
 #include "bcast_linear.hpp"
 #include "bcast_binomial.hpp"
@@ -21,6 +22,7 @@
 #include "gatherv_binomial.hpp"
 #include "allgather_ring.hpp"
 #include "allgather_rda.hpp"
+#include "graph_collective.hpp"
 
 #include "taulop_sequence.hpp"
 #include "taulop_concurrent.hpp"

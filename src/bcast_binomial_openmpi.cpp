@@ -14,7 +14,7 @@
 #include "taulop_concurrent.hpp"
 #include "taulop_sequence.hpp"
 
-#include <cmath>
+#include <math.h>
 #include <iostream>
 using namespace std;
 

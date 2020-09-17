@@ -15,7 +15,7 @@
 #include "taulop_sequence.hpp"
 #include "taulop_cost.hpp"
 
-#include <cmath>
+#include <math.h>
 #include <iostream>
 using namespace std;
 
