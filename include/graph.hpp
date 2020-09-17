@@ -23,7 +23,7 @@ public:
 	int depth;
 	
 	void show () {
-		cerr << "(" << this->src << "," << this->dst << "," << this->depth << ")" << endl;
+		cout << "(" << this->src << "," << this->dst << "," << this->depth << ")" << endl;
 	}
 };
 

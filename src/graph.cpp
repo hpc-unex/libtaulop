@@ -17,7 +17,7 @@ using namespace std;
 
 
 Graph::Graph () {
-	this->max_depth      = 0;
+	this->max_depth = 0;
 }
 
 Graph::~Graph () {
@@ -126,17 +126,17 @@ void Graph::show () {
 
 	string sep = ",";
 	
-	cerr << "[";
+	cout << "[";
 	for (auto it = this->edges.begin(); it != this->edges.end(); ++it) {
 		
-		cerr << "(" << it->src << "," << it->dst << "," << it->depth << ")";
+		cout << "(" << it->src << "," << it->dst << "," << it->depth << ")";
 	
 		if (it == this->edges.end() - 1) {
 			sep = "";
 		}
 		
-		cerr << sep;
+		cout << sep;
 	}
-	cerr << "]" << endl;
-	cerr << "Max. depth: " << this->max_depth << endl;
+	cout << "]" << endl;
+	cout << "Max. depth: " << this->max_depth << endl;
 }
