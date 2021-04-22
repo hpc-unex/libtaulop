@@ -1,8 +1,7 @@
 AC_PREREQ(2.50)
 
 AC_INIT([taulop], [0.1], [jarico@unex.es])
-AC_CONFIG_SRCDIR([config.h.in])
-AC_CONFIG_HEADER([config.h])
+AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([subdir-objects])
 m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])

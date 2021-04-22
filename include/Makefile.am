@@ -24,6 +24,3 @@ libtaulop_a_HEADERS += include/ilist.h \
   include/bcast_binomial_openmpi.hpp \
   include/graph.hpp \
   include/graph_collective.hpp
-
-
-

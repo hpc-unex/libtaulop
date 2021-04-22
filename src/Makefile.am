@@ -20,6 +20,3 @@ libtaulop_a_SOURCES += src/process.cpp \
   src/bcast_binomial_openmpi.cpp \
   src/graph.cpp \
   src/graph_collective.cpp
-
-
-
