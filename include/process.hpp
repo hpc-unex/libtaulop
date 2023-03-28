@@ -14,32 +14,34 @@
 using namespace std;
 
 class Process {
-    
+   
 protected:
-    
-    int    rank;      // Global rank
-    int    rankIntra; // Rank in the node
-    int    node;      // Number of the node
-    
+   
+   int    rank;      // Global rank
+   int    rankIntra; // Rank in the node
+   int    node;      // Number of the node
+   
 public:
-    
-    Process  ();
-    Process  (int rank);
-    Process  (int rank, int node);
-    Process  (const Process *p);
-    ~Process ();
-
-    void   setRank       (int rank);
-    void   setRankIntra  (int rank);
-    void   setNode       (int node);
-
-    int    getRank       ();
-    int    getRankIntra  ();
-    int    getNode       ();
-
-    void show  ();
-    ostream& operator<< (ostream& outs);
-    
+   
+   Process  ();
+   Process  (int rank);
+   Process  (int rank, int node);
+   Process  (const Process *p);
+   ~Process ();
+   
+   void   setRank       (int rank);
+   void   setRankIntra  (int rank);
+   void   setNode       (int node);
+   
+   int    getRank       () const;
+   int    getRankIntra  () const;
+   int    getNode       () const;
+   
+   void show  ();
+   ostream& operator<< (ostream& outs);
+   
+   void operator = (const Process &c);
+   
 };
 
 #endif /* process_hpp */

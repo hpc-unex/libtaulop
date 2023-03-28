@@ -22,6 +22,7 @@
 #include "gatherv_binomial.hpp"
 #include "allgather_ring.hpp"
 #include "allgather_rda.hpp"
+#include "reduce_linear.hpp"
 #include "graph_collective.hpp"
 
 #include "taulop_sequence.hpp"

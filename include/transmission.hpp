@@ -24,68 +24,68 @@
 //     m: message size of the transmission
 
 class Transmission {
-    
+   
 private:
-    
-    Process * p_src;  // Source process
-    Process * p_dst;  // Destination process
-    int  node_src;    // Source node
-    int  node_dst;    // Destination node
-    int  channel;     // Channels through which the transmission progress
-    int  n;           // Number of transmission (if more than one)
-    long m;           // Message size
-    int  tau;         // Number of concurrent transmissions
-    
-    TauLopParam *params;
-    
+   
+   Process * p_src;  // Source process
+   Process * p_dst;  // Destination process
+   int  node_src;    // Source node
+   int  node_dst;    // Destination node
+   int  channel;     // Channels through which the transmission progress
+   int  n;           // Number of transmission (if more than one)
+   long m;           // Message size
+   int  tau;         // Number of concurrent transmissions
+   
+   TauLopParam *params;
+   
 public:
-    
-    Transmission   ();
-    Transmission   (Process *p_src, Process *p_dst, int channel, int n, int m, int tau);
-    Transmission   (Process *p_src, Process *p_dst, int n, int m, int tau);
-    Transmission   (Process *p_src, Process *p_dst, int m, int tau);
-    Transmission   (int channel, int n, int m, int tau);
-    Transmission   (int channel, int m, int tau);
-    Transmission   (const Transmission *c);
-    ~Transmission  ();
-    
-    void   putProcSrc (Process *p);
-    void   putProcDst (Process *p);
-    
-    int    getMsgSize ();
-    
-    void   putChannel (int channel);
-    int    getChannel ();
-    
-    int    getSrcRank ();
-    int    getDstRank ();
-
-    int    getSrcNode ();
-    int    getDstNode ();
-
-    void   putM   (long m);
-    long   getM   ();
-    
-    void   putN   (int n);
-    int    getN   ();
-    
-    void   incrTau  (int inc = 1);
-    void   initTau  ();
-    int    getTau   ();
-    
-    double getCost  ();  // Cost of the blocks in c
-    long   getBytes (double t, int tau); // Inverse: bytes sent in time t when tau concurrent
-    
-    bool   areConcurrent  (const Transmission *c);
-    void   getOverlap     (const Transmission *c);
-    
-    bool   areCompactable (const Transmission *c);
-    void   compact        (const Transmission *c);
-    
-    bool   areSequential  (const Transmission *c);
-    void   add            (const Transmission *c);
-        
-    void   show();
+   
+      Transmission   ();
+      Transmission   (Process *p_src, Process *p_dst, int channel, int n, int m, int tau);
+      Transmission   (Process *p_src, Process *p_dst, int n, int m, int tau);
+      Transmission   (Process *p_src, Process *p_dst, int m, int tau);
+      Transmission   (int channel, int n, int m, int tau);
+      Transmission   (int channel, int m, int tau);
+      Transmission   (const Transmission *c);
+     ~Transmission   ();
+   
+   void   putProcSrc (Process *p);
+   void   putProcDst (Process *p);
+   
+   int    getMsgSize ();
+   
+   void   putChannel (int channel);
+   int    getChannel ();
+   
+   int    getSrcRank ();
+   int    getDstRank ();
+   
+   int    getSrcNode ();
+   int    getDstNode ();
+   
+   void   putM       (long m);
+   long   getM       ();
+   
+   void   putN       (int n);
+   int    getN       ();
+   
+   void   incrTau    (int inc = 1);
+   void   initTau    ();
+   int    getTau     ();
+   
+   double getCost    ();  // Cost of the blocks in c
+   long   getBytes   (double t, int tau); // Inverse: bytes sent in time t when tau concurrent
+   
+   bool   areConcurrent  (const Transmission *c);
+   void   getOverlap     (const Transmission *c);
+   
+   bool   areCompactable (const Transmission *c);
+   void   compact        (const Transmission *c);
+   
+   bool   areSequential  (const Transmission *c);
+   void   add            (const Transmission *c);
+   
+   void   show ();
 };
 
 #endif /* transmission_hpp */

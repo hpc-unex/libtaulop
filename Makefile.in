@@ -150,7 +150,8 @@ am_libtaulop_a_OBJECTS = src/process.$(OBJEXT) \
 	src/gather_binomial.$(OBJEXT) src/gatherv_binomial.$(OBJEXT) \
 	src/scatter_binomial.$(OBJEXT) \
 	src/bcast_binomial_openmpi.$(OBJEXT) src/graph.$(OBJEXT) \
-	src/graph_collective.$(OBJEXT)
+	src/graph_collective.$(OBJEXT) src/reduce_linear.$(OBJEXT) \
+	src/computation.$(OBJEXT)
 libtaulop_a_OBJECTS = $(am_libtaulop_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -172,10 +173,12 @@ am__depfiles_remade = src/$(DEPDIR)/allgather_rda.Po \
 	src/$(DEPDIR)/bcast_binomial.Po \
 	src/$(DEPDIR)/bcast_binomial_openmpi.Po \
 	src/$(DEPDIR)/bcast_linear.Po src/$(DEPDIR)/collective.Po \
-	src/$(DEPDIR)/communicator.Po src/$(DEPDIR)/gather_binomial.Po \
+	src/$(DEPDIR)/communicator.Po src/$(DEPDIR)/computation.Po \
+	src/$(DEPDIR)/gather_binomial.Po \
 	src/$(DEPDIR)/gatherv_binomial.Po src/$(DEPDIR)/graph.Po \
 	src/$(DEPDIR)/graph_collective.Po src/$(DEPDIR)/mapping.Po \
-	src/$(DEPDIR)/process.Po src/$(DEPDIR)/scatter_binomial.Po \
+	src/$(DEPDIR)/process.Po src/$(DEPDIR)/reduce_linear.Po \
+	src/$(DEPDIR)/scatter_binomial.Po \
 	src/$(DEPDIR)/taulop_concurrent.Po \
 	src/$(DEPDIR)/taulop_cost.Po src/$(DEPDIR)/taulop_operator.Po \
 	src/$(DEPDIR)/taulop_params.Po \
@@ -347,7 +350,8 @@ libtaulop_a_HEADERS = include/ilist.h config.h include/taulop_config.h \
 	include/gather_binomial.hpp include/gatherv_binomial.hpp \
 	include/scatter_binomial.hpp \
 	include/bcast_binomial_openmpi.hpp include/graph.hpp \
-	include/graph_collective.hpp
+	include/graph_collective.hpp include/reduce_linear.hpp \
+	include/computation.hpp
 libtaulop_a_SOURCES = src/process.cpp src/taulop_cost.cpp \
 	src/transmission.cpp src/taulop_params.cpp \
 	src/taulop_operator.cpp src/taulop_sequence.cpp \
@@ -357,7 +361,8 @@ libtaulop_a_SOURCES = src/process.cpp src/taulop_cost.cpp \
 	src/allgather_ring.cpp src/bcast_binomial.cpp \
 	src/gather_binomial.cpp src/gatherv_binomial.cpp \
 	src/scatter_binomial.cpp src/bcast_binomial_openmpi.cpp \
-	src/graph.cpp src/graph_collective.cpp
+	src/graph.cpp src/graph_collective.cpp src/reduce_linear.cpp \
+	src/computation.cpp
 EXTRA_DIST = 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -491,6 +496,10 @@ src/bcast_binomial_openmpi.$(OBJEXT): src/$(am__dirstamp) \
 src/graph.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/graph_collective.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/reduce_linear.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/computation.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 
 libtaulop.a: $(libtaulop_a_OBJECTS) $(libtaulop_a_DEPENDENCIES) $(EXTRA_libtaulop_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libtaulop.a
@@ -511,12 +520,14 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/bcast_linear.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/collective.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/communicator.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/computation.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/gather_binomial.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/gatherv_binomial.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/graph.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/graph_collective.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/mapping.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/process.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/reduce_linear.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/scatter_binomial.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/taulop_concurrent.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/taulop_cost.Po@am__quote@ # am--include-marker
@@ -846,12 +857,14 @@ distclean: distclean-am
 	-rm -f src/$(DEPDIR)/bcast_linear.Po
 	-rm -f src/$(DEPDIR)/collective.Po
 	-rm -f src/$(DEPDIR)/communicator.Po
+	-rm -f src/$(DEPDIR)/computation.Po
 	-rm -f src/$(DEPDIR)/gather_binomial.Po
 	-rm -f src/$(DEPDIR)/gatherv_binomial.Po
 	-rm -f src/$(DEPDIR)/graph.Po
 	-rm -f src/$(DEPDIR)/graph_collective.Po
 	-rm -f src/$(DEPDIR)/mapping.Po
 	-rm -f src/$(DEPDIR)/process.Po
+	-rm -f src/$(DEPDIR)/reduce_linear.Po
 	-rm -f src/$(DEPDIR)/scatter_binomial.Po
 	-rm -f src/$(DEPDIR)/taulop_concurrent.Po
 	-rm -f src/$(DEPDIR)/taulop_cost.Po
@@ -914,12 +927,14 @@ maintainer-clean: maintainer-clean-am
 	-rm -f src/$(DEPDIR)/bcast_linear.Po
 	-rm -f src/$(DEPDIR)/collective.Po
 	-rm -f src/$(DEPDIR)/communicator.Po
+	-rm -f src/$(DEPDIR)/computation.Po
 	-rm -f src/$(DEPDIR)/gather_binomial.Po
 	-rm -f src/$(DEPDIR)/gatherv_binomial.Po
 	-rm -f src/$(DEPDIR)/graph.Po
 	-rm -f src/$(DEPDIR)/graph_collective.Po
 	-rm -f src/$(DEPDIR)/mapping.Po
 	-rm -f src/$(DEPDIR)/process.Po
+	-rm -f src/$(DEPDIR)/reduce_linear.Po
 	-rm -f src/$(DEPDIR)/scatter_binomial.Po
 	-rm -f src/$(DEPDIR)/taulop_concurrent.Po
 	-rm -f src/$(DEPDIR)/taulop_cost.Po

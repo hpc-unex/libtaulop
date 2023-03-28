@@ -23,7 +23,9 @@ libtaulop_a_HEADERS += include/ilist.h \
   include/scatter_binomial.hpp \
   include/bcast_binomial_openmpi.hpp \
   include/graph.hpp \
-  include/graph_collective.hpp
+  include/graph_collective.hpp \
+  include/reduce_linear.hpp \
+  include/computation.hpp
 
 
 

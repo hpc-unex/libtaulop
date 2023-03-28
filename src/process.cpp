@@ -55,17 +55,17 @@ void Process::setNode (int node) {
 }
 
 
-int Process::getRank () {
+int Process::getRank ()  const {
     return this->rank;
 }
 
 
-int Process::getRankIntra () {
+int Process::getRankIntra ()  const {
     return this->rankIntra;
 }
 
 
-int Process::getNode () {
+int Process::getNode ()  const {
     return this->node;
 }
 
@@ -77,4 +77,11 @@ void Process::show () {
 ostream& Process::operator<< (ostream& outs) {
     outs << " [" << this->rank << "]: ";
     return outs;
+}
+
+
+void Process::operator = (const Process &c) {
+   this->rank      = c.rank;
+   this->rankIntra = c.rankIntra;
+   this->node      = c.node;
 }

@@ -1,5 +1,5 @@
 //
-//  algorithm_taulop_pbrcol.cpp
+//  taulop_concurrent.cpp
 //  TauLopCost
 //
 //  Created by jarico on 9/5/16.
