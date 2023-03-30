@@ -248,6 +248,20 @@ bool Transmission::areConcurrent (const Transmission *c) {
 }
 
 
+bool Transmission::areConcurrent (const Transmission &c) {
+    
+    // Condition for considering two communications as concurrent
+    if ( (this->channel == c.channel) &&
+        (this->node_dst == c.node_dst) )
+        
+    //if (this->channel == c->channel)
+        return true;
+    
+    return false;
+}
+
+
+
 void Transmission::getOverlap (const Transmission *c) {
 
     // Create a communication representing the overlap between two concurrent

@@ -25,23 +25,21 @@ TauLopSequence::~TauLopSequence () {
 }
 
 
-void TauLopSequence::add (Transmission *c) {
+void TauLopSequence::add (const Transmission &c) {
    this->l_seq.push_back(c);
 }
 
 
-Transmission * TauLopSequence::get () {
+Transmission & TauLopSequence::get () {
    return this->l_seq.front();
 }
 
 
 void TauLopSequence::substract (double t_min, int tau) {
-   
-   Transmission *c = nullptr;
-   
+      
    if (! this->l_seq.empty()) {
       
-      c = this->l_seq.front();
+      Transmission &c = this->l_seq.front();
       
 #if BUG_T == 0
       // Substract proportional time in blocks
@@ -54,22 +52,17 @@ void TauLopSequence::substract (double t_min, int tau) {
       //            overlap = c->getBytes(t_min, 1);
       //        }
       
-      overlap = c->getBytes(t_min, tau);
+      overlap = c.getBytes(t_min, tau);
       
       if (overlap < 0)
          cout << "DBG ERROR: pbrcol - not allowed overlap < 0" << endl;
       
-      long curr_m = c->getM();
-      
-      // DBG: cout << "Overlap in " << overlap << " bytes with " << curr_n << " and " << tau << "||. ";
-      
+      long curr_m = c.getM();
+            
       if ((curr_m - overlap) > 0) { // TBD: a threshold for rounding issues could be convenient
-         c->putM(curr_m - overlap);
-         // DBG: cout << "Left: " << c->getN() << endl;
+         c.putM(curr_m - overlap);
       } else { // == 0
          this->l_seq.pop_front();
-         delete c;
-         // DBG: cout << "Deleted." << endl;
       }
       
 #else
@@ -93,9 +86,8 @@ void TauLopSequence::substract (double t_min, int tau) {
       
       if (mx == 0) {
          this->l_seq.pop_front();
-         delete c;
       } else {
-         c->putN(mx);
+         c.putN(mx);
       }
       
 #endif
@@ -110,25 +102,23 @@ bool TauLopSequence::empty () {
 
 void TauLopSequence::compact () {
    
-   Transmission *c  = nullptr;
-   Transmission *c2 = nullptr;
-   
-   if (! this->l_seq.empty()) {
-      c = this->l_seq.front();
+   if (this->l_seq.empty()) {
+      return;
    }
+      
+   Transmission &c = this->l_seq.front();
    
-   list<Transmission*>::iterator it = this->l_seq.begin();
+   list<Transmission>::iterator it = this->l_seq.begin();
    it++;
 
    while (it != this->l_seq.end()) {
       
-      c2 = *it;
+      Transmission &c2 = *it;
       
-      if (c->areConcurrent(c2) && (c->getTau() == c2->getTau())) {
+      if (c.areConcurrent(c2) && (c.getTau() == c2.getTau())) {
          
-         c->putM(c->getM() + c2->getM());
+         c.putM(c.getM() + c2.getM());
          this->l_seq.erase(it);
-         delete c2;
          
       } else {
          it++;
@@ -140,27 +130,24 @@ void TauLopSequence::compact () {
 
 void TauLopSequence::show () {
    
-   Transmission *c = nullptr;
-   
-   
    for (int field = 0; field < 3; field++) {
       
-      list<Transmission*>::iterator it;
+      list<Transmission>::iterator it;
       for (it = this->l_seq.begin(); it != this->l_seq.end(); it++) {
 
-         c = *it;
+         Transmission &c = *it;
          
          switch (field) {
             case 0: // show procs
-               if (c != nullptr) {
-                  cout << c->getSrcRank() << " -> " << c->getDstRank() << "\t\t\t";
+               if (c.getM() != 0) {
+                  cout << c.getSrcRank() << " -> " << c.getDstRank() << "\t\t\t";
                } else {
                   cout << "       " << "\t\t";
                }
                break;
             case 1: // show Transmission
-               if (c != nullptr) {
-                  cout << c->getTau() << "||"  << c->getN() << "xT^" << c->getChannel() << "(" << c->getM() << ")";
+               if (c.getM() != 0) {
+                  cout << c.getTau() << "||"  << c.getN() << "xT^" << c.getChannel() << "(" << c.getM() << ")";
                   if (it != this->l_seq.end()) cout << "  *-/ ";
                   else                         cout << "  *-> \t";
                } else {
@@ -168,8 +155,8 @@ void TauLopSequence::show () {
                }
                break;
             case 2: // show nodes
-               if (c != nullptr) {
-                  cout << c->getSrcNode() << " -> " << c->getDstNode() << "\t\t\t";
+               if (c.getM() != 0) {
+                  cout << c.getSrcNode() << " -> " << c.getDstNode() << "\t\t\t";
                } else {
                   cout << "          " << "\t\t";
                }

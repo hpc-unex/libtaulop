@@ -163,8 +163,10 @@ TauLopOperator::~TauLopOperator () {
 }
 
 
-void TauLopOperator::add (Transmission *c) {
-   this->l_comm.push_back(c);
+void TauLopOperator::add (const Transmission &c) {
+   
+   Transmission *c_ptr = new Transmission(c);
+   this->l_comm.push_back(c_ptr);
 }
 
 
@@ -220,7 +222,7 @@ Transmission  TauLopOperator::getMinCost () {
 
 
 
-int TauLopOperator::getConcurrency (Transmission * c) {
+int TauLopOperator::getConcurrency (const Transmission &c) {
    
    bool  found = false;
    int   tau   = 0;

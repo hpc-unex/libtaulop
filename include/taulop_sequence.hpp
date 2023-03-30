@@ -18,15 +18,15 @@ class TauLopSequence {
    
 private:
    
-   list<Transmission *> l_seq;
+   list<Transmission> l_seq;
    
 public:
    
             TauLopSequence  ();
            ~TauLopSequence  ();
    
-   void           add       (Transmission *c);
-   Transmission  *get       ();
+   void           add       (const Transmission &c);
+   Transmission  &get       ();
    void           substract (double t_min, int tau);
    bool           empty     ();
    void           compact   ();

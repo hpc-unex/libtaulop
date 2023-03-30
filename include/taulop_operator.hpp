@@ -36,10 +36,10 @@ public:
           TauLopOperator  ();
          ~TauLopOperator  ();
    
-   void   add             (Transmission *  c);
+   void   add             (const Transmission &c);
    void   evaluate        ();
    Transmission  getMinCost ();
-   int    getConcurrency  (Transmission *  c); // Get the concurrency (tau) of the comm in the same channel
+   int    getConcurrency  (const Transmission &c); // Get the concurrency (tau) of the comm in the same channel
    
    void   show_init_comms ();
    void   show_concurrent ();

@@ -43,7 +43,7 @@ bool TauLopConcurrent::empty () {
 
 void TauLopConcurrent::evaluate (TauLopCost *tc) {
    
-   Transmission *c = nullptr;
+   //Transmission *c = nullptr;
    
 #if TLOP_DEBUG == 1
    this->show();
@@ -69,7 +69,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
          seq = *it;
          
          if (! seq->empty()) {
-            c = seq->get();
+            Transmission &c = seq->get();
             opr.add(c);
             remain = true;
          }
@@ -98,15 +98,13 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
          seq = *it;
          
          if (! seq->empty()) {
-            Transmission *c = seq->get();
-            
-            if (c != nullptr) {
-               int tau = opr.getConcurrency(c);
-               if (tau == 0)
-                  cout << "DBG: Error, Comm not found in the concurrent list." << endl;
-               seq->substract(min_c.getCost(), tau);
+
+            Transmission &c = seq->get();
+            int tau = opr.getConcurrency(c);
+            if (tau == 0)
+               cout << "DBG: Error, Comm not found in the concurrent list." << endl;
+            seq->substract(min_c.getCost(), tau);
                
-            }
          }
          
       }

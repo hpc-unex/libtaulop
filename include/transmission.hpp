@@ -78,6 +78,7 @@ public:
    long   getBytes   (double t, int tau)  const; // Inverse: bytes sent in time t when tau concurrent
    
    bool   areConcurrent  (const Transmission *c);
+   bool   areConcurrent  (const Transmission &c);
    void   getOverlap     (const Transmission *c);
    
    bool   areCompactable (const Transmission *c);
