@@ -10,8 +10,8 @@
 #define taulop_sequence_hpp
 
 #include "transmission.hpp"
-#include <list>
 
+#include <list>
 #include <iostream>
 
 class TauLopSequence {

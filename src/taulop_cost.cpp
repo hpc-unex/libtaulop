@@ -76,7 +76,7 @@ void TauLopCost::add (const TauLopCost *tc) {
 }
 
 
-double TauLopCost::getTime () {
+double TauLopCost::getTime () const {
     
     Transmission   *T;
     double  t = 0.0;
@@ -94,7 +94,7 @@ double TauLopCost::getTime () {
 }
 
 
-double TauLopCost::getTime (int chn) {
+double TauLopCost::getTime (int chn) const {
     
     Transmission   *T;
     double  t = 0.0;
@@ -115,7 +115,7 @@ double TauLopCost::getTime (int chn) {
 
 
 
-long TauLopCost::getVolume () {
+long TauLopCost::getVolume () const {
     
     Transmission  *T;
     long   vol = 0;
@@ -133,7 +133,7 @@ long TauLopCost::getVolume () {
 }
 
 
-long TauLopCost::getVolume (int chn) {
+long TauLopCost::getVolume (int chn) const {
     
     Transmission  *T;
     long   vol = 0;
@@ -217,7 +217,7 @@ void TauLopCost::compact () {
 }
 
 
-void TauLopCost::show () {
+void TauLopCost::show () const {
     
     Transmission *c = nullptr;
     

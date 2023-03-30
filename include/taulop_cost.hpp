@@ -23,20 +23,20 @@ private:
     
 public:
     
-     TauLopCost ();
-     TauLopCost (const TauLopCost *tc);
-    ~TauLopCost ();
+           TauLopCost  ();
+           TauLopCost  (const TauLopCost *tc);
+          ~TauLopCost  ();
     
-    void   add     (Transmission *c);
-    void   add     (const TauLopCost *tc);
-    void   compact ();  // Show cost in BLOCKS
+    void   add         (Transmission *c);
+    void   add         (const TauLopCost *tc);
+    void   compact     ();  // Show cost in BLOCKS
 
-    double getTime     ();
-    double getTime     (int chn);
-    long   getVolume   ();
-    long   getVolume   (int chn);
+    double getTime     ()         const;
+    double getTime     (int chn)  const;
+    long   getVolume   ()         const;
+    long   getVolume   (int chn)  const;
     
-    void   show ();
+    void   show        ()         const;
     
 };
 

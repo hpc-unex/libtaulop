@@ -11,9 +11,9 @@
 #ifndef taulop_operator_hpp
 #define taulop_operator_hpp
 
-#include <list>
 #include "transmission.hpp"
 
+#include <list>
 #include <iostream>
 
 

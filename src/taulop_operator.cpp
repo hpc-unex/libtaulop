@@ -8,6 +8,9 @@
 
 #include "taulop_operator.hpp"
 
+#include <list>
+#include <iostream>
+using namespace std;
 
 
 // UTILITY Functions
