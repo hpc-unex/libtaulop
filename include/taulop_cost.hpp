@@ -9,9 +9,9 @@
 #ifndef taulop_cost_hpp
 #define taulop_cost_hpp
 
-#include "ilist.h"
 #include "transmission.hpp"
 
+#include <list>
 #include <iostream>
 
 
@@ -19,7 +19,7 @@ class TauLopCost {
     
 private:
     
-    IList<Transmission *> *cost;
+    list<Transmission *> l_cost;
     
 public:
     
