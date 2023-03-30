@@ -280,6 +280,22 @@ void Transmission::compact (const Transmission *c) {
 }
 
 
+bool Transmission::areCompactable (const Transmission &c) {
+    
+    if ((this->tau == c.tau) && (this->channel == c.channel))
+       return true;
+    else
+       return false;
+}
+
+
+void Transmission::compact (const Transmission &c) {
+    // Used for showing. Compact comms in the same channel and with the same tau
+    //  Result has m=1, and all the wieght is in n
+    this->m = this->m + (c.m * c.n);
+}
+
+
 bool Transmission::areSequential (const Transmission *c) {
 
     int r1_src = -1;

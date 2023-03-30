@@ -19,7 +19,7 @@ class TauLopCost {
     
 private:
     
-    list<Transmission *> l_cost;
+    list<Transmission> l_cost;
     
 public:
     
@@ -27,7 +27,7 @@ public:
            TauLopCost  (const TauLopCost *tc);
           ~TauLopCost  ();
     
-    void   add         (Transmission *c);
+    void   add         (const Transmission &c);
     void   add         (const TauLopCost *tc);
     void   compact     ();  // Show cost in BLOCKS
 

@@ -38,7 +38,7 @@ public:
    
    void   add             (Transmission *  c);
    void   evaluate        ();
-   Transmission * getMinCost ();
+   Transmission  getMinCost ();
    int    getConcurrency  (Transmission *  c); // Get the concurrency (tau) of the comm in the same channel
    
    void   show_init_comms ();

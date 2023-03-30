@@ -200,9 +200,9 @@ void TauLopOperator::evaluate () {
 }
 
 
-Transmission * TauLopOperator::getMinCost () {
+Transmission  TauLopOperator::getMinCost () {
 
-   Transmission *c = nullptr;
+   //Transmission *c = nullptr;
    Transmission c_min;
    
    list<Transmission>::iterator it;
@@ -213,8 +213,9 @@ Transmission * TauLopOperator::getMinCost () {
       
    }
    
-   c = new Transmission(c_min);
-   return c;
+   //c = new Transmission(c_min);
+   //return c;
+   return c_min;
 }
 
 

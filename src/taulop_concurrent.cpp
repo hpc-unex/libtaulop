@@ -55,9 +55,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
    // 1. Calculate the cost in parts. Each minimum part of concurrent comms is
    //    found and added to the cost. Then, it is removed from the rest.
    while (true) {
-      
-      Transmission *min_c = nullptr;
-      
+            
       // 1a. An operator is the algorithm for calculating costs
       TauLopOperator *opr = new TauLopOperator ();
       
@@ -87,14 +85,14 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
 #endif
       
       opr->evaluate();
-      min_c = opr->getMinCost();
+      Transmission min_c = opr->getMinCost();
       
 #if TLOP_DEBUG == 1
       // DBG:
       opr->show_concurrent();
       
       // DBG:
-      cout << "Minimum cost: " << endl; min_c->show();
+      cout << "Minimum cost: " << endl; min_c.show();
 #endif
       
       // 1d. Update the current communication. The cost processed is substracted from the
@@ -109,7 +107,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
                int tau = opr->getConcurrency(c);
                if (tau == 0)
                   cout << "DBG: Error, Comm not found in the concurrent list." << endl;
-               seq->substract(min_c->getCost(), tau);
+               seq->substract(min_c.getCost(), tau);
                
             }
          }
@@ -118,9 +116,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
       
       // 1e. Add the interval size to the cost.
       tc->add(min_c);
-      
-      delete min_c;
-      
+            
 #if TLOP_DEBUG == 1
       // DBG:
       tc->show();

@@ -82,7 +82,10 @@ public:
    
    bool   areCompactable (const Transmission *c);
    void   compact        (const Transmission *c);
-   
+
+   bool   areCompactable (const Transmission &c);
+   void   compact        (const Transmission &c);
+
    bool   areSequential  (const Transmission *c);
    void   add            (const Transmission *c);
    
