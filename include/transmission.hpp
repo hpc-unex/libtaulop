@@ -41,10 +41,9 @@ private:
 public:
    
       Transmission   ();
-      //Transmission   (Process *p_src, Process *p_dst, int channel, int n, int m, int tau);
       Transmission   (const Process &p_src, const Process &p_dst, int channel, int n, int m, int tau);
-      Transmission   (Process *p_src, Process *p_dst, int n, int m, int tau);
-      Transmission   (Process *p_src, Process *p_dst, int m, int tau);
+      Transmission   (const Process &p_src, const Process &p_dst, int n, int m, int tau);
+      Transmission   (const Process &p_src, const Process &p_dst, int m, int tau);
       Transmission   (int channel, int n, int m, int tau);
       Transmission   (int channel, int m, int tau);
       Transmission   (const Transmission *c);

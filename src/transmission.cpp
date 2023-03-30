@@ -22,20 +22,6 @@ Transmission::Transmission () {
    this->params = TauLopParam::getInstance();
 }
 
-/*
-Transmission::Transmission (Process *p_src, Process *p_dst, int channel, int n, int m, int tau) {
-   this->p_src    = *p_src;
-   this->p_dst    = *p_dst;
-   this->node_src = p_src->getNode();
-   this->node_dst = p_dst->getNode();
-   this->channel  = channel;
-   this->n        = n;
-   this->m        = m;
-   this->tau      = tau;
-   
-   this->params = TauLopParam::getInstance();
-}
-*/
 
 Transmission::Transmission (const Process &p_src, const Process &p_dst, int channel, int n, int m, int tau) {
    this->p_src    = p_src;
@@ -51,12 +37,12 @@ Transmission::Transmission (const Process &p_src, const Process &p_dst, int chan
 }
 
 
-Transmission::Transmission (Process *p_src, Process *p_dst, int n, int m, int tau) {
-   this->p_src    = *p_src;
-   this->p_dst    = *p_dst;
-   this->node_src = p_src->getNode();
-   this->node_dst = p_dst->getNode();
-   this->channel = (this->node_src == this->node_dst) ? 0 : 1;
+Transmission::Transmission (const Process &p_src, const Process &p_dst, int n, int m, int tau) {
+   this->p_src    = p_src;
+   this->p_dst    = p_dst;
+   this->node_src = p_src.getNode();
+   this->node_dst = p_dst.getNode();
+   this->channel  = (this->node_src == this->node_dst) ? 0 : 1;
    this->n        = n;
    this->m        = m;
    this->tau      = tau;
@@ -64,12 +50,12 @@ Transmission::Transmission (Process *p_src, Process *p_dst, int n, int m, int ta
    this->params = TauLopParam::getInstance();
 }
 
-Transmission::Transmission (Process *p_src, Process *p_dst, int m, int tau) {
-   this->p_src    = *p_src;
-   this->p_dst    = *p_dst;
-   this->node_src = p_src->getNode();
-   this->node_dst = p_dst->getNode();
-   this->channel = (this->node_src == this->node_dst) ? 0 : 1;
+Transmission::Transmission (const Process &p_src, const Process &p_dst, int m, int tau) {
+   this->p_src    = p_src;
+   this->p_dst    = p_dst;
+   this->node_src = p_src.getNode();
+   this->node_dst = p_dst.getNode();
+   this->channel  = (this->node_src == this->node_dst) ? 0 : 1;
    this->n        = 1;
    this->m        = m;
    this->tau      = tau;
