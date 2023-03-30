@@ -17,23 +17,23 @@
 
 
 class TauLopConcurrent {
-    
+   
 private:
-    
-    list<TauLopSequence *> l_conc;
-    
+   
+   list<TauLopSequence *> l_conc;
+   
 public:
-    
-    TauLopConcurrent  ();
-    ~TauLopConcurrent ();
-    
-    void             add       (TauLopSequence *s);
-    TauLopSequence  *get       ();
-    bool             empty     ();
-    
-    void             evaluate  (TauLopCost *tc);
-
-    void  show ();
+   
+             TauLopConcurrent ();
+            ~TauLopConcurrent ();
+   
+   void             add       (TauLopSequence *s);
+   TauLopSequence  *get       ()  const;
+   bool             empty     ()  const;
+   
+   void             evaluate  (TauLopCost *tc);
+   
+   void             show      ()  const;
 };
 
 #endif /* taulop_concurrent_hpp */

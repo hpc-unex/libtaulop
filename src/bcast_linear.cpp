@@ -23,58 +23,64 @@ using namespace std;
 
 
 BcastLinear::BcastLinear () {
-    
+   
 }
 
 BcastLinear::~BcastLinear () {
-    
-    
+   
+   
 }
 
 
 TauLopCost * BcastLinear::evaluate (Communicator *comm, int *size, int root) {
-    
-    TauLopConcurrent *conc;
-    TauLopSequence   *seq;
-    Transmission     *c;
-    Process          *p_src, *p_dst;
-        
-    int P = comm->getSize();
-        
-    conc = new TauLopConcurrent ();
-    seq  = new TauLopSequence ();
-    
-    for (int rank = 0; rank < P; rank++) {
-        
-        if (rank == root)  continue;
+   
+   TauLopConcurrent *conc;
+   TauLopSequence   *seq;
+   Transmission     *c;
+   
+   int P = comm->getSize();
+   
+   conc = new TauLopConcurrent ();
+   seq  = new TauLopSequence ();
+   
+   for (int rank = 0; rank < P; rank++) {
+      
+      if (rank == root)  continue;
+      
+      int node_src = comm->getNode(root);
+      int node_dst = comm->getNode(rank);
+      
+      Process p_src {root, node_src};
+      Process p_dst {rank, node_dst};
+      
+      int channel = (node_src == node_dst) ? 0 : 1;
 
-        p_src = new Process (root, comm->getNode(root));
-        p_dst = new Process (rank, comm->getNode(rank));
-        
-        int tau = 1;
-        
-        c = new Transmission(p_src, p_dst, *size, tau);
-        seq->add(c);
-    }
-    
-    conc->add(seq);
-    
+      int tau = 1;
+      
+      int n = 1;
+      
+      c = new Transmission(p_src, p_dst, channel, n, *size, tau);
+      seq->add(c);
+   }
+   
+   conc->add(seq);
+   
 #if TLOP_DEBUG == 1
-    cout << " ----  Root " << root << endl;
-    conc->show();
+   cout << " ----  Root " << root << endl;
+   conc->show();
 #endif
-    
-    TauLopCost *cost = new TauLopCost();
-    
-    conc->evaluate(cost);
-    
+   
+   TauLopCost *cost = new TauLopCost();
+   
+   conc->evaluate(cost);
+   
 #if TLOP_DEBUG == 1
-    cout << "  --------  Cost:  " << endl;
-    cost->show();
+   cout << "  --------  Cost:  " << endl;
+   cost->show();
 #endif
-    
-    delete conc;
-    
-    return cost;
+   
+   delete conc;
+   
+   return cost;
 }
 

@@ -70,7 +70,7 @@ int Process::getNode ()  const {
 }
 
 
-void Process::show () {
+void Process::show () const {
     cout << "[Process: " << this->rank << "/" << this->rankIntra << " running on: " << this->node<< "] " << endl;
 }
 

@@ -22,75 +22,72 @@ using namespace std;
 
 
 ScatterBinomial::ScatterBinomial () {
-    
+   
 }
 
 ScatterBinomial::~ScatterBinomial () {
-    
+   
 }
 
 
 TauLopCost * ScatterBinomial::evaluate (Communicator *comm, int *size, int root) {
-        
-    TauLopConcurrent *conc;
-    TauLopSequence   *seq;
-    Transmission     *c;
-    Process          *p_src, *p_dst;
-    
-    
-    TauLopCost *cost = new TauLopCost();
-    
-    int P = comm->getSize();
-    
-    for (int stage = 0; pow(2, stage) < P; stage++) {
-                
-        conc = new TauLopConcurrent ();
-
-        int p = root;
-        
-        for (int t = 0; t < pow(2, stage); t++) {
-            
-            seq = new TauLopSequence ();
-            
-            int src = p;
-            int dst = src + P / pow(2, stage + 1);
-            dst = dst % P;
-            
-            
-            p_src = new Process (src, comm->getNode(src));
-            p_dst = new Process (dst, comm->getNode(dst));
-            
-            int channel = (p_src->getNode() == p_dst->getNode()) ? 0 : 1;
-            
-            int stagesize = (*size) * pow(2, stage);
-            int m    = 1;
-            int tau  = 1;
-            
-            c = new Transmission(p_src, p_dst, channel, m, stagesize, tau);
-            seq->add(c);
-            
-            conc->add(seq);
-            
-            p = p + (P / pow(2, stage));
-            p = p % P;
-            
-        }
-        
+   
+   TauLopConcurrent *conc;
+   TauLopSequence   *seq;
+   Transmission     *c;
+   
+   TauLopCost       *cost = new TauLopCost();
+   
+   int P = comm->getSize();
+   
+   for (int stage = 0; pow(2, stage) < P; stage++) {
+      
+      conc = new TauLopConcurrent ();
+      
+      int p = root;
+      
+      for (int t = 0; t < pow(2, stage); t++) {
+         
+         seq = new TauLopSequence ();
+         
+         int src = p;
+         int dst = src + P / pow(2, stage + 1);
+         dst = dst % P;
+         
+         Process p_src {src, comm->getNode(src)};
+         Process p_dst {dst, comm->getNode(dst)};
+         
+         int channel = (p_src.getNode() == p_dst.getNode()) ? 0 : 1;
+         
+         int stagesize = (*size) * pow(2, stage);
+         int m    = 1;
+         int tau  = 1;
+         
+         c = new Transmission(p_src, p_dst, channel, m, stagesize, tau);
+         seq->add(c);
+         
+         conc->add(seq);
+         
+         p = p + (P / pow(2, stage));
+         p = p % P;
+         
+      }
+      
 #if TLOP_DEBUG == 1
-        cout << " ----  Stage " << stage << endl;
-        conc->show();
+      cout << " ----  Stage " << stage << endl;
+      conc->show();
 #endif
-        
-        conc->evaluate(cost);
-        
+      
+      conc->evaluate(cost);
+      
 #if TLOP_DEBUG == 1
-        cout << "  --------  Cost:  " << endl;
-        cost->show();
+      cout << "  --------  Cost:  " << endl;
+      cost->show();
 #endif
-        
-        delete conc;
-    }
-    
-    return cost;
+      
+      delete conc;
+   }
+   
+   return cost;
 }
 

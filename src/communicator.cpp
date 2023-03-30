@@ -13,7 +13,7 @@
 using namespace std;
 
 
-Communicator::Communicator  (int P) {
+Communicator::Communicator (int P) {
     
     this->P = P;
     this->mapping = new Mapping(P);

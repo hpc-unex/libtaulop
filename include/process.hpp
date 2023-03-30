@@ -23,24 +23,24 @@ protected:
    
 public:
    
-   Process  ();
-   Process  (int rank);
-   Process  (int rank, int node);
-   Process  (const Process *p);
-   ~Process ();
+          Process       ();
+          Process       (int rank);
+          Process       (int rank, int node);
+          Process       (const Process *p);
+         ~Process       ();
    
    void   setRank       (int rank);
    void   setRankIntra  (int rank);
    void   setNode       (int node);
    
-   int    getRank       () const;
-   int    getRankIntra  () const;
-   int    getNode       () const;
+   int    getRank       ()  const;
+   int    getRankIntra  ()  const;
+   int    getNode       ()  const;
    
-   void show  ();
+   void   show          ()  const;
+   
    ostream& operator<< (ostream& outs);
-   
-   void operator = (const Process &c);
+   void     operator = (const Process &c);
    
 };
 

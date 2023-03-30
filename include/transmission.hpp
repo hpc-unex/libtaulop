@@ -27,8 +27,8 @@ class Transmission {
    
 private:
    
-   Process * p_src;  // Source process
-   Process * p_dst;  // Destination process
+   Process p_src;    // Source process
+   Process p_dst;    // Destination process
    int  node_src;    // Source node
    int  node_dst;    // Destination node
    int  channel;     // Channels through which the transmission progress
@@ -41,7 +41,8 @@ private:
 public:
    
       Transmission   ();
-      Transmission   (Process *p_src, Process *p_dst, int channel, int n, int m, int tau);
+      //Transmission   (Process *p_src, Process *p_dst, int channel, int n, int m, int tau);
+      Transmission   (const Process &p_src, const Process &p_dst, int channel, int n, int m, int tau);
       Transmission   (Process *p_src, Process *p_dst, int n, int m, int tau);
       Transmission   (Process *p_src, Process *p_dst, int m, int tau);
       Transmission   (int channel, int n, int m, int tau);
@@ -50,8 +51,8 @@ public:
       Transmission   (const Transmission &c);
      ~Transmission   ();
    
-   void   putProcSrc (Process *p);
-   void   putProcDst (Process *p);
+   void   putProcSrc (const Process &p);
+   void   putProcDst (const Process &p);
    
    int    getMsgSize ()  const;
    
@@ -91,22 +92,9 @@ public:
    bool   areSequential  (const Transmission *c);
    void   add            (const Transmission *c);
    
-   void   show       ()  const;
+   Transmission& operator=  (const Transmission &c);
    
-   Transmission & operator=  (const Transmission &c) {
-      
-      this->p_src = c.p_src;
-      this->p_dst = c.p_dst;
-      this->node_src = c.node_src;
-      this->node_dst = c.node_dst;
-      this->channel  = c.channel;
-      this->n        = c.n;
-      this->m        = c.m;
-      this->tau      = c.tau;
-      this->params   = TauLopParam::getInstance();
-
-      return *this;
-   }
+   void   show           ()  const;
 };
 
 #endif /* transmission_hpp */

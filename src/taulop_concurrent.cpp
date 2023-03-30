@@ -31,12 +31,12 @@ void TauLopConcurrent::add (TauLopSequence *s) {
 }
 
 
-TauLopSequence * TauLopConcurrent::get () {
+TauLopSequence * TauLopConcurrent::get () const {
    return this->l_conc.front();
 }
 
 
-bool TauLopConcurrent::empty () {
+bool TauLopConcurrent::empty () const {
    return this->l_conc.empty();
 }
 
@@ -119,11 +119,11 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
 }
 
 
-void TauLopConcurrent::show () {
+void TauLopConcurrent::show () const {
    
    int  count = 1;
    
-   list<TauLopSequence *>::iterator it;
+   list<TauLopSequence *>::const_iterator it;
    for (it = this->l_conc.begin(); it != this->l_conc.end(); it++) {
       
       cout << "Seq[" << count << "] *-> " << endl;
