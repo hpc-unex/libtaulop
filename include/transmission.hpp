@@ -80,6 +80,7 @@ public:
    bool   areConcurrent  (const Transmission *c);
    bool   areConcurrent  (const Transmission &c);
    void   getOverlap     (const Transmission *c);
+   void   getOverlap     (const Transmission &c);
    
    bool   areCompactable (const Transmission *c);
    void   compact        (const Transmission *c);

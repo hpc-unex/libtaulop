@@ -24,11 +24,10 @@ class TauLopOperator {
 private:
       
    // Initial communication starting at the same time (possibly concurrent)
-   list<Transmission *> l_comm;
+   list<Transmission> l_comm;
    // Real concurrent communication from l_comm
    list<Transmission> l_real_conc;
    
-   void  show  (list<Transmission *> l);
    void  show  (list<Transmission> l);
    
 public:

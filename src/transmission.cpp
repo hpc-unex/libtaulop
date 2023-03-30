@@ -252,10 +252,11 @@ bool Transmission::areConcurrent (const Transmission &c) {
     
     // Condition for considering two communications as concurrent
     if ( (this->channel == c.channel) &&
-        (this->node_dst == c.node_dst) )
-        
-    //if (this->channel == c->channel)
-        return true;
+        (this->node_dst == c.node_dst) ) {
+       
+       //if (this->channel == c->channel)
+       return true;
+    }
     
     return false;
 }
@@ -276,6 +277,23 @@ void Transmission::getOverlap (const Transmission *c) {
     }
     
     this->tau += c->tau;
+}
+
+
+void Transmission::getOverlap (const Transmission &c) {
+
+    // Create a communication representing the overlap between two concurrent
+    //  communications through the same channel.
+    // They are concurrent over the minimum value of m and tau is increased.
+    // Both communications have the same n
+    if (this->n != c.n)
+        cout << "DBG Error: Comms have to have the same m" << endl;
+    
+    if (this->m > c.m) {
+        this->m = c.m;
+    }
+    
+    this->tau += c.tau;
 }
 
 

@@ -42,9 +42,7 @@ bool TauLopConcurrent::empty () {
 
 
 void TauLopConcurrent::evaluate (TauLopCost *tc) {
-   
-   //Transmission *c = nullptr;
-   
+      
 #if TLOP_DEBUG == 1
    this->show();
 #endif
@@ -95,6 +93,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
       // 1d. Update the current communication. The cost processed is substracted from the
       //     rest of the comms. in the PBR
       for (it = this->l_conc.begin(); it != this->l_conc.end(); it++) {
+         
          seq = *it;
          
          if (! seq->empty()) {
