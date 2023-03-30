@@ -1,6 +1,5 @@
 
-libtaulop_a_HEADERS += include/ilist.h \
-  config.h \
+libtaulop_a_HEADERS += config.h \
   include/taulop_config.h \
   include/process.hpp \
   include/taulop_cost.hpp \

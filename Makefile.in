@@ -338,7 +338,7 @@ AM_CXXFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/src
 lib_LIBRARIES = libtaulop.a
 libtaulop_adir = $(includedir)
 noinst_HEADERS = 
-libtaulop_a_HEADERS = include/ilist.h config.h include/taulop_config.h \
+libtaulop_a_HEADERS = config.h include/taulop_config.h \
 	include/process.hpp include/taulop_cost.hpp \
 	include/transmission.hpp include/taulop_kernel.hpp \
 	include/taulop_params.hpp include/taulop_operator.hpp \
