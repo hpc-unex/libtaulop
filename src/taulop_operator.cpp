@@ -195,7 +195,7 @@ void TauLopOperator::evaluate () {
       
       for (it = l_real_conc.begin(); (it != l_real_conc.end()) && !found; ++it) {
          
-         c_real = this->l_real_conc.front();
+         c_real = *it;
          
          if (c_real->areConcurrent(c_comm)) {
             found = true;
