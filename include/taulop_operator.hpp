@@ -23,8 +23,10 @@ class TauLopOperator {
    
 private:
       
-   list<Transmission *> l_comm;      // Initial communication starting at the same time (possibly concurrent)
-   list<Transmission *> l_real_conc; // Real concurrent communication from l_comm
+   // Initial communication starting at the same time (possibly concurrent)
+   list<Transmission *> l_comm;
+   // Real concurrent communication from l_comm
+   list<Transmission> l_real_conc;
    
    void  show  (list<Transmission *> l);
    void  show  (list<Transmission> l);
@@ -36,8 +38,8 @@ public:
    
    void   add             (Transmission *  c);
    void   evaluate        ();
-   double getMinCost      (Transmission * &c);
-   int    getConcurrency  (Transmission *  c); // Get the concurrency (tau) of the comm. in the same channel
+   Transmission * getMinCost ();
+   int    getConcurrency  (Transmission *  c); // Get the concurrency (tau) of the comm in the same channel
    
    void   show_init_comms ();
    void   show_concurrent ();

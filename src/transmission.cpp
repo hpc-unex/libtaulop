@@ -137,7 +137,7 @@ void Transmission::putProcDst (Process *p) {
 }
 
 
-int Transmission::getMsgSize () {
+int Transmission::getMsgSize () const {
     return (this->n);
 }
 
@@ -146,12 +146,12 @@ void Transmission::putChannel (int channel) {
     this->channel = channel;
 }
 
-int Transmission::getChannel () {
+int Transmission::getChannel () const {
     return this->channel;
 }
 
 
-int Transmission::getSrcRank () {
+int Transmission::getSrcRank () const {
     
     int rank = -1;
     
@@ -163,7 +163,7 @@ int Transmission::getSrcRank () {
 }
 
 
-int Transmission::getDstRank () {
+int Transmission::getDstRank () const {
 
     int rank = -1;
     
@@ -175,11 +175,11 @@ int Transmission::getDstRank () {
 }
 
 
-int Transmission::getSrcNode () {
+int Transmission::getSrcNode () const {
     return this->node_src;
 }
 
-int Transmission::getDstNode () {
+int Transmission::getDstNode () const {
     return this->node_dst;
 }
 
@@ -188,7 +188,7 @@ void Transmission::putM (long m) {
     this->m = m;
 }
 
-long Transmission::getM () {
+long Transmission::getM () const {
     return this->m;
 }
 
@@ -197,7 +197,7 @@ void Transmission::putN (int n) {
     this->n = n;
 }
 
-int Transmission::getN () {
+int Transmission::getN () const {
     return this->n;
 }
 
@@ -210,12 +210,12 @@ void Transmission::incrTau (int inc) {
     this->tau += inc;
 }
 
-int Transmission::getTau() {
+int Transmission::getTau() const {
     return this->tau;
 }
 
 
-double Transmission::getCost () {
+double Transmission::getCost () const {
     
     double t = 0.0;
     
@@ -225,7 +225,7 @@ double Transmission::getCost () {
 }
 
 
-long Transmission::getBytes (double t, int tau) {
+long Transmission::getBytes (double t, int tau) const {
   
     long b = 0;
     
@@ -301,7 +301,7 @@ void Transmission::add (const Transmission *c) {
 
 
 
-void Transmission::show () {
+void Transmission::show () const {
     
     if ((p_src != nullptr) && (p_dst != nullptr)) {
         cout << p_src->getRank() << " -> " << p_dst->getRank() << endl;

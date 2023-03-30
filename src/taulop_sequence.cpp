@@ -57,12 +57,10 @@ Transmission * TauLopSequence::get () {
 }
 
 
-void TauLopSequence::substract (Transmission *min_c, int tau) {
+void TauLopSequence::substract (double t_min, int tau) {
     
     Transmission *c = nullptr;
-    
-    double t_min = min_c->getCost();
-    
+        
     this->l_seq->moveToBegin();
     if (! this->l_seq->empty()) {
         

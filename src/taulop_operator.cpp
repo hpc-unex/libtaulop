@@ -12,30 +12,16 @@
 
 // UTILITY Functions
 
-static Transmission *MIN (Transmission *a, Transmission *b) {
+Transmission & MIN (Transmission &a, Transmission &b) {
    
-   if (a == nullptr) {
-      cout << " **  b  **" << endl;
-      b->show();
-      cout << "======================================" << endl;
+   if (a.getM() == 0) {
       return b;
    }
-   if (b == nullptr) {
-      cout << " **  a  **" << endl;
-      a->show();
-      cout << "======================================" << endl;
+   if (b.getM() == 0) {
       return a;
    }
-   
-   //if (a.getM() == 0) return b;
-   //if (b.getM() == 0) return a;
-   
-   a->show();
-   cout << "--------------------------------------" << endl;
-   b->show();
-   cout << "======================================" << endl;
-   
-   if (a->getCost() > b->getCost()) {
+      
+   if (a.getCost() > b.getCost()) {
       return b;
    } else {
       return a;
@@ -121,8 +107,6 @@ void TauLopOperator::show (list<Transmission *> l) {
 
 void TauLopOperator::show (list<Transmission> l) {
    
-   //Transmission *c = nullptr;
-   
    for (int field = 0; field < 7; field++) {
       
       list<Transmission>::iterator it;
@@ -184,8 +168,7 @@ void TauLopOperator::add (Transmission *c) {
 void TauLopOperator::evaluate () {
    
    Transmission *c_comm = nullptr;
-   Transmission *c_real = nullptr;
-   list<Transmission *>::iterator it;
+   list<Transmission>::iterator it;
 
    while (!this->l_comm.empty()) {
       
@@ -195,18 +178,18 @@ void TauLopOperator::evaluate () {
       
       for (it = l_real_conc.begin(); (it != l_real_conc.end()) && !found; ++it) {
          
-         c_real = *it;
+         Transmission &c_real = *it;
          
-         if (c_real->areConcurrent(c_comm)) {
+         if (c_real.areConcurrent(c_comm)) {
             found = true;
-            c_real->getOverlap(c_comm);
+            c_real.getOverlap(c_comm);
          }
          
       }
       this->l_comm.pop_front();
       
       if (!found) {
-         this->l_real_conc.push_back(new Transmission(c_comm));
+         this->l_real_conc.push_back(*c_comm);
       }
             
    }
@@ -214,25 +197,21 @@ void TauLopOperator::evaluate () {
 }
 
 
-double TauLopOperator::getMinCost (Transmission *&c) {
+Transmission * TauLopOperator::getMinCost () {
 
-   Transmission *c_min = nullptr;
-   Transmission *c_aux = nullptr;
+   Transmission *c = nullptr;
+   Transmission c_min;
    
-   list<Transmission*>::iterator it;
-   //Transmission &c_min = *l_real_conc.begin();
-
+   list<Transmission>::iterator it;
    for (it = l_real_conc.begin(); it != l_real_conc.end(); ++it) {
       
-      //Transmission &c_aux = *it;
-      c_aux = *it;
+      Transmission &c_aux = *it;
       c_min = MIN (c_aux, c_min);
       
    }
-   c = c_min;
-   //c = new Transmission(c_min);
-
-   return c->getCost();
+   
+   c = new Transmission(c_min);
+   return c;
 }
 
 
@@ -242,13 +221,12 @@ int TauLopOperator::getConcurrency (Transmission * c) {
    bool  found = false;
    int   tau   = 0;
    
-   list<Transmission *>::iterator it;
+   list<Transmission>::iterator it;
    for (it = l_real_conc.begin(); (it != l_real_conc.end()) && !found; ++it) {
       
-      //Transmission &c_aux = *it;
-      Transmission *c_aux = *it;
-      if (c->areConcurrent(c_aux)) {
-         tau = c_aux->getTau();
+      Transmission &c_aux = *it;
+      if (c_aux.areConcurrent(c)) {
+         tau = c_aux.getTau();
          found = true;
       }
 

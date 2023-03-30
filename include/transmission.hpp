@@ -53,29 +53,29 @@ public:
    void   putProcSrc (Process *p);
    void   putProcDst (Process *p);
    
-   int    getMsgSize ();
+   int    getMsgSize ()  const;
    
    void   putChannel (int channel);
-   int    getChannel ();
+   int    getChannel ()  const;
    
-   int    getSrcRank ();
-   int    getDstRank ();
+   int    getSrcRank ()  const;
+   int    getDstRank ()  const;
    
-   int    getSrcNode ();
-   int    getDstNode ();
+   int    getSrcNode ()  const;
+   int    getDstNode ()  const;
    
    void   putM       (long m);
-   long   getM       ();
+   long   getM       ()  const;
    
    void   putN       (int n);
-   int    getN       ();
+   int    getN       ()  const;
    
    void   incrTau    (int inc = 1);
    void   initTau    ();
-   int    getTau     ();
+   int    getTau     ()  const;
    
-   double getCost    ();  // Cost of the blocks in c
-   long   getBytes   (double t, int tau); // Inverse: bytes sent in time t when tau concurrent
+   double getCost    ()  const;  // Cost of the blocks in c
+   long   getBytes   (double t, int tau)  const; // Inverse: bytes sent in time t when tau concurrent
    
    bool   areConcurrent  (const Transmission *c);
    void   getOverlap     (const Transmission *c);
@@ -86,7 +86,7 @@ public:
    bool   areSequential  (const Transmission *c);
    void   add            (const Transmission *c);
    
-   void   show ();
+   void   show       ()  const;
    
    Transmission & operator=  (const Transmission &c) {
       
