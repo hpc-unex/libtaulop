@@ -47,6 +47,7 @@ public:
       Transmission   (int channel, int n, int m, int tau);
       Transmission   (int channel, int m, int tau);
       Transmission   (const Transmission *c);
+      Transmission   (const Transmission &c);
      ~Transmission   ();
    
    void   putProcSrc (Process *p);
@@ -86,6 +87,21 @@ public:
    void   add            (const Transmission *c);
    
    void   show ();
+   
+   Transmission & operator=  (const Transmission &c) {
+      
+      this->p_src = c.p_src;
+      this->p_dst = c.p_dst;
+      this->node_src = c.node_src;
+      this->node_dst = c.node_dst;
+      this->channel  = c.channel;
+      this->n        = c.n;
+      this->m        = c.m;
+      this->tau      = c.tau;
+      this->params   = TauLopParam::getInstance();
+
+      return *this;
+   }
 };
 
 #endif /* transmission_hpp */
