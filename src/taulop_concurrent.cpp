@@ -46,7 +46,6 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
    Transmission *c = nullptr;
    
 #if TLOP_DEBUG == 1
-   // DBG:
    this->show();
 #endif
    
@@ -57,7 +56,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
    while (true) {
             
       // 1a. An operator is the algorithm for calculating costs
-      TauLopOperator *opr = new TauLopOperator ();
+      TauLopOperator opr;
       
       remain = false;
       
@@ -71,7 +70,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
          
          if (! seq->empty()) {
             c = seq->get();
-            opr->add(c);
+            opr.add(c);
             remain = true;
          }
          
@@ -80,19 +79,17 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
       
       // 1c. Apply the algorithm and take the minimum part that is processable
 #if TLOP_DEBUG == 1
-      // DBG:
-      opr->show_init_comms();
+      opr.show_init_comms();
 #endif
       
-      opr->evaluate();
-      Transmission min_c = opr->getMinCost();
+      opr.evaluate();
+      Transmission min_c = opr.getMinCost();
       
 #if TLOP_DEBUG == 1
-      // DBG:
-      opr->show_concurrent();
+      opr.show_concurrent();
       
-      // DBG:
-      cout << "Minimum cost: " << endl; min_c.show();
+      cout << "Minimum cost: " << endl;
+      min_c.show();
 #endif
       
       // 1d. Update the current communication. The cost processed is substracted from the
@@ -104,7 +101,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
             Transmission *c = seq->get();
             
             if (c != nullptr) {
-               int tau = opr->getConcurrency(c);
+               int tau = opr.getConcurrency(c);
                if (tau == 0)
                   cout << "DBG: Error, Comm not found in the concurrent list." << endl;
                seq->substract(min_c.getCost(), tau);
@@ -118,11 +115,8 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
       tc->add(min_c);
             
 #if TLOP_DEBUG == 1
-      // DBG:
       tc->show();
 #endif
-      
-      delete opr;
       
    }
 }
