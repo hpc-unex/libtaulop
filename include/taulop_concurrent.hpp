@@ -9,7 +9,7 @@
 #ifndef taulop_concurrent_hpp
 #define taulop_concurrent_hpp
 
-#include "ilist.h"
+#include <list>
 #include "taulop_sequence.hpp"
 #include "taulop_cost.hpp"
 
@@ -20,7 +20,7 @@ class TauLopConcurrent {
     
 private:
     
-    IList<TauLopSequence *> *l_conc;
+    list<TauLopSequence *> l_conc;
     
 public:
     
