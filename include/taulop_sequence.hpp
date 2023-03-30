@@ -10,31 +10,31 @@
 #define taulop_sequence_hpp
 
 #include "transmission.hpp"
-#include "ilist.h"
+#include <list>
 
 #include <iostream>
 
 class TauLopSequence {
-    
+   
 private:
-    
-    IList<Transmission *> *l_seq;
-    
+   
+   list<Transmission *> l_seq;
+   
 public:
-    
-    TauLopSequence  ();
-    ~TauLopSequence ();
-    
-    void           add       (Transmission *c);
-    Transmission  *get       ();
-    void           substract (double t_min, int tau);
-    bool           empty     ();
-    void           compact   ();
-    
-    // TBD ??
-    //void   apply     (TaulopCost *tc);
-
-    void  show ();
+   
+            TauLopSequence  ();
+           ~TauLopSequence  ();
+   
+   void           add       (Transmission *c);
+   Transmission  *get       ();
+   void           substract (double t_min, int tau);
+   bool           empty     ();
+   void           compact   ();
+   
+   // TBD ??
+   //void   apply     (TaulopCost *tc);
+   
+   void  show ();
 };
 
 #endif /* taulop_sequence_hpp */
