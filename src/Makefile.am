@@ -21,7 +21,8 @@ libtaulop_a_SOURCES += src/process.cpp \
   src/graph.cpp \
   src/graph_collective.cpp \
   src/reduce_linear.cpp \
-  src/computation.cpp
+  src/computation.cpp \
+  src/cost_element.cpp
 
 
 

@@ -24,7 +24,8 @@ libtaulop_a_HEADERS += config.h \
   include/graph.hpp \
   include/graph_collective.hpp \
   include/reduce_linear.hpp \
-  include/computation.hpp
+  include/computation.hpp \
+  include/cost_element.hpp
 
 
 
