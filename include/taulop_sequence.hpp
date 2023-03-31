@@ -18,23 +18,23 @@ class TauLopSequence {
    
 private:
    
-   list<Transmission> l_seq;
+   list<Transmission *> l_seq;
    
 public:
    
             TauLopSequence  ();
            ~TauLopSequence  ();
    
-   void           add       (const Transmission &c);
-   Transmission  &get       ();
+   void           add       (Transmission *c);
+   Transmission  *get       ()  const;
    void           substract (double t_min, int tau);
-   bool           empty     ();
+   bool           empty     ()  const;
    void           compact   ();
    
    // TBD ??
    //void   apply     (TaulopCost *tc);
    
-   void  show ();
+   void           show      ()  const;
 };
 
 #endif /* taulop_sequence_hpp */

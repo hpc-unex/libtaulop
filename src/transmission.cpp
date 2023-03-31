@@ -100,22 +100,6 @@ Transmission::Transmission (const Transmission *c) {
 }
 
 
-Transmission::Transmission (const Transmission &c) {
-   this->p_src    = c.p_src;
-   this->p_dst    = c.p_dst;
-   this->node_src = c.node_src;
-   this->node_dst = c.node_dst;
-   this->channel  = c.channel;
-   this->n        = c.n;
-   this->m        = c.m;
-   this->tau      = c.tau;
-   
-   this->params = TauLopParam::getInstance();
-}
-
-
-
-
 Transmission::~Transmission () {
    
 }
@@ -228,21 +212,6 @@ bool Transmission::areConcurrent (const Transmission *c) {
 }
 
 
-bool Transmission::areConcurrent (const Transmission &c) {
-   
-   // Condition for considering two communications as concurrent
-   if ( (this->channel == c.channel) &&
-       (this->node_dst == c.node_dst) ) {
-      
-      //if (this->channel == c->channel)
-      return true;
-   }
-   
-   return false;
-}
-
-
-
 void Transmission::getOverlap (const Transmission *c) {
    
    // Create a communication representing the overlap between two concurrent
@@ -260,23 +229,6 @@ void Transmission::getOverlap (const Transmission *c) {
 }
 
 
-void Transmission::getOverlap (const Transmission &c) {
-   
-   // Create a communication representing the overlap between two concurrent
-   //  communications through the same channel.
-   // They are concurrent over the minimum value of m and tau is increased.
-   // Both communications have the same n
-   if (this->n != c.n)
-      cout << "DBG Error: Comms have to have the same m" << endl;
-   
-   if (this->m > c.m) {
-      this->m = c.m;
-   }
-   
-   this->tau += c.tau;
-}
-
-
 bool Transmission::areCompactable (const Transmission *c) {
    
    if ((this->tau == c->tau) && (this->channel == c->channel))
@@ -289,22 +241,6 @@ void Transmission::compact (const Transmission *c) {
    // Used for showing. Compact comms in the same channel and with the same tau
    //  Result has m=1, and all the wieght is in n
    this->m = this->m + (c->m * c->n);
-}
-
-
-bool Transmission::areCompactable (const Transmission &c) {
-   
-   if ((this->tau == c.tau) && (this->channel == c.channel))
-      return true;
-   else
-      return false;
-}
-
-
-void Transmission::compact (const Transmission &c) {
-   // Used for showing. Compact comms in the same channel and with the same tau
-   //  Result has m=1, and all the wieght is in n
-   this->m = this->m + (c.m * c.n);
 }
 
 

@@ -19,11 +19,11 @@ class CostElement {
       
 public:
    
-             CostElement ();
-            ~CostElement ();
+               CostElement ();
+              ~CostElement ();
       
-//   double    getCost     ();  // Cost of the blocks in computation
-//   long      getBytes    (double t);
+   virtual double getCost  ()          = 0;
+   virtual long   getBytes (double t)  = 0;
    
 };
 

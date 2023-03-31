@@ -67,7 +67,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
          seq = *it;
          
          if (! seq->empty()) {
-            Transmission &c = seq->get();
+            Transmission *c = seq->get();
             opr.add(c);
             remain = true;
          }
@@ -81,13 +81,13 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
 #endif
       
       opr.evaluate();
-      Transmission min_c = opr.getMinCost();
+      Transmission *min_c = opr.getMinCost();
       
 #if TLOP_DEBUG == 1
       opr.show_concurrent();
       
       cout << "Minimum cost: " << endl;
-      min_c.show();
+      min_c->show();
 #endif
       
       // 1d. Update the current communication. The cost processed is substracted from the
@@ -98,11 +98,11 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
          
          if (! seq->empty()) {
 
-            Transmission &c = seq->get();
+            Transmission *c = seq->get();
             int tau = opr.getConcurrency(c);
             if (tau == 0)
                cout << "DBG: Error, Comm not found in the concurrent list." << endl;
-            seq->substract(min_c.getCost(), tau);
+            seq->substract(min_c->getCost(), tau);
                
          }
          
@@ -110,6 +110,8 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
       
       // 1e. Add the interval size to the cost.
       tc->add(min_c);
+      
+      delete min_c;
             
 #if TLOP_DEBUG == 1
       tc->show();

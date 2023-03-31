@@ -47,7 +47,6 @@ public:
       Transmission   (int channel, int n, int m, int tau);
       Transmission   (int channel, int m, int tau);
       Transmission   (const Transmission *c);
-      Transmission   (const Transmission &c);
      ~Transmission   ();
    
    void   putProcSrc (const Process &p);
@@ -78,15 +77,10 @@ public:
    long   getBytes   (double t, int tau)  const; // Inverse: bytes sent in time t when tau concurrent
    
    bool   areConcurrent  (const Transmission *c);
-   bool   areConcurrent  (const Transmission &c);
    void   getOverlap     (const Transmission *c);
-   void   getOverlap     (const Transmission &c);
    
    bool   areCompactable (const Transmission *c);
    void   compact        (const Transmission *c);
-
-   bool   areCompactable (const Transmission &c);
-   void   compact        (const Transmission &c);
 
    bool   areSequential  (const Transmission *c);
    void   add            (const Transmission *c);
