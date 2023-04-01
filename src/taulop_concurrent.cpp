@@ -111,8 +111,6 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
       // 1e. Add the interval size to the cost.
       tc->add(min_c);
       
-      delete min_c;
-            
 #if TLOP_DEBUG == 1
       tc->show();
 #endif

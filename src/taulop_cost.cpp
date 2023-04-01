@@ -22,17 +22,25 @@ TauLopCost::TauLopCost () {
 
 TauLopCost::TauLopCost (const TauLopCost *tc) {
    
+   // Duplicate objects
    list<Transmission *>::const_iterator it;
    
    for (it = tc->l_cost.begin(); it != tc->l_cost.end(); it++) {
-      this->l_cost.push_back(*it);
+      this->l_cost.push_back(new Transmission (*it));
    }
 
 }
 
 
 TauLopCost::~TauLopCost () {
-   
+
+   // Delete transmissions
+   while (!this->l_cost.empty()) {
+      Transmission *T = this->l_cost.front();
+      this->l_cost.pop_front();
+      delete T;
+   }
+
 }
 
 
@@ -43,10 +51,11 @@ void TauLopCost::add (Transmission *c) {
 
 void TauLopCost::add (const TauLopCost *tc) {
    
+   // Duplicate objects
    list<Transmission *>::const_iterator it;
    
    for (it = tc->l_cost.begin(); it != tc->l_cost.end(); it++) {
-      this->l_cost.push_back(*it);
+      this->l_cost.push_back(new Transmission (*it));
    }
 }
 

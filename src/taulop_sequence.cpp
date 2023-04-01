@@ -42,6 +42,7 @@ void TauLopSequence::substract (double t_min, int tau) {
       Transmission *c = this->l_seq.front();
       
 #if BUG_T == 0
+
       // Substract proportional time in blocks
       //long overlap = (c->getN() * t_min) / c->getCost();
       long overlap = 0;
@@ -63,6 +64,7 @@ void TauLopSequence::substract (double t_min, int tau) {
          c->putM(curr_m - overlap);
       } else { // == 0
          this->l_seq.pop_front();
+         delete c;
       }
       
 #else
@@ -86,6 +88,7 @@ void TauLopSequence::substract (double t_min, int tau) {
       
       if (mx == 0) {
          this->l_seq.pop_front();
+         delete c;
       } else {
          c->putN(mx);
       }

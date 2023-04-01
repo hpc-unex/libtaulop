@@ -116,7 +116,12 @@ TauLopOperator::TauLopOperator () {
 }
 
 TauLopOperator::~TauLopOperator () {
-   
+   // Delete l_real_conc transmissions
+   while (!this->l_real_conc.empty()) {
+      Transmission *T = this->l_real_conc.front();
+      this->l_real_conc.pop_front();
+      delete T;
+   }
 }
 
 
