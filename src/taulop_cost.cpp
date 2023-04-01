@@ -127,6 +127,7 @@ void TauLopCost::compact () {
    list<Transmission *> l_aux;
    list<Transmission *>::iterator it;
    
+   // TODO: Not working -> review and test
    
    while (! this->l_cost.empty()) {
    
@@ -146,6 +147,7 @@ void TauLopCost::compact () {
             
             c->compact(c2);
             this->l_cost.erase(it);
+            delete c2;
             
          } else {
             it++;
@@ -171,6 +173,7 @@ void TauLopCost::compact () {
       
    }
    
+   // Restore member list
    while (! l_aux.empty()) {
       Transmission *c = l_aux.front();
       this->l_cost.push_back(c);
