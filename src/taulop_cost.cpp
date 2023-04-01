@@ -127,18 +127,17 @@ void TauLopCost::compact () {
    list<Transmission *> l_aux;
    list<Transmission *>::iterator it;
    
-   // TODO: Not working -> review and test
    
    while (! this->l_cost.empty()) {
-   
-      it = this->l_cost.begin();
-      if (it != this->l_cost.end()) {
-         c = *it;
-         c->putM(c->getM() * c->getN());
-         c->putN(1);
-         this->l_cost.erase(it);
-      }
       
+      // 1. Compact transmission
+      c = this->l_cost.front();
+      this->l_cost.pop_front();
+      c->putM(c->getM() * c->getN());
+      c->putN(1);
+
+      // 2. Compact with the rest (sma echannel and tau)
+      it = this->l_cost.begin();
       while (it != this->l_cost.end()) {
          
          Transmission *c2 = *it;
@@ -155,7 +154,7 @@ void TauLopCost::compact () {
          
       }
       
-      // Insert in order: channel + tau
+      // 3. Insert in order in aux: channel + tau
       bool enc = false;
       list<Transmission *>::iterator it_aux = l_aux.begin();
 
@@ -173,7 +172,7 @@ void TauLopCost::compact () {
       
    }
    
-   // Restore member list
+   // 4. Restore member list
    while (! l_aux.empty()) {
       Transmission *c = l_aux.front();
       this->l_cost.push_back(c);
