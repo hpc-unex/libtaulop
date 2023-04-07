@@ -41,11 +41,16 @@ void TauLopSequence::substract (Transmission *min_t, int tau_real) {
    long curr_m     = T->getM();
    
    
-   // 1. Compute the overlap in bytes of transmissions
+   // 1. Compute the overlap in bytes of transmission T with the min transmission.
    long overlap = 0;
 
+   // 1a. If transmission T and min_t are concurrent, just reduce T in "min_t->m" bytes
    if (min_t->areConcurrent(T)) {
       overlap = curr_m - min_t->getM();
+   // 1b. If they are not concurrent, reduce T in the number of bytes that T transmits
+   //      in the time in which min_t is working. (Important) Note that T progresses
+   //      concurrently with other transmissions (or maybe not), that is the reason for
+   //      for tau_real, that is found in Operator::getConcurrency (in list l_conc_real).
    } else {
       overlap = curr_m - T->getBytes(min_t->getCost(), tau_real);
    }

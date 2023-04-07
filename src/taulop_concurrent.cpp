@@ -90,7 +90,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
       min_c->show();
 #endif
       
-      // 1d. Update the current communication.
+      // 1d. Update the current Transmissions.
       for (it = this->l_conc.begin(); it != this->l_conc.end(); it++) {
          
          seq = *it;
@@ -99,17 +99,19 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
 
             Transmission *T = seq->get();
             
+            // How is progressing T with its concurrent transmissions?
             int tau_real = 1;
             if (T->areConcurrent(min_c)) {
-               tau_real = min_c->getTau();
+               tau_real = min_c->getTau();       // Concurrent with the minimum
             } else {
-               tau_real = opr.getConcurrency(T);
+               tau_real = opr.getConcurrency(T); // Concurrent with others (or none)
             }
             
             if (tau_real == 0) {
                cout << "ERROR: Comm not found in the concurrent list." << endl;
             }
             
+            // Substract proportional part of min_c to the other transmissions.
             seq->substract(min_c, tau_real);
                
          }
