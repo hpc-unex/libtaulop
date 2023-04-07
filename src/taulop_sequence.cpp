@@ -35,66 +35,36 @@ Transmission* TauLopSequence::get () const {
 }
 
 
-void TauLopSequence::substract (double t_min, int tau) {
-      
-   if (! this->l_seq.empty()) {
-      
-      Transmission *c = this->l_seq.front();
-      
-#if BUG_T == 0
+void TauLopSequence::substract (Transmission *min_t, int tau_real) {
+   
+   Transmission *T = this->l_seq.front();
+   long curr_m     = T->getM();
+   
+   
+   // 1. Compute the overlap in bytes of transmissions
+   long overlap = 0;
 
-      // Substract proportional time in blocks
-      //long overlap = (c->getN() * t_min) / c->getCost();
-      long overlap = 0;
-      
-      //        if (c->areConcurrent(min_c)) {
-      //            overlap = min_c->getN();
-      //        } else {
-      //            overlap = c->getBytes(t_min, 1);
-      //        }
-      
-      overlap = c->getBytes(t_min, tau);
-      
-      if (overlap < 0)
-         cout << "DBG ERROR: pbrcol - not allowed overlap < 0" << endl;
-      
-      long curr_m = c->getM();
-            
-      if ((curr_m - overlap) > 0) { // TBD: a threshold for rounding issues could be convenient
-         c->putM(curr_m - overlap);
-      } else { // == 0
-         this->l_seq.pop_front();
-         delete c;
-      }
-      
-#else
-      
-      double tprime = c->getCost() - t_min;
-      
-      long   mx = 0;
-      double epsilon = 0.001;
-      
-      if (tprime < epsilon) {
-         tprime = 0.0;
-         mx = 0;
-      } else {
-         mx = c->getBytes(tprime, tau);
-      }
-      
-      if (mx < 0) {
-         cout << "DBG ERROR: pbrcol - not allowed overlap < 0" << endl;
-         mx = 0;
-      }
-      
-      if (mx == 0) {
-         this->l_seq.pop_front();
-         delete c;
-      } else {
-         c->putN(mx);
-      }
-      
-#endif
+   if (min_t->areConcurrent(T)) {
+      overlap = curr_m - min_t->getM();
+   } else {
+      overlap = curr_m - T->getBytes(min_t->getCost(), tau_real);
    }
+   
+   if (overlap < -100) { // TODO: aquí hay un problema porque overlap a veces es menor que 0
+                      //       y no deberia. Viene de la parte "else" anterior. No sé el
+                      //       motivo. HAY QUE ESTUDIARLO DESPACIO.
+                      //       Por ahora, se asume el error.
+      cout << "ERROR: overlap should be >= 0: " << overlap << endl;
+   }
+   
+   // 2. If they fully overlap, delete. Otherwise, reduce proportional m.
+   if (overlap > 0) { // TODO: a threshold for rounding issues could be convenient
+      T->putM(overlap);
+   } else {   // <= 0
+      this->l_seq.pop_front();
+      delete T;
+   }
+
 }
 
 

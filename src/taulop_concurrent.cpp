@@ -90,19 +90,27 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
       min_c->show();
 #endif
       
-      // 1d. Update the current communication. The cost processed is substracted from the
-      //     rest of the comms. in the PBR
+      // 1d. Update the current communication.
       for (it = this->l_conc.begin(); it != this->l_conc.end(); it++) {
          
          seq = *it;
          
          if (! seq->empty()) {
 
-            Transmission *c = seq->get();
-            int tau = opr.getConcurrency(c);
-            if (tau == 0)
-               cout << "DBG: Error, Comm not found in the concurrent list." << endl;
-            seq->substract(min_c->getCost(), tau);
+            Transmission *T = seq->get();
+            
+            int tau_real = 1;
+            if (T->areConcurrent(min_c)) {
+               tau_real = min_c->getTau();
+            } else {
+               tau_real = opr.getConcurrency(T);
+            }
+            
+            if (tau_real == 0) {
+               cout << "ERROR: Comm not found in the concurrent list." << endl;
+            }
+            
+            seq->substract(min_c, tau_real);
                
          }
          

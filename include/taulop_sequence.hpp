@@ -27,7 +27,7 @@ public:
    
    void           add       (Transmission *c);
    Transmission  *get       ()  const;
-   void           substract (double t_min, int tau);
+   void           substract (Transmission *min_t, int tau);
    bool           empty     ()  const;
    void           compact   ();
    
