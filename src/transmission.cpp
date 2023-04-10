@@ -243,5 +243,5 @@ void Transmission::notate () const {
    cout << this->getN() << "x"
         << this->getTau() << "||"
         << "T^" << this->getChannel()
-        << "(" << this->getM() << ")";
+        << "(" << this->getM() << ")";        
 }

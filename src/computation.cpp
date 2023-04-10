@@ -11,71 +11,71 @@
 Computation::Computation () {
    this->n       = 1;
    this->m       = 0;
-   this->tau     = 0;
+   this->tau     = 1;
    this->opType  = OpType::DEFAULT;
    
    this->ceType  = CEType::Computation;
 }
 
 
-Computation::Computation (const Process &p_src, int n, int m, int tau) {
+Computation::Computation (const Process &p_src, int n, int m) {
    this->process = p_src;
    this->n       = n;
    this->m       = m;
-   this->tau     = tau;
+   this->tau     = 1;
    this->opType  = OpType::DEFAULT;
    
    this->ceType  =  CEType::Computation;
 }
 
 
-Computation::Computation (const Process &p_src, int n, int m, int tau, OpType opType) {
+Computation::Computation (const Process &p_src, int n, int m, OpType opType) {
    this->process = p_src;
    this->n       = n;
    this->m       = m;
-   this->tau     = tau;
+   this->tau     = 1;
    this->opType  = opType;
    
    this->ceType  =  CEType::Computation;
 }
 
 
-Computation::Computation (const Process &p_src, int m, int tau) {
+Computation::Computation (const Process &p_src, int m) {
    this->process = p_src;
    this->n       = 1;
    this->m       = m;
-   this->tau     = tau;
+   this->tau     = 1;
    this->opType  = OpType::DEFAULT;
    
    this->ceType  =  CEType::Computation;
 }
 
 
-Computation::Computation (const Process &p_src, int m, int tau, OpType opType) {
-   this->n       = 1;
+Computation::Computation (const Process &p_src, int m, OpType opType) {
    this->process = p_src;
+   this->n       = 1;
    this->m       = m;
-   this->tau     = tau;
+   this->tau     = 1;
    this->opType  = opType;
    
    this->ceType  =  CEType::Computation;
 }
 
 
-Computation::Computation (int m, int tau) {
+Computation::Computation (int m) {
    this->n       = 1;
    this->m       = m;
-   this->tau     = tau;
+   this->tau     = 1;
    this->opType  = OpType::DEFAULT;
    
    this->ceType  =  CEType::Computation;
 }
 
 
-Computation::Computation (int m, int tau, OpType opType) {
+Computation::Computation (int m, OpType opType) {
    this->n       = 1;
    this->m       = m;
-   this->tau     = tau;
+   this->tau     = 1;
    this->opType  = opType;
    
    this->ceType  =  CEType::Computation;
@@ -110,16 +110,6 @@ CEType Computation::getType () const {
 
 OpType Computation::getOpType () const {
    return this->opType;
-}
-
-
-void Computation::putProcDst (const Process &p) {
-   this->p_dst = p;
-}
-
-
-int Computation::getMsgSize () const {
-   return (this->n);
 }
 
 
@@ -218,11 +208,10 @@ Computation & Computation::operator= (const Computation &c) {
 
 void Computation::show () const {
    
-   cout << process.getRank() << " -> " << p_dst.getRank() << endl;
+   cout << process.getRank() << endl;
    cout << this->m << "  " << this->n << endl;
    cout << "(" << this->n * this->m << ")" << endl;
    cout << this->tau << " ||" << endl;
-   cout << this->p_dst.getNode() << endl;
    cout << "t= " << this->getCost() << endl;
    cout << endl;
 }

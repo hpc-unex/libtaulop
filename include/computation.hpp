@@ -31,21 +31,20 @@ class Computation : public CostElement {
    
 private:
    
-   Process p_dst;    // Destination process
    OpType  opType;   // Operation type
       
 public:
    
           Computation   ();
    
-          Computation   (const Process &p_src, int n, int m, int tau);
-          Computation   (const Process &p_src, int n, int m, int tau, OpType opType);
+          Computation   (const Process &p_src, int n, int m);
+          Computation   (const Process &p_src, int n, int m, OpType opType);
    
-          Computation   (const Process &p_src, int m, int tau);
-          Computation   (const Process &p_src, int m, int tau, OpType opType);
+          Computation   (const Process &p_src, int m);
+          Computation   (const Process &p_src, int m, OpType opType);
           
-   		 Computation   (int m, int tau);
-          Computation   (int m, int tau, OpType opType);
+   		 Computation   (int m);
+          Computation   (int m, OpType opType);
    
           Computation   (const Computation *c);
    
@@ -55,10 +54,6 @@ public:
    CEType       getType ()  const  override;
 
    OpType getOpType     ()  const;
-   
-   void   putProcDst    (const Process &p);
-   
-   int    getMsgSize    ()  const;
    
    int    getRank       ()  const  override;
       
