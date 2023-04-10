@@ -91,6 +91,16 @@ Transmission::~Transmission () {
 }
 
 
+Transmission * Transmission::clone () const {
+   return new Transmission(*this);
+}
+
+
+CEType Transmission::getType () const {
+   return this->ceType;
+}
+
+
 void Transmission::putProcDst (const Process &p) {
    this->p_dst = p;
 }

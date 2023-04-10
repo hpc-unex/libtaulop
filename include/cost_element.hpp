@@ -39,32 +39,32 @@ public:
    
                    CostElement    ();
    virtual        ~CostElement    ();
-
-   long    getM           ()        const;
-   void    putM           (long m);
-
-   int     getN           ()        const;
-   void    putN           (int n);
    
-   int     getTau         ()        const;
-   
-   void    putProcess     (const Process &p);
-   
-   int     getNode        ()        const;
+   virtual CostElement *clone ()                      const = 0;
 
    
-   virtual double  getCost        ()                      const = 0;
-   virtual long    getBytes       (double t, int tau)     const = 0;
+   long    getM        ()                   const;
+   void    putM        (long m);
+
+   int     getN        ()                   const;
+   void    putN        (int n);
    
-   virtual int     getRank     ()                      const = 0;
+   int     getTau      ()                   const;
+   void    putProcess  (const Process &p);
+   int     getNode     ()                   const;
 
-   virtual void    getOverlap     (const CostElement *c) = 0;
-      
-   virtual CostElement *clone() const = 0;
+   
+   virtual double  getCost    ()                      const = 0;
+   virtual long    getBytes   (double t, int tau)     const = 0;
+   
+   virtual int     getRank    ()                      const = 0;
 
-   virtual CEType getType        ()  const = 0;
-   virtual void   show           ()  const = 0;
-   virtual void   notate         ()  const = 0;
+   virtual void    getOverlap (const CostElement *c)        = 0;
+         
+
+   virtual CEType getType     ()                      const = 0;
+   virtual void   show        ()                      const = 0;
+   virtual void   notate      ()                      const = 0;
 };
 
 #endif /* cost_element_hpp */

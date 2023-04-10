@@ -49,24 +49,24 @@ public:
    
           Computation   (const Computation *c);
    
-         ~Computation   () override;
+         ~Computation   ()         override;
    
-	
+   Computation *clone   ()  const  override;
+   CEType       getType ()  const  override;
+
+   OpType getOpType     ()  const;
    
+   void   putProcDst    (const Process &p);
    
+   int    getMsgSize    ()  const;
    
-   void   putProcDst (const Process &p);
-   
-   int    getMsgSize ()  const;
-   
-   int    getRank ()  const override;
+   int    getRank       ()  const  override;
       
-   void   incrTau    (int inc = 1);
-   void   initTau    ();
-   
-   
-   double getCost    ()  const override;  // Cost of the blocks in c
-   long   getBytes   (double t, int tau)  const  override; // Inverse: bytes sent in time t when tau concurrent
+   void   incrTau       (int inc = 1);
+   void   initTau       ();
+      
+   double getCost       ()                   const  override;  // Cost of the blocks in c
+   long   getBytes      (double t, int tau)  const  override; // Inverse: bytes sent in time t when tau concurrent
    
    void   getOverlap     (const CostElement *c)  override;
    
@@ -75,23 +75,11 @@ public:
 
    bool   areSequential  (const Computation *c);
    void   add            (const Computation *c);
-   
-   Computation& operator=  (const Computation &c);
-   
-   Computation *clone() const override {
-      return new Computation(*this);
-   }
-   
-   OpType getOpType      ()  const {
-      return this->opType;
-   }
-   
-   CEType getType        ()  const  override {
-      return this->ceType;
-   }
-   
+      
    void   show           ()  const  override;
    void   notate         ()  const  override;
+   
+   Computation& operator=  (const Computation &c);
 };
 
 #endif /* computation_hpp */

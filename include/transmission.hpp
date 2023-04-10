@@ -33,39 +33,41 @@ private:
       
 public:
    
-      Transmission   ();
+          Transmission   ();
    
-      Transmission   (const Process &p_src, const Process &p_dst, int channel, int n, int m, int tau);
-      Transmission   (const Process &p_src, const Process &p_dst, int n, int m, int tau);
-      Transmission   (const Process &p_src, const Process &p_dst, int m, int tau);
+          Transmission   (const Process &p_src, const Process &p_dst, int channel, int n, int m, int tau);
+          Transmission   (const Process &p_src, const Process &p_dst, int n, int m, int tau);
+          Transmission   (const Process &p_src, const Process &p_dst, int m, int tau);
 
-      Transmission   (int channel, int n, int m, int tau);
-      Transmission   (int channel, int m, int tau);
+          Transmission   (int channel, int n, int m, int tau);
+          Transmission   (int channel, int m, int tau);
 
-      Transmission   (const Transmission *c);
+          Transmission   (const Transmission *c);
    
-     ~Transmission   () override;
+         ~Transmission   ()  override;
    
+   Transmission *clone   ()             const  override;
+   CEType getType        ()             const  override;
+
+   void   putProcDst     (const Process &p);
    
-   void   putProcDst (const Process &p);
+   int    getMsgSize     ()             const;
    
-   int    getMsgSize ()  const;
+   void   putChannel     (int channel);
+   int    getChannel     ()             const;
    
-   void   putChannel (int channel);
-   int    getChannel ()  const;
+   int    getRank        ()             const  override;  // Source rank
+   int    getDstRank     ()             const;
    
-   int    getRank ()  const override;  // Source rank
-   int    getDstRank ()  const;
-   
-   int    getDstNode ()  const;
+   int    getDstNode     ()             const;
       
-   void   incrTau    (int inc = 1);
-   void   initTau    ();
+   void   incrTau        (int inc = 1);
+   void   initTau        ();
    
-   double getCost    ()  const override;  // Cost of the blocks in c
-   long   getBytes   (double t, int tau)  const  override; // Inverse: bytes sent in time t when tau concurrent
+   double getCost        ()                   const  override;  // Cost of the blocks in c
+   long   getBytes       (double t, int tau)  const  override; // Inverse: bytes sent in time t when tau concurrent
    
-   void   getOverlap     (const CostElement *c)  override;
+   void   getOverlap     (const CostElement *c)      override;
    
    bool   areCompactable (const Transmission *c);
    void   compact        (const Transmission *c);
@@ -73,18 +75,10 @@ public:
    bool   areSequential  (const Transmission *c);
    void   add            (const Transmission *c);
    
-   Transmission& operator=  (const Transmission &c);
-   
-   Transmission *clone() const override {
-      return new Transmission(*this);
-   }
-   
-   CEType getType        ()  const  override {
-      return this->ceType;
-   }
-   
    void   show           ()  const  override;
    void   notate         ()  const  override;
+   
+   Transmission& operator=  (const Transmission &c);
 };
 
 #endif /* transmission_hpp */

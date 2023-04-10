@@ -6,12 +6,9 @@
 //
 
 #include "computation.hpp"
-//#include "taulop_params.hpp"
-
 
 
 Computation::Computation () {
-//   this->channel  = -1;
    this->n       = 1;
    this->m       = 0;
    this->tau     = 0;
@@ -23,10 +20,6 @@ Computation::Computation () {
 
 Computation::Computation (const Process &p_src, int n, int m, int tau) {
    this->process = p_src;
-   //this->p_dst    = p_dst;
-   //this->node_src = p_src.getNode();
-   //this->node_dst = p_dst.getNode();
-   //this->channel  = channel;
    this->n       = n;
    this->m       = m;
    this->tau     = tau;
@@ -38,10 +31,6 @@ Computation::Computation (const Process &p_src, int n, int m, int tau) {
 
 Computation::Computation (const Process &p_src, int n, int m, int tau, OpType opType) {
    this->process = p_src;
-   //this->p_dst    = p_dst;
-   //this->node_src = p_src.getNode();
-   //this->node_dst = p_dst.getNode();
-   //this->channel  = (this->process.getNode() == this->p_dst.getNode()) ? 0 : 1;
    this->n       = n;
    this->m       = m;
    this->tau     = tau;
@@ -53,10 +42,6 @@ Computation::Computation (const Process &p_src, int n, int m, int tau, OpType op
 
 Computation::Computation (const Process &p_src, int m, int tau) {
    this->process = p_src;
-   //this->p_dst    = p_dst;
-   //this->node_src = p_src.getNode();
-   //this->node_dst = p_dst.getNode();
-   //this->channel  = (this->process.getNode() == this->p_dst.getNode()) ? 0 : 1;
    this->n       = 1;
    this->m       = m;
    this->tau     = tau;
@@ -67,9 +52,6 @@ Computation::Computation (const Process &p_src, int m, int tau) {
 
 
 Computation::Computation (const Process &p_src, int m, int tau, OpType opType) {
-   //this->node_src = NODE_UNDEFINED;
-   //this->node_dst = NODE_UNDEFINED;
-   //this->channel  = channel;
    this->n       = 1;
    this->process = p_src;
    this->m       = m;
@@ -81,9 +63,6 @@ Computation::Computation (const Process &p_src, int m, int tau, OpType opType) {
 
 
 Computation::Computation (int m, int tau) {
-   //this->node_src = NODE_UNDEFINED;
-   //this->node_dst = NODE_UNDEFINED;
-   //this->channel  = channel;
    this->n       = 1;
    this->m       = m;
    this->tau     = tau;
@@ -94,9 +73,6 @@ Computation::Computation (int m, int tau) {
 
 
 Computation::Computation (int m, int tau, OpType opType) {
-   //this->node_src = NODE_UNDEFINED;
-   //this->node_dst = NODE_UNDEFINED;
-   //this->channel  = 0;
    this->n       = 1;
    this->m       = m;
    this->tau     = tau;
@@ -108,10 +84,6 @@ Computation::Computation (int m, int tau, OpType opType) {
 
 Computation::Computation (const Computation *c) {
    this->process = c->process;
-   //this->p_dst    = c->p_dst;
-   //this->node_src = c->node_src;
-   //this->node_dst = c->node_dst;
-   //this->channel  = c->channel;
    this->n       = c->n;
    this->m       = c->m;
    this->tau     = c->tau;
@@ -125,11 +97,21 @@ Computation::~Computation () {
    
 }
 
-/*
-void Computation::putProcSrc (const Process &p) {
-   this->p_src = p;
+
+Computation * Computation::clone() const {
+   return new Computation(*this);
 }
-*/
+
+
+CEType Computation::getType () const {
+   return this->ceType;
+}
+
+
+OpType Computation::getOpType () const {
+   return this->opType;
+}
+
 
 void Computation::putProcDst (const Process &p) {
    this->p_dst = p;
@@ -141,37 +123,10 @@ int Computation::getMsgSize () const {
 }
 
 
-/*
-void Computation::putChannel (int channel) {
-   this->channel = channel;
-}
-
-int Computation::getChannel () const {
-   return this->channel;
-}
-*/
-
-
 int Computation::getRank () const {
    return this->process.getRank();
 }
 
-
-/*
-int Computation::getDstRank () const {
-   return this->p_dst.getRank();
-}
-*/
-/*
-int Computation::getSrcNode () const {
-   return this->node_src;
-}
- */
-/*
-int Computation::getDstNode () const {
-   return this->p_dst.getNode();
-}
-*/
 
 void Computation::initTau () {
    this->tau = 0;
@@ -253,14 +208,9 @@ void Computation::add (const Computation *c) {
 Computation & Computation::operator= (const Computation &c) {
    
    this->process  = c.process;
-   //this->p_dst    = c.p_dst;
-   //this->node_src = c.node_src;
-   //this->node_dst = c.node_dst;
-   //this->channel  = c.channel;
    this->n        = c.n;
    this->m        = c.m;
    this->tau      = c.tau;
-   //this->params   = TauLopParam::getInstance();
    
    return *this;
 }
@@ -269,7 +219,6 @@ Computation & Computation::operator= (const Computation &c) {
 void Computation::show () const {
    
    cout << process.getRank() << " -> " << p_dst.getRank() << endl;
-   //cout << channel << endl;
    cout << this->m << "  " << this->n << endl;
    cout << "(" << this->n * this->m << ")" << endl;
    cout << this->tau << " ||" << endl;
