@@ -151,13 +151,13 @@ void TauLopCost::compact () {
 void TauLopCost::show () const {
       
    list<CostElement *>::const_iterator it;
-   for (it = this->l_cost.begin(); it != this->l_cost.end(); it++) {
+   for (it = this->l_cost.begin(); it != this->l_cost.end(); ++it) {
+      
+      if (it != this->l_cost.begin()) cout << " + ";
       
       CostElement *c = *it;
-      
       c->notate();
-
-      if (it != this->l_cost.end()) cout << " + ";
    }
+   
    cout << endl;
 }

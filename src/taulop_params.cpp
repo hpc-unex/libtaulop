@@ -427,6 +427,9 @@ long TauLopParam::getBytes (double t, int tau, int chn) {
    }
    
    if (idx == 0) {
+      if (p2p[tau-1][idx] > t * 100) {  // If not significant, return 0.
+         return 0;
+      }
       return 1; // Time short. Only 1 block.
    }
    
@@ -485,6 +488,9 @@ long TauLopParam::getBytes (double t, int op) {
    }
    
    if (idx == 0) {
+      if (this->gamma[op][idx] > t * 100) {  // If not significant, return 0.
+         return 0;
+      }
       return 1; // Time short. Only 1 byte.
    }
    
