@@ -7,7 +7,7 @@
 //
 
 #include "taulop_concurrent.hpp"
-#include "transmission.hpp"
+#include "cost_element.hpp"
 #include "taulop_config.h"
 #include "taulop_operator.hpp"
 
@@ -67,7 +67,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
          seq = *it;
          
          if (! seq->empty()) {
-            Transmission *c = seq->get();
+            CostElement *c = seq->get();
             opr.add(c);
             remain = true;
          }
@@ -81,7 +81,7 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
 #endif
       
       opr.evaluate();
-      Transmission *min_c = opr.getMinCost();
+      CostElement *min_c = opr.getMinCost();
       
 #if TLOP_DEBUG == 1
       opr.show_concurrent();
@@ -97,22 +97,47 @@ void TauLopConcurrent::evaluate (TauLopCost *tc) {
          
          if (! seq->empty()) {
 
-            Transmission *T = seq->get();
+            CostElement *C = seq->get();
+            long curr_m = C->getM();
             
             // How is progressing T with its concurrent transmissions?
             int tau_real = 1;
-            if (T->areConcurrent(min_c)) {
-               tau_real = min_c->getTau();       // Concurrent with the minimum
+            long overlap = 0;
+            
+            // 1a. If transmission T and min_t are concurrent, just reduce T in "min_t->m" bytes
+            if (opr.areConcurrent(C, min_c)) {
+               //tau_real = min_c->getTau();       
+               overlap  = curr_m - min_c->getM();
+
+            // 1b. If they are not concurrent, reduce T in the number of bytes that T transmits
+            //      in the time in which min_t is working. (Important) Note that T progresses
+            //      concurrently with other transmissions (or maybe not), that is the reason for
+            //      tau_real, that is found in Operator::getConcurrency (in list l_conc_real).
             } else {
-               tau_real = opr.getConcurrency(T); // Concurrent with others (or none)
+               tau_real = opr.getConcurrency(C); // Concurrent with others (or none)
+               overlap  = curr_m - C->getBytes(min_c->getCost(), tau_real);
             }
             
+#if TLOP_DEBUG == 1
             if (tau_real == 0) {
                cout << "ERROR: Comm not found in the concurrent list." << endl;
             }
             
-            // Substract proportional part of min_c to the other transmissions.
-            seq->substract(min_c, tau_real);
+            if (overlap < 0) {
+               // TODO: aquí hay un problema porque overlap a veces es menor que 0
+               //       y no deberia. Viene de la parte "else" anterior. No sé el
+               //       motivo. HAY QUE ESTUDIARLO DESPACIO.
+               //       Por ahora, se asume el error.
+               cout << "ERROR: overlap should be >= 0: " << overlap << endl;
+            }
+#endif
+            // 2. If they fully overlap, delete. Otherwise, reduce proportional m.
+            if(overlap > 0) {
+               C->putM(overlap);
+            } else {
+               seq->remove();
+               delete C;
+            }
                
          }
          

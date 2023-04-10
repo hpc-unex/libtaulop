@@ -1,8 +1,9 @@
 //
 //  taulop_concurrent_hpp
-//  TauLopCncurrent
 //
 //  Created by jarico on 30/10/16.
+//   Modified by jarico on 10/04/23
+
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 

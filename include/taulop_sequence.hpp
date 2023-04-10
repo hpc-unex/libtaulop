@@ -1,15 +1,14 @@
 //
 //  taulop_sequence_hpp
-//  TauLopCost
 //
-//  Created by jarico on 30/10/16.
+//  Created by jarico on 8/4/23.
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
 #ifndef taulop_sequence_hpp
 #define taulop_sequence_hpp
 
-#include "transmission.hpp"
+#include "cost_element.hpp"
 
 #include <list>
 #include <iostream>
@@ -18,23 +17,23 @@ class TauLopSequence {
    
 private:
    
-   list<Transmission *> l_seq;
+   list<CostElement *> l_seq;
    
 public:
    
             TauLopSequence  ();
            ~TauLopSequence  ();
    
-   void           add       (Transmission *c);
-   Transmission  *get       ()  const;
-   void           substract (Transmission *min_t, int tau);
-   bool           empty     ()  const;
-   void           compact   ();
+   void         add       (CostElement *c);
+   CostElement *get       ()  const;
+   void         remove    ();
+   bool         empty     ()  const;
+   void         compact   ();
    
    // TBD ??
    //void   apply     (TaulopCost *tc);
    
-   void           show      ()  const;
+   void         show      ()  const;
 };
 
 #endif /* taulop_sequence_hpp */

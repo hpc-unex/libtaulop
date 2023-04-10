@@ -29,7 +29,6 @@ Process::Process (int rank, int node) {
 
 
 Process::Process (const Process *p) {
-
     this->rank      = p->rank;
     this->rankIntra = p->rankIntra;
     this->node      = p->node;

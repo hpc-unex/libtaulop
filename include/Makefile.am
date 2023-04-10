@@ -25,7 +25,11 @@ libtaulop_a_HEADERS += config.h \
   include/graph_collective.hpp \
   include/reduce_linear.hpp \
   include/computation.hpp \
-  include/cost_element.hpp
+  include/cost_element.hpp \
+  include/alltoall_basic.hpp \
+  include/alltoall_linear.hpp \
+  include/alltoall_pairwise.hpp
+
 
 
 

@@ -25,6 +25,10 @@
 #include "reduce_linear.hpp"
 #include "graph_collective.hpp"
 
+#include "cost_element.hpp"
+#include "transmission.hpp"
+#include "computation.hpp"
+
 #include "taulop_sequence.hpp"
 #include "taulop_concurrent.hpp"
 #include "process.hpp"

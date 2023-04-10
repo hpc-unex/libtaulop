@@ -9,7 +9,7 @@
 #ifndef taulop_cost_hpp
 #define taulop_cost_hpp
 
-#include "transmission.hpp"
+#include "cost_element.hpp"
 
 #include <list>
 #include <iostream>
@@ -19,7 +19,7 @@ class TauLopCost {
     
 private:
     
-    list<Transmission *> l_cost;
+    list<CostElement *> l_cost;
     
 public:
     
@@ -27,16 +27,14 @@ public:
            TauLopCost  (const TauLopCost *tc);
           ~TauLopCost  ();
     
-    void   add         (Transmission *c);
+    void   add         (CostElement *c);
     void   add         (const TauLopCost *tc);
-    void   compact     ();  // Show cost in BLOCKS
+    void   compact     ();   
 
-    double getTime     ()         const;
-    double getTime     (int chn)  const;
-    long   getVolume   ()         const;
-    long   getVolume   (int chn)  const;
+    double getTime     ()   const;
+    long   getVolume   ()   const;
     
-    void   show        ()         const;
+    void   show        ()   const;
     
 };
 

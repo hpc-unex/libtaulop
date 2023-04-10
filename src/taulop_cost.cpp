@@ -8,7 +8,7 @@
 
 #include "taulop_cost.hpp"
 
-#include "transmission.hpp"
+#include "cost_element.hpp"
 
 #include <list>
 #include <iostream>
@@ -23,10 +23,10 @@ TauLopCost::TauLopCost () {
 TauLopCost::TauLopCost (const TauLopCost *tc) {
    
    // Duplicate objects
-   list<Transmission *>::const_iterator it;
+   list<CostElement *>::const_iterator it;
    
    for (it = tc->l_cost.begin(); it != tc->l_cost.end(); it++) {
-      this->l_cost.push_back(new Transmission (*it));
+      this->l_cost.push_back((*it)->clone());
    }
 
 }
@@ -36,7 +36,7 @@ TauLopCost::~TauLopCost () {
 
    // Delete transmissions
    while (!this->l_cost.empty()) {
-      Transmission *T = this->l_cost.front();
+      CostElement *T = this->l_cost.front();
       this->l_cost.pop_front();
       delete T;
    }
@@ -44,18 +44,18 @@ TauLopCost::~TauLopCost () {
 }
 
 
-void TauLopCost::add (Transmission *c) {
-   this->l_cost.push_back(new Transmission (c));
+void TauLopCost::add (CostElement *c) {
+   this->l_cost.push_back(c->clone());
 }
 
 
 void TauLopCost::add (const TauLopCost *tc) {
    
    // Duplicate objects
-   list<Transmission *>::const_iterator it;
+   list<CostElement *>::const_iterator it;
    
    for (it = tc->l_cost.begin(); it != tc->l_cost.end(); it++) {
-      this->l_cost.push_back(new Transmission (*it));
+      this->l_cost.push_back((*it)->clone());
    }
 }
 
@@ -64,26 +64,9 @@ double TauLopCost::getTime () const {
    
    double  t = 0.0;
    
-   list<Transmission *>::const_iterator it;
+   list<CostElement *>::const_iterator it;
    for (it = this->l_cost.begin(); it != this->l_cost.end(); it++) {
       t = t + (*it)->getCost();
-   }
-   
-   return t;
-}
-
-
-double TauLopCost::getTime (int chn) const {
-   
-   double  t = 0.0;
-   
-   list<Transmission *>::const_iterator it;
-   for (it = this->l_cost.begin(); it != this->l_cost.end(); it++) {
-
-      if ((*it)->getChannel() == chn) {
-         t = t + (*it)->getCost();
-      }
-      
    }
    
    return t;
@@ -93,7 +76,7 @@ double TauLopCost::getTime (int chn) const {
 long TauLopCost::getVolume () const {
    
    long vol = 0;
-   list<Transmission *>::const_iterator it;
+   list<CostElement *>::const_iterator it;
    
    for (it = this->l_cost.begin(); it != this->l_cost.end(); it++) {
       vol = vol + ((*it)->getN() * (*it)->getM());
@@ -103,29 +86,12 @@ long TauLopCost::getVolume () const {
 }
 
 
-long TauLopCost::getVolume (int chn) const {
-   
-   long vol = 0;
-   
-   list<Transmission *>::const_iterator it;
-   for (it = this->l_cost.begin(); it != this->l_cost.end(); it++) {
-         
-      if ((*it)->getChannel() == chn) {
-         vol = vol + ((*it)->getN() * (*it)->getM());
-      }
-   }
-   
-   return vol;
-}
-
-
-
 void TauLopCost::compact () {
+ /*
+   CostElement *c = nullptr;
    
-   Transmission *c = nullptr;
-   
-   list<Transmission *> l_aux;
-   list<Transmission *>::iterator it;
+   list<CostElement *> l_aux;
+   list<CostElement *>::iterator it;
    
    
    while (! this->l_cost.empty()) {
@@ -140,7 +106,7 @@ void TauLopCost::compact () {
       it = this->l_cost.begin();
       while (it != this->l_cost.end()) {
          
-         Transmission *c2 = *it;
+         CostElement *c2 = *it;
          
          if (c->areCompactable(c2)) {
             
@@ -156,10 +122,10 @@ void TauLopCost::compact () {
       
       // 3. Insert in order in aux: channel + tau
       bool enc = false;
-      list<Transmission *>::iterator it_aux = l_aux.begin();
+      list<CostElement *>::iterator it_aux = l_aux.begin();
 
       while ((it_aux != l_aux.end()) && !enc) {
-         Transmission *c_aux = *it_aux;
+         CostElement *c_aux = *it_aux;
          if (c_aux->getChannel() > c->getChannel()) {
             enc = true;
          } else if ((c_aux->getChannel() == c->getChannel()) && (c_aux->getTau() > c->getTau())) {
@@ -174,22 +140,22 @@ void TauLopCost::compact () {
    
    // 4. Restore member list
    while (! l_aux.empty()) {
-      Transmission *c = l_aux.front();
+      CostElement *c = l_aux.front();
       this->l_cost.push_back(c);
       l_aux.pop_front();
    }
-   
+*/
 }
 
 
 void TauLopCost::show () const {
       
-   list<Transmission *>::const_iterator it;
+   list<CostElement *>::const_iterator it;
    for (it = this->l_cost.begin(); it != this->l_cost.end(); it++) {
       
-      Transmission *c = *it;
+      CostElement *c = *it;
       
-      cout << c->getN() << "x" << c->getTau() << "||T^" << c->getChannel() << "(" << c->getM() << ")";
+      c->notate();
 
       if (it != this->l_cost.end()) cout << " + ";
    }

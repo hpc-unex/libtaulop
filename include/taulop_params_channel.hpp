@@ -11,30 +11,41 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <vector>
 using namespace std;
 
 class TaulopParamChannel {
     
 private:
     
-    double   *o;     // Array of overhead values per message size
-    double  **L;     // Matrix of transfer times per message size and tau
-    int       num_sizes;    
-    int       channel_nr; // Channel number
+    double        *o;       // Array of overhead values per message size
+    double       **L;       // Matrix of transfer times per message size and tau
+    vector<long>   S;       // Vetor of sizes
     
-    // Load data from files
-    void loadOs    (string network); // From overhead file
-    void loadLs    (string network); // From tranfers time file
-        
+    int       num_m;        // Number of message size entries (lines in the file)
+    int       num_tau;      // Number of tau entries (columns in the file)
+    int       channel_nr;   // Channel number
+    
+    string    channel;      // Channel name
+    
+    
+    // Load data from file with parameters
+    void loadData  (string channel); // From file <channel.txt>
+    
 public:
     
-    TaulopParamChannel  (string network, int channel_nr, int num_sizes);
+     TaulopParamChannel (string channel, int channel_nr);
     ~TaulopParamChannel ();
     
-    double getO (int idx);
-    double getL (int idx, int tau);
+    double       getO      (int idx);
+    double       getL      (int idx, int tau);
+    
+    int          getNumM   ();
+    int          getNumTau ();
+    vector<long> getSizes  ();
 
-    void   show ();
+    void  show ();
 };
 
 #endif /* taulop_params_channel_hpp */

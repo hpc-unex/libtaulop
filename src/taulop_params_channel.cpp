@@ -10,164 +10,137 @@
 #include "taulop_config.h"
 #include "config.h"
 
-#include <cstdlib>
 #include <sstream>
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 
 // Utility definitions
 const int OUT_OF_RANGE = -1;
 
-const int TAUS  = 8;
-
-
-static string toString(int numero) {
-    stringstream flujo;
-    string cadena;
+vector<string> split(string strToSplit, char delimeter) {
     
-    flujo << numero;
-    flujo >> cadena;
+    stringstream   ss(strToSplit);
+    string         item;
+    vector<string> splittedStrings;
     
-    return cadena;
+    while (getline(ss, item, delimeter)) {
+        splittedStrings.push_back(item);
+    }
+    
+    return splittedStrings;
 }
 
 
 // PRIVATE methods
 
-
-void TaulopParamChannel::loadOs (string network) {
+void TaulopParamChannel::loadData (string channel) {
     
-    ifstream ifs;
+    ifstream       ifs;
+    vector<string> v;
     
-    string name = "o" + toString(this->channel_nr) + "_m.txt";
+    char delimiter = '\t';
+    
     string params_folder (PARAMS_FOLDER);
+    string name = params_folder + "/" + channel + ".txt";
     
-    name = params_folder + "/" + network + "/" + name;
-    
-    ifs.open(name.c_str());
+    ifs.open(name);
     if (!ifs.is_open()) {
-        cout << "ERROR: file OVERHEADS " << name << " not opened" << endl;
+        cout << "ERROR: unable to open file containing parameters: " << name << endl;
         return;
     }
-    
-    // 1. Read o
-    //   File must include an entry for the size m=1
-    int idx = 0;
-    
-    // 1a. Make room for sizes vector
-    this->o = new double [this->num_sizes];
-    
     
     string line;
-    while (!ifs.eof()) {
-        
-        getline(ifs, line);
-        if (ifs.eof()) break;
-        
-        // Value
-        double val = atof(line.c_str());
-        this->o[idx] = val;
-
-        idx++;
-    }
     
-    ifs.close();
-}
-
-
-void TaulopParamChannel::loadLs (string network) {
+    // Read number of m    (first line)
+    getline(ifs, line);
+    v = split(line, delimiter);
+    this->num_m = stoi(v[1]);
     
-    ifstream ifs;
-    
-    string name = "L" + toString(this->channel_nr) + "_m_t.txt";
-    string params_folder (PARAMS_FOLDER);
-    
-    name = params_folder + "/" + network + "/" + name;
-    
-    ifs.open(name.c_str());
-    if (!ifs.is_open()) {
-        cout << "ERROR: file Transfer Times " << name << " not opened" << endl;
-        return;
-    }
-    
-    string line, token;
-    string delimiter = "\t";
-    int pos;
+    // Read number of tau  (second line)
+    getline(ifs, line);
+    v = split(line, delimiter);
+    this->num_tau = stoi(v[1]);
     
     
-    // 1. Read o
+    // 1. Read parameters
     //    File must include an entry for m=1 (first line)
-    int idx = 0;
     
     // 1a. Make room for sizes vector
-    this->L = new double * [this->num_sizes];
+    this->o = new double [this->num_m];
     
-    // 1b. Comment line
-    getline(ifs, line);
+    // 1b. Make room for sizes vector
+    this->L = new double * [this->num_m];
     
+    int idx = 0;
     while (!ifs.eof()) {
         
         getline(ifs, line);
-        if (ifs.eof()) break;
+        if (line[0] == '#') continue;
         
-        int tau = 0;
+        this->L[idx] = new double [this->num_tau];
         
-        this->L[idx] = new double [TAUS];
+        v = split(line, delimiter);
         
-        while (tau < TAUS) {
+        // Sizes
+        this->S.push_back(stof(v[0]));
+        
+        // Overhead
+        this->o[idx] = stof(v[1]);
+        
+        // Transfer Time
+        for (int tau = 0; tau < this->num_tau; tau++) {
             
-            pos = (unsigned int)line.find(delimiter);
-            token = line.substr(0, pos);
-            this->L[idx][tau] = atof(token.c_str());
-            line.erase(0, pos + delimiter.length());
-            
-            tau++;
+            string token = v[tau + 2];
+            this->L[idx][tau] = stof(token);
         }
         
         idx++;
-        if (idx == this->num_sizes) break;
+        if (idx == this->num_m) break;
+    }
+    
+    if (idx != this->num_m) {
+        cout << "ERROR: file corrupt reading parameters: " << name << endl;
     }
     
     ifs.close();
 }
+
+
+
+
+
 
 
 // PUBLIC interface
 
-TaulopParamChannel::TaulopParamChannel (string network, int channel_nr, int num_sizes) {
+TaulopParamChannel::TaulopParamChannel (string channel, int channel_nr) {
+    
+    // The file has a defined format. By now, file name is:
+    //   <channel>.txt
+    //
+    // Assumptions (to be solved if possible):
+    //
+    // - Not supported more than one network by channel (for instance TCP and IB cannot be use together).
+    // - First line contains the number of messages sizes measured:
+    //   #m NUM
+    // - Second line contains the number of taus measured:
+    //   #tau NUM
+    // - Comments on files must have a '#' in the first column.
+    // - Times are expected in microseconds (not mandatory).
+    // - Decimal numbers are separated by dots (.)
+    // - Number of "m" and "tau" on all communication channels must be the same.
+    // - All tau values must be included.
+    // - First times (first line) is for size m=1 byte.
+    
     
     this->channel_nr = channel_nr;
-    this->num_sizes  = num_sizes;
+    this->channel    = channel;
     
-    // The file has not a defined format. By now (TBD), file names are:
-    //   L:  L<chn>_m_t.txt
-    //   o:  o<chn>_m.txt
-    // Hence, not supported more than one option by channel (for instance TCP and IB).
-    // Format of the files:
-    //   1. Lines starting with # are coments
-    //   2. Times are expected in microseconds (not mandatory).
-    //   3. Decimal numbers are separated by dots (.)
-    // L (Transfer times)
-    //   First line is a comment
-    //   Rest of lines are:  L(size,tau_1) L(size,tau_2) . . . L(size,tau_n)
-    //   Line field delimiter is \t
-    // o (Overhead)
-    //   Rest of lines are:  Size o(size)
-    // Sizes in o and L along all channels must be the same
-    // All tau values must be covered.
-    // First times (first line) is for size m=1
-    // Number of lines in the file must match the sizes in sizes.txt
-    // TBD: What about H and S values ?
-    
-    
-    // 1. Overhead values
-    this->loadOs(network);
-    
-    // 2. Transfer Time values
-    this->loadLs(network);
+    this->loadData(channel);
     
 #if TLOP_DEBUG == 1
     show();
@@ -181,7 +154,7 @@ TaulopParamChannel::~TaulopParamChannel () {
     
     delete [] this->o;
     
-    for (int i = 0; i < this->num_sizes; i++) {
+    for (int i = 0; i < this->num_m; i++) {
         delete [] this->L[i];
     }
     delete [] this->L;
@@ -190,7 +163,7 @@ TaulopParamChannel::~TaulopParamChannel () {
 
 double TaulopParamChannel::getO (int idx) {
 
-    if (idx >= this->num_sizes)  return OUT_OF_RANGE;
+    if (idx >= this->num_m)     return OUT_OF_RANGE;
     
     return this->o[idx];
 }
@@ -198,26 +171,40 @@ double TaulopParamChannel::getO (int idx) {
 
 double TaulopParamChannel::getL (int idx, int tau) {
     
-    if (idx >= this->num_sizes)  return OUT_OF_RANGE;
-    if (tau >  TAUS)             return OUT_OF_RANGE;
+    if (idx >= this->num_m)     return OUT_OF_RANGE;
+    if (tau >  this->num_tau)   return OUT_OF_RANGE;
     
     return this->L[idx][tau];
 }
 
 
 
+int TaulopParamChannel::getNumM () {
+    return this->num_m;
+}
+
+
+int TaulopParamChannel::getNumTau () {
+    return this->num_tau;
+}
+
+vector<long> TaulopParamChannel::getSizes () {
+    return this->S;
+}
+
+
 void TaulopParamChannel::show () {
     
     cout << "Overhead (o): ";
-    for (int i = 0; i < this->num_sizes; i++) {
-        cout << o[i] << "  ";
+    for (int i = 0; i < this->num_m; i++) {
+        cout << this->S[i] << ":  " << this->o[i] << endl;
     }
-    cout << endl;
     
     cout << "Transfer times (L): " << endl;
-    for (int i = 0; i < this->num_sizes; i++) {
-        for (int j = 0; j < TAUS; j++) {
-            cout << L[i][j] << "  ";
+    for (int i = 0; i < this->num_m; i++) {
+        cout << this->S[i] << ":  ";
+        for (int j = 0; j < this->num_tau; j++) {
+            cout << this->L[i][j] << " \t ";
         }
         cout << endl;
     }

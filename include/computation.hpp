@@ -1,65 +1,97 @@
 //
 //  computation.hpp
-//  TauLopCost
 //
-//  Created by jarico on 27/3/23.
+//  Created by jarico on 7/4/23.
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
-//   Represents a computation cost.
 //
 
 #ifndef computation_hpp
 #define computation_hpp
 
+#include "cost_element.hpp"
 #include "process.hpp"
-#include "taulop_params.hpp"
+//#include "taulop_params.hpp"
 
 #include <iostream>
 
-// Attributes represents a computation: gamma(m, op)
-//  It does not take into account concurrency.
-//  Its impemented as a linear function, that is:  A x gamma(m, op) = gamma(m x A, op)
-// With:
-//     m:  message size to compute in bytes.
-//     op: operation to apply.
 
-class Computation {
+// MPI operation types
+// DEFAULT = SUM, arbitrary.
+enum class OpType {DEFAULT, MAX, MIN, SUM, PROD, LAND, BAND, LOR, BOR, LXOR, BXOR, MAXLOC, MINLOC};
+
+
+// Attributes represent a Computation in the format:  n x (tau || g(m))
+// With:
+//     n: number of transmissions (tau || g(m)).
+//     tau: Number of concurrent transmissions g(m)
+//     m: message size of the transmission
+
+class Computation : public CostElement {
    
 private:
    
-   Process      proc;   // Process
-   int          node;   // Node
-   long         m;      // Message size
-   int          op;     // Operation to apply  (TODO)
-   
-   TauLopParam *params;
-   
+   Process p_dst;    // Destination process
+   OpType  opType;   // Operation type
+      
 public:
    
-             Computation ();
-             Computation (const Process &proc, int m, int op);
-             Computation (const Computation &c);
-            ~Computation ();
+          Computation   ();
    
-   void      putProcess  (const Process &p);
-   Process&  getProcess  ();
-         
-   int       getRank     () const;
+          Computation   (const Process &p_src, int n, int m, int tau);
+          Computation   (const Process &p_src, int n, int m, int tau, OpType opType);
    
-   int       getNode     () const;
+          Computation   (const Process &p_src, int m, int tau);
+          Computation   (const Process &p_src, int m, int tau, OpType opType);
+          
+   		 Computation   (int m, int tau);
+          Computation   (int m, int tau, OpType opType);
    
-   void      putM        (long m);
-   long      getM        () const;
+          Computation   (const Computation *c);
+   
+         ~Computation   () override;
+   
+	
    
    
-   double    getCost     ();  // Cost of the blocks in computation
-   long      getBytes    (double t);
    
-   void      add         (const Computation &c);
+   void   putProcDst (const Process &p);
    
-   void      compact     (const Computation &c);
+   int    getMsgSize ()  const;
    
-   void      show        ();
+   int    getRank ()  const override;
+      
+   void   incrTau    (int inc = 1);
+   void   initTau    ();
+   
+   
+   double getCost    ()  const override;  // Cost of the blocks in c
+   long   getBytes   (double t, int tau)  const  override; // Inverse: bytes sent in time t when tau concurrent
+   
+   void   getOverlap     (const CostElement *c)  override;
+   
+   bool   areCompactable (const Computation *c);
+   void   compact        (const Computation *c);
+
+   bool   areSequential  (const Computation *c);
+   void   add            (const Computation *c);
+   
+   Computation& operator=  (const Computation &c);
+   
+   Computation *clone() const override {
+      return new Computation(*this);
+   }
+   
+   OpType getOpType      ()  const {
+      return this->opType;
+   }
+   
+   CEType getType        ()  const  override {
+      return this->ceType;
+   }
+   
+   void   show           ()  const  override;
+   void   notate         ()  const  override;
 };
 
 #endif /* computation_hpp */

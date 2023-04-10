@@ -9,6 +9,7 @@
 #include "reduce_linear.hpp"
 
 #include "transmission.hpp"
+#include "computation.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
 #include "taulop_concurrent.hpp"
@@ -34,10 +35,11 @@ ReduceLinear::~ReduceLinear () {
 
 TauLopCost * ReduceLinear::evaluate (Communicator *comm, int *size, int root) {
    
-   TauLopConcurrent *conc;
-   TauLopSequence   *seq;
-   Transmission     *c;
-   //Computation      *x;
+   TauLopConcurrent *conc = nullptr;
+   TauLopSequence   *seq  = nullptr;
+   Transmission     *T    = nullptr;
+   Computation      *g    = nullptr;
+   
    
    int P = comm->getSize();
    
@@ -60,19 +62,19 @@ TauLopCost * ReduceLinear::evaluate (Communicator *comm, int *size, int root) {
          int n   = 1;
          int tau = 1;
          
-         c = new Transmission(p_src, p_dst, channel, n, *size, tau);
-         seq->add(c);
+         T = new Transmission(p_src, p_dst, channel, n, *size, tau);
+         seq->add(T);
          
-         cout << "T^" << c->getChannel() << "(" << *size << ")" << endl;
+         T->notate();
          conc->add(seq);
          
       }
       
       if (rank != P-1) { // First is received but not operated to.
-         //x = new Computation(p_dst, *size, op);
-         //seq->add(x)
+         g = new Computation(*size, 1, OpType::SUM);
+         g->notate();
+         seq->add(g);
       }
-    
       
    }
    

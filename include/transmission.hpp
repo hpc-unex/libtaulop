@@ -11,8 +11,9 @@
 #ifndef transmission_hpp
 #define transmission_hpp
 
+#include "cost_element.hpp"
 #include "process.hpp"
-#include "taulop_params.hpp"
+//#include "taulop_params.hpp"
 
 #include <iostream>
 
@@ -23,33 +24,29 @@
 //     channel: Channel of communication
 //     m: message size of the transmission
 
-class Transmission {
+class Transmission : public CostElement {
    
 private:
    
-   Process p_src;    // Source process
    Process p_dst;    // Destination process
-   int  node_src;    // Source node
-   int  node_dst;    // Destination node
    int  channel;     // Channels through which the transmission progress
-   int  n;           // Number of transmission (if more than one)
-   long m;           // Message size
-   int  tau;         // Number of concurrent transmissions
-   
-   TauLopParam *params;
-   
+      
 public:
    
       Transmission   ();
+   
       Transmission   (const Process &p_src, const Process &p_dst, int channel, int n, int m, int tau);
       Transmission   (const Process &p_src, const Process &p_dst, int n, int m, int tau);
       Transmission   (const Process &p_src, const Process &p_dst, int m, int tau);
+
       Transmission   (int channel, int n, int m, int tau);
       Transmission   (int channel, int m, int tau);
+
       Transmission   (const Transmission *c);
-     ~Transmission   ();
    
-   void   putProcSrc (const Process &p);
+     ~Transmission   () override;
+   
+   
    void   putProcDst (const Process &p);
    
    int    getMsgSize ()  const;
@@ -57,27 +54,18 @@ public:
    void   putChannel (int channel);
    int    getChannel ()  const;
    
-   int    getSrcRank ()  const;
+   int    getRank ()  const override;  // Source rank
    int    getDstRank ()  const;
    
-   int    getSrcNode ()  const;
    int    getDstNode ()  const;
-   
-   void   putM       (long m);
-   long   getM       ()  const;
-   
-   void   putN       (int n);
-   int    getN       ()  const;
-   
+      
    void   incrTau    (int inc = 1);
    void   initTau    ();
-   int    getTau     ()  const;
    
-   double getCost    ()  const;  // Cost of the blocks in c
-   long   getBytes   (double t, int tau)  const; // Inverse: bytes sent in time t when tau concurrent
+   double getCost    ()  const override;  // Cost of the blocks in c
+   long   getBytes   (double t, int tau)  const  override; // Inverse: bytes sent in time t when tau concurrent
    
-   bool   areConcurrent  (const Transmission *c);
-   void   getOverlap     (const Transmission *c);
+   void   getOverlap     (const CostElement *c)  override;
    
    bool   areCompactable (const Transmission *c);
    void   compact        (const Transmission *c);
@@ -87,7 +75,16 @@ public:
    
    Transmission& operator=  (const Transmission &c);
    
-   void   show           ()  const;
+   Transmission *clone() const override {
+      return new Transmission(*this);
+   }
+   
+   CEType getType        ()  const  override {
+      return this->ceType;
+   }
+   
+   void   show           ()  const  override;
+   void   notate         ()  const  override;
 };
 
 #endif /* transmission_hpp */

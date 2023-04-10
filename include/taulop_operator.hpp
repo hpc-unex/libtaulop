@@ -11,7 +11,7 @@
 #ifndef taulop_operator_hpp
 #define taulop_operator_hpp
 
-#include "transmission.hpp"
+#include "cost_element.hpp"
 
 #include <list>
 #include <iostream>
@@ -24,21 +24,23 @@ class TauLopOperator {
 private:
       
    // Initial communication starting at the same time (possibly concurrent)
-   list<Transmission *> l_comm;
+   list<CostElement *> l_comm;
    // Real concurrent communication from l_comm
-   list<Transmission *> l_real_conc;
+   list<CostElement *> l_real_conc;
    
-   void  show  (list<Transmission *> l) const;
+   void  show  (list<CostElement *> l) const;
    
 public:
    
           TauLopOperator  ();
          ~TauLopOperator  ();
    
-   void   add             (Transmission *c);
+   void   add             (CostElement *c);
    void   evaluate        ();
-   Transmission*  getMinCost ();
-   int    getConcurrency  (const Transmission *c); // Get the concurrency (tau) of the comm in the same channel
+   CostElement*  getMinCost ();
+   int    getConcurrency  (const CostElement *c); // Get the concurrency (tau) of the comm in the same channel
+   
+   bool   areConcurrent   (const CostElement *c1, const CostElement *c2) const;
    
    void   show_init_comms ()  const;
    void   show_concurrent ()  const;

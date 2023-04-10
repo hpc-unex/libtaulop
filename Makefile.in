@@ -151,7 +151,9 @@ am_libtaulop_a_OBJECTS = src/process.$(OBJEXT) \
 	src/scatter_binomial.$(OBJEXT) \
 	src/bcast_binomial_openmpi.$(OBJEXT) src/graph.$(OBJEXT) \
 	src/graph_collective.$(OBJEXT) src/reduce_linear.$(OBJEXT) \
-	src/computation.$(OBJEXT) src/cost_element.$(OBJEXT)
+	src/computation.$(OBJEXT) src/cost_element.$(OBJEXT) \
+	src/alltoall_basic.$(OBJEXT) src/alltoall_linear.$(OBJEXT) \
+	src/alltoall_pairwise.$(OBJEXT)
 libtaulop_a_OBJECTS = $(am_libtaulop_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -170,6 +172,9 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = src/$(DEPDIR)/allgather_rda.Po \
 	src/$(DEPDIR)/allgather_ring.Po \
+	src/$(DEPDIR)/alltoall_basic.Po \
+	src/$(DEPDIR)/alltoall_linear.Po \
+	src/$(DEPDIR)/alltoall_pairwise.Po \
 	src/$(DEPDIR)/bcast_binomial.Po \
 	src/$(DEPDIR)/bcast_binomial_openmpi.Po \
 	src/$(DEPDIR)/bcast_linear.Po src/$(DEPDIR)/collective.Po \
@@ -351,7 +356,9 @@ libtaulop_a_HEADERS = config.h include/taulop_config.h \
 	include/scatter_binomial.hpp \
 	include/bcast_binomial_openmpi.hpp include/graph.hpp \
 	include/graph_collective.hpp include/reduce_linear.hpp \
-	include/computation.hpp include/cost_element.hpp
+	include/computation.hpp include/cost_element.hpp \
+	include/alltoall_basic.hpp include/alltoall_linear.hpp \
+	include/alltoall_pairwise.hpp
 libtaulop_a_SOURCES = src/process.cpp src/taulop_cost.cpp \
 	src/transmission.cpp src/taulop_params.cpp \
 	src/taulop_operator.cpp src/taulop_sequence.cpp \
@@ -362,7 +369,9 @@ libtaulop_a_SOURCES = src/process.cpp src/taulop_cost.cpp \
 	src/gather_binomial.cpp src/gatherv_binomial.cpp \
 	src/scatter_binomial.cpp src/bcast_binomial_openmpi.cpp \
 	src/graph.cpp src/graph_collective.cpp src/reduce_linear.cpp \
-	src/computation.cpp src/cost_element.cpp
+	src/computation.cpp src/cost_element.cpp \
+	src/alltoall_basic.cpp src/alltoall_linear.cpp \
+	src/alltoall_pairwise.cpp
 EXTRA_DIST = 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -502,6 +511,12 @@ src/computation.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/cost_element.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/alltoall_basic.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/alltoall_linear.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/alltoall_pairwise.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 
 libtaulop.a: $(libtaulop_a_OBJECTS) $(libtaulop_a_DEPENDENCIES) $(EXTRA_libtaulop_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libtaulop.a
@@ -517,6 +532,9 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/allgather_rda.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/allgather_ring.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/alltoall_basic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/alltoall_linear.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/alltoall_pairwise.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/bcast_binomial.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/bcast_binomial_openmpi.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/bcast_linear.Po@am__quote@ # am--include-marker
@@ -855,6 +873,9 @@ distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 		-rm -f src/$(DEPDIR)/allgather_rda.Po
 	-rm -f src/$(DEPDIR)/allgather_ring.Po
+	-rm -f src/$(DEPDIR)/alltoall_basic.Po
+	-rm -f src/$(DEPDIR)/alltoall_linear.Po
+	-rm -f src/$(DEPDIR)/alltoall_pairwise.Po
 	-rm -f src/$(DEPDIR)/bcast_binomial.Po
 	-rm -f src/$(DEPDIR)/bcast_binomial_openmpi.Po
 	-rm -f src/$(DEPDIR)/bcast_linear.Po
@@ -926,6 +947,9 @@ maintainer-clean: maintainer-clean-am
 	-rm -rf $(top_srcdir)/autom4te.cache
 		-rm -f src/$(DEPDIR)/allgather_rda.Po
 	-rm -f src/$(DEPDIR)/allgather_ring.Po
+	-rm -f src/$(DEPDIR)/alltoall_basic.Po
+	-rm -f src/$(DEPDIR)/alltoall_linear.Po
+	-rm -f src/$(DEPDIR)/alltoall_pairwise.Po
 	-rm -f src/$(DEPDIR)/bcast_binomial.Po
 	-rm -f src/$(DEPDIR)/bcast_binomial_openmpi.Po
 	-rm -f src/$(DEPDIR)/bcast_linear.Po

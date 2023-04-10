@@ -6,6 +6,8 @@
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
+#include "transmission.hpp"
+#include "cost_element.hpp"
 #include "taulop_operator.hpp"
 
 #include <list>
@@ -15,7 +17,7 @@ using namespace std;
 
 // UTILITY Functions
 
-Transmission* MIN (Transmission *a, Transmission *b) {
+CostElement* MIN (CostElement *a, CostElement *b) {
    
    if (a == nullptr) {
       return b;
@@ -36,73 +38,14 @@ Transmission* MIN (Transmission *a, Transmission *b) {
 // PRIVATE methods
 
 
-void TauLopOperator::show (list<Transmission *> l) const {
-
-   Transmission *c = nullptr;
+void TauLopOperator::show (list<CostElement *> l) const {
    
-   for (int field = 0; field < 7; field++) {
-      
-      list<Transmission *>::iterator it;
-      for (it = l.begin(); it != l.end(); ++it) {
-         
-         c = *it;
-         
-         switch (field) {
-            case 0: // show procs
-               if (c != nullptr) {
-                  cout << c->getSrcRank() << " -> " << c->getDstRank() << "\t\t";
-               } else {
-                  cout << "      " << "\t\t";
-               }
-               break;
-            case 1: // show channel
-               if (c != nullptr) {
-                  cout << "  " << c->getChannel() << "    \t\t";
-               } else {
-                  cout << "        " << "\t\t";
-               }
-               break;
-            case 2: // show n and m
-               if (c != nullptr) {
-                  cout << c->getM() << "  " << c->getN() << " \t\t";
-               } else {
-                  cout << "        " << "\t\t";
-               }
-               break;
-            case 3: // show m x n
-               if (c != nullptr) {
-                  cout << "(" << c->getN() * c->getM() << ")  \t\t";
-               } else {
-                  cout << "        " << "\t\t";
-               }
-               break;
-            case 4: // show tau
-               if (c != nullptr) {
-                  cout << " " << c->getTau() << " || \t\t";
-               } else {
-                  cout << "       " << "\t\t";
-               }
-               break;
-            case 5: // show node_dst
-               if (c != nullptr) {
-                  cout << " -> " << c->getDstNode() << "  \t\t";
-               } else {
-                  cout << "        " << "\t\t";
-               }
-               break;
-            case 6: // Time cost
-               if (c != nullptr) {
-                  cout << "t=" << c->getCost() << " \t";
-               } else {
-                  cout << "      " << "\t\t";
-               }
-               break;
-               
-         }
-         
-      }
-      cout << endl;
-      
+   CostElement *c = nullptr;
+   
+   list<CostElement *>::iterator it;
+   for (it = l.begin(); it != l.end(); ++it) {
+      c = *it;
+      c->notate();
    }
    cout << endl;
 }
@@ -118,33 +61,33 @@ TauLopOperator::TauLopOperator () {
 TauLopOperator::~TauLopOperator () {
    // Delete l_real_conc transmissions
    while (!this->l_real_conc.empty()) {
-      Transmission *T = this->l_real_conc.front();
+      CostElement *T = this->l_real_conc.front();
       this->l_real_conc.pop_front();
       delete T;
    }
 }
 
 
-void TauLopOperator::add (Transmission *c) {
+void TauLopOperator::add (CostElement *c) {
    this->l_comm.push_back(c);
 }
 
 
 void TauLopOperator::evaluate () {
    
-   list<Transmission *>::iterator it;
+   list<CostElement *>::iterator it;
 
    while (!this->l_comm.empty()) {
       
-      Transmission *c_comm = l_comm.front();
+      CostElement *c_comm = l_comm.front();
       
       bool found = false;
       
       for (it = l_real_conc.begin(); (it != l_real_conc.end()) && !found; ++it) {
          
-         Transmission *c_real = *it;
+         CostElement *c_real = *it;
          
-         if (c_real->areConcurrent(c_comm)) {
+         if (this->areConcurrent(c_real, c_comm)) {
             found = true;
             c_real->getOverlap(c_comm);
          }
@@ -152,7 +95,7 @@ void TauLopOperator::evaluate () {
       }
       
       if (!found) {
-         this->l_real_conc.push_back(new Transmission(c_comm));
+         this->l_real_conc.push_back(c_comm->clone());
       }
       
       this->l_comm.pop_front();
@@ -162,14 +105,14 @@ void TauLopOperator::evaluate () {
 }
 
 
-Transmission* TauLopOperator::getMinCost () {
+CostElement* TauLopOperator::getMinCost () {
 
-   Transmission *c_min = nullptr;
+   CostElement *c_min = nullptr;
    
-   list<Transmission *>::iterator it;
+   list<CostElement *>::iterator it;
    for (it = l_real_conc.begin(); it != l_real_conc.end(); ++it) {
       
-      Transmission *c_aux = *it;
+      CostElement *c_aux = *it;
       c_min = MIN (c_aux, c_min);
       
    }
@@ -179,16 +122,16 @@ Transmission* TauLopOperator::getMinCost () {
 
 
 
-int TauLopOperator::getConcurrency (const Transmission *c) {
+int TauLopOperator::getConcurrency (const CostElement *c) {
    
    bool  found = false;
    int   tau   = 0;
    
-   list<Transmission *>::iterator it;
+   list<CostElement *>::iterator it;
    for (it = this->l_real_conc.begin(); (it != this->l_real_conc.end()) && !found; ++it) {
       
-      Transmission *c_aux = *it;
-      if (c_aux->areConcurrent(c)) {
+      CostElement *c_aux = *it;
+      if (this->areConcurrent(c_aux, c)) {
          tau = c_aux->getTau();
          found = true;
       }
@@ -197,6 +140,51 @@ int TauLopOperator::getConcurrency (const Transmission *c) {
    
    return tau;
 }
+
+
+bool TauLopOperator::areConcurrent (const CostElement *c1, const CostElement *c2) const {
+   
+   // TODO: Just to this method ends my OOP knowledge. A clean design should provide a way to
+   //       compare CostElements independently of its actual type (Transmissions or Computation).
+   //       I suppose the code needs a redesign. I do not know.
+   //       Solution: use dynamic_cast and a type in each object (Transmission or Computation).
+   //                 Uage of a type makes code easier (and probably more efficient).
+   
+   // We have 3 cases to consider two CostElement concurrent or parallel (without interaction).
+   //  Note that not concurrent means that CostElements progress in parallel without interaction,
+   //  and that if they are sequential, they are not evaluated here.
+   
+   // 1st case) A Transmission and a Computation are never considered concurrent.
+   //           They progress without interaction.
+   if (c1->getType() != c2->getType()) {
+      return false;
+   }
+   
+   // 2nd case) Both are computations. They are considered not to interact (by now), but
+   //            they are concurrent if they execute in the same node.
+   //            If they are in the same node and by the same process, they are sequential
+   //            (this case is not covered here).
+   if (c1->getType() == CEType::Computation) {
+      if ((c1->getNode() == c2->getNode()) &&
+          (c1->getRank() == c2->getRank()))    {
+         return true;
+      }
+      return false;
+   }
+      
+   // 3rd case) Condition for considering two communications as concurrent
+   const Transmission* T1 = dynamic_cast<const Transmission *> (c1);
+   const Transmission* T2 = dynamic_cast<const Transmission *> (c2);
+   if ((T1->getChannel() == T2->getChannel()) &&
+       (T1->getDstNode() == T2->getDstNode()) )   {
+      
+      return true;
+      
+   }
+   
+   return false;
+}
+
 
 
 void TauLopOperator::show_init_comms () const {
