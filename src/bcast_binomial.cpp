@@ -31,7 +31,7 @@ BcastBinomial::~BcastBinomial () {
 }
 
 
-TauLopCost * BcastBinomial::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * BcastBinomial::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc;
    TauLopSequence   *seq;
@@ -58,7 +58,7 @@ TauLopCost * BcastBinomial::evaluate (Communicator *comm, int *size, int root) {
          
          int node_src = comm->getNode(src);
          int node_dst = comm->getNode(dst);
-                  
+         
          Process p_src {src, node_src};
          Process p_dst {dst, node_dst};
          

@@ -30,7 +30,7 @@ GatherBinomial::~GatherBinomial () {
 }
 
 
-TauLopCost * GatherBinomial::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * GatherBinomial::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc;
    TauLopSequence   *seq;

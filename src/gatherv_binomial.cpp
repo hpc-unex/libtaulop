@@ -30,7 +30,7 @@ GatherVBinomial::~GatherVBinomial () {
 }
 
 
-TauLopCost * GatherVBinomial::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * GatherVBinomial::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc;
    TauLopSequence   *seq;

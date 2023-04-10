@@ -19,27 +19,27 @@
 
 /*  Binomial Scatter.
  
-   1.  TODO: Its cost is calculated by stages. It does not take into acount possible overlapping
-         of stages.
+ 1.  TODO: Its cost is calculated by stages. It does not take into acount possible overlapping
+ of stages.
  
-   2.  Follow the MPICH algorithm (p -> p + 2^stage)
+ 2.  Follow the MPICH algorithm (p -> p + 2^stage)
  
-   3.  Root can be any process rank.
+ 3.  Root can be any process rank.
  
-   4.  REQUIRED (TBD): P = power of 2.
+ 4.  REQUIRED (TBD): P = power of 2.
  
  */
 
 class ScatterBinomial : public Collective {
-    
+   
 private:
-    
+   
 public:
-    
-     ScatterBinomial ();
-    ~ScatterBinomial ();
-    
-    virtual TauLopCost * evaluate (Communicator *comm, int *size, int root);
+   
+    ScatterBinomial ();
+   ~ScatterBinomial ();
+   
+   TauLopCost * evaluate (Communicator *comm, int *size, int root, OpType op = OpType::DEFAULT) override;
 };
 
 

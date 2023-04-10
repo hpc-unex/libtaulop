@@ -37,7 +37,7 @@ public:
     //      collective operation.
     //   2. Size of the message (vector of one element).
     //   3. Root of the operation.
-    virtual  TauLopCost * evaluate (Communicator *comm, int *size, int root);
+    TauLopCost * evaluate (Communicator *comm, int *size, int root, OpType op = OpType::DEFAULT) override;
 };
 
 

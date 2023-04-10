@@ -19,32 +19,32 @@
 
 /*  Binomial Broadcast.
  
-   1.  TODO: Its cost is calculated by stages. It does not take into acount possible overlapping
-         of stages.
+ 1.  TODO: Its cost is calculated by stages. It does not take into acount possible overlapping
+ of stages.
  
-   2.  Follow the MPICH algorithm (p -> P / 2 ^ (stage + 1))
+ 2.  Follow the MPICH algorithm (p -> P / 2 ^ (stage + 1))
  
-   3.  Root can be any process rank.
+ 3.  Root can be any process rank.
  
-   4.  REQUIRED (TBD): P = power of 2.
-
+ 4.  REQUIRED (TBD): P = power of 2.
+ 
  */
 
 class BcastBinomial : public Collective {
-    
+   
 private:
-    
+   
 public:
-    
+   
     BcastBinomial  ();
-    ~BcastBinomial ();
-    
-    // Parameters:
-    //   1. Communicator (including a mapping) of the processes to execute the
-    //      collective operation.
-    //   2. Size of the message (vector of one element).
-    //   3. Root of the operation.
-    virtual  TauLopCost * evaluate (Communicator *comm, int *size, int root);
+   ~BcastBinomial ();
+   
+   // Parameters:
+   //   1. Communicator (including a mapping) of the processes to execute the
+   //      collective operation.
+   //   2. Size of the message (vector of one element).
+   //   3. Root of the operation.
+   TauLopCost * evaluate (Communicator *comm, int *size, int root, OpType op = OpType::DEFAULT) override;
 };
 
 

@@ -22,23 +22,23 @@
  */
 
 class GraphCollective : public Collective {
-    
+   
 private:
-    
+   
 public:
-    
-     GraphCollective ();
-    ~GraphCollective ();
-	
-	// Set a graph representing transmission in the collective.
-	void     setGraph (Graph &g);
-	
-    // Parameters:
-    //   1. Communicator (including a mapping) of the processes to execute the
-    //      collective operation.
-    //   2. Size of the message (vector of one element).
-    //   3. Root of the operation.
-    virtual  TauLopCost * evaluate (Communicator *comm, int *size, int root);
+   
+    GraphCollective ();
+   ~GraphCollective ();
+   
+   // Set a graph representing transmission in the collective.
+   void  setGraph (Graph &g);
+   
+   // Parameters:
+   //   1. Communicator (including a mapping) of the processes to execute the
+   //      collective operation.
+   //   2. Size of the message (vector of one element).
+   //   3. Root of the operation.
+   TauLopCost * evaluate (Communicator *comm, int *size, int root, OpType op = OpType::DEFAULT) override;
 };
 
 

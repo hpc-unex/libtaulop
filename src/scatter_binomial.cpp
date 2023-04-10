@@ -30,7 +30,7 @@ ScatterBinomial::~ScatterBinomial () {
 }
 
 
-TauLopCost * ScatterBinomial::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * ScatterBinomial::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc;
    TauLopSequence   *seq;

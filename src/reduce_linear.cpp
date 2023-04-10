@@ -27,13 +27,13 @@ ReduceLinear::ReduceLinear () {
    
 }
 
-ReduceLinear::~ReduceLinear () {
-   
+
+ReduceLinear::~ReduceLinear () {   
    
 }
 
 
-TauLopCost * ReduceLinear::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * ReduceLinear::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
@@ -71,7 +71,7 @@ TauLopCost * ReduceLinear::evaluate (Communicator *comm, int *size, int root) {
       }
       
       if (rank != P-1) { // First is received but not operated to.
-         g = new Computation(*size, 1, OpType::SUM);
+         g = new Computation(*size, 1, op);
          g->notate();
          seq->add(g);
       }

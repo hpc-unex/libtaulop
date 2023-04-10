@@ -32,7 +32,7 @@ BcastLinear::~BcastLinear () {
 }
 
 
-TauLopCost * BcastLinear::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * BcastLinear::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc;
    TauLopSequence   *seq;
@@ -54,7 +54,7 @@ TauLopCost * BcastLinear::evaluate (Communicator *comm, int *size, int root) {
       Process p_dst {rank, node_dst};
       
       int channel = (node_src == node_dst) ? 0 : 1;
-
+      
       int tau = 1;
       
       int n = 1;

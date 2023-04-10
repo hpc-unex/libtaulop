@@ -31,7 +31,7 @@ AllgatherRing::~AllgatherRing () {
 }
 
 
-TauLopCost * AllgatherRing::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * AllgatherRing::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc;
    TauLopSequence   *seq;

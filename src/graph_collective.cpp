@@ -31,7 +31,7 @@ GraphCollective::~GraphCollective () {
 }
 
 
-TauLopCost * GraphCollective::evaluate (Communicator *comm, int *size, int root) {
+TauLopCost * GraphCollective::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc;
    TauLopSequence   *seq;

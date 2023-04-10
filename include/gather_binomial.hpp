@@ -19,28 +19,28 @@
 
 /*  Binomial Gather.
  
-   Support: Any root rank and P != power of two.
-            Implements the MPICH 3.1 algorithm for gather (binomial tree)
-   
-   TODO: Its cost is calculated by stages. It does not take into acount possible overlapping
-         between stages. 
+ Support: Any root rank and P != power of two.
+ Implements the MPICH 3.1 algorithm for gather (binomial tree)
+ 
+ TODO: Its cost is calculated by stages. It does not take into acount possible overlapping
+ between stages.
  */
 
 class GatherBinomial : public Collective {
-    
+   
 private:
-    
+   
 public:
-    
-     GatherBinomial ();
-    ~GatherBinomial ();
-    
-    // Parameters:
-    //   1. Communicator (including a mapping) of the processes to execute the
-    //      collective operation.
-    //   2. Size of the message (vector of one element).
-    //   3. Root for this operation.
-    virtual  TauLopCost * evaluate (Communicator *comm, int *size, int root);
+   
+    GatherBinomial ();
+   ~GatherBinomial ();
+   
+   // Parameters:
+   //   1. Communicator (including a mapping) of the processes to execute the
+   //      collective operation.
+   //   2. Size of the message (vector of one element).
+   //   3. Root for this operation.
+   TauLopCost * evaluate (Communicator *comm, int *size, int root, OpType op = OpType::DEFAULT) override;
 };
 
 

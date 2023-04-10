@@ -19,32 +19,32 @@
 
 /*  Binomial Broadcast Open MPI.
  
-   1.  TODO: Its cost is calculated by stages. It does not take into acount possible overlapping
-         of stages.
+ 1.  TODO: Its cost is calculated by stages. It does not take into acount possible overlapping
+ of stages.
  
-   2.  Follow the Open MPI algorithm (p -> p + 2^stage)
+ 2.  Follow the Open MPI algorithm (p -> p + 2^stage)
  
-   3.  Root can be any process rank.
+ 3.  Root can be any process rank.
  
-   4.  REQUIRED (TBD): P = power of 2.
-
+ 4.  REQUIRED (TBD): P = power of 2.
+ 
  */
 
 class BcastBinomialOpenMPI : public Collective {
-    
+   
 private:
-    
+   
 public:
-    
-     BcastBinomialOpenMPI ();
-    ~BcastBinomialOpenMPI ();
-    
-    // Parameters:
-    //   1. Communicator (including a mapping) of the processes to execute the
-    //      collective operation.
-    //   2. Size of the message (vector of one element).
-    //   3. Root of the operation.
-    virtual  TauLopCost * evaluate (Communicator *comm, int *size, int root);
+   
+    BcastBinomialOpenMPI ();
+   ~BcastBinomialOpenMPI ();
+   
+   // Parameters:
+   //   1. Communicator (including a mapping) of the processes to execute the
+   //      collective operation.
+   //   2. Size of the message (vector of one element).
+   //   3. Root of the operation.
+   TauLopCost * evaluate (Communicator *comm, int *size, int root, OpType op = OpType::DEFAULT) override;
 };
 
 
