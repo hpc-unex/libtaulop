@@ -43,7 +43,6 @@ TauLopCost * BcastBinomial::evaluate (Communicator *comm, int *size, int root, O
    
    for (int stage = 0; pow(2, stage) < P; stage++) {
       
-      
       conc = new TauLopConcurrent ();
       
       int p = root;
