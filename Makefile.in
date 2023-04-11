@@ -153,7 +153,7 @@ am_libtaulop_a_OBJECTS = src/process.$(OBJEXT) \
 	src/graph_collective.$(OBJEXT) src/reduce_linear.$(OBJEXT) \
 	src/computation.$(OBJEXT) src/cost_element.$(OBJEXT) \
 	src/alltoall_basic.$(OBJEXT) src/alltoall_linear.$(OBJEXT) \
-	src/alltoall_pairwise.$(OBJEXT)
+	src/alltoall_pairwise.$(OBJEXT) src/reduce_binomial.$(OBJEXT)
 libtaulop_a_OBJECTS = $(am_libtaulop_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -182,7 +182,8 @@ am__depfiles_remade = src/$(DEPDIR)/allgather_rda.Po \
 	src/$(DEPDIR)/cost_element.Po src/$(DEPDIR)/gather_binomial.Po \
 	src/$(DEPDIR)/gatherv_binomial.Po src/$(DEPDIR)/graph.Po \
 	src/$(DEPDIR)/graph_collective.Po src/$(DEPDIR)/mapping.Po \
-	src/$(DEPDIR)/process.Po src/$(DEPDIR)/reduce_linear.Po \
+	src/$(DEPDIR)/process.Po src/$(DEPDIR)/reduce_binomial.Po \
+	src/$(DEPDIR)/reduce_linear.Po \
 	src/$(DEPDIR)/scatter_binomial.Po \
 	src/$(DEPDIR)/taulop_concurrent.Po \
 	src/$(DEPDIR)/taulop_cost.Po src/$(DEPDIR)/taulop_operator.Po \
@@ -358,7 +359,7 @@ libtaulop_a_HEADERS = config.h include/taulop_config.h \
 	include/graph_collective.hpp include/reduce_linear.hpp \
 	include/computation.hpp include/cost_element.hpp \
 	include/alltoall_basic.hpp include/alltoall_linear.hpp \
-	include/alltoall_pairwise.hpp
+	include/alltoall_pairwise.hpp include/reduce_binomial.hpp
 libtaulop_a_SOURCES = src/process.cpp src/taulop_cost.cpp \
 	src/transmission.cpp src/taulop_params.cpp \
 	src/taulop_operator.cpp src/taulop_sequence.cpp \
@@ -371,7 +372,7 @@ libtaulop_a_SOURCES = src/process.cpp src/taulop_cost.cpp \
 	src/graph.cpp src/graph_collective.cpp src/reduce_linear.cpp \
 	src/computation.cpp src/cost_element.cpp \
 	src/alltoall_basic.cpp src/alltoall_linear.cpp \
-	src/alltoall_pairwise.cpp
+	src/alltoall_pairwise.cpp src/reduce_binomial.cpp
 EXTRA_DIST = 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -517,6 +518,8 @@ src/alltoall_linear.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/alltoall_pairwise.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/reduce_binomial.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 
 libtaulop.a: $(libtaulop_a_OBJECTS) $(libtaulop_a_DEPENDENCIES) $(EXTRA_libtaulop_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libtaulop.a
@@ -548,6 +551,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/graph_collective.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/mapping.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/process.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/reduce_binomial.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/reduce_linear.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/scatter_binomial.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/taulop_concurrent.Po@am__quote@ # am--include-marker
@@ -889,6 +893,7 @@ distclean: distclean-am
 	-rm -f src/$(DEPDIR)/graph_collective.Po
 	-rm -f src/$(DEPDIR)/mapping.Po
 	-rm -f src/$(DEPDIR)/process.Po
+	-rm -f src/$(DEPDIR)/reduce_binomial.Po
 	-rm -f src/$(DEPDIR)/reduce_linear.Po
 	-rm -f src/$(DEPDIR)/scatter_binomial.Po
 	-rm -f src/$(DEPDIR)/taulop_concurrent.Po
@@ -963,6 +968,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f src/$(DEPDIR)/graph_collective.Po
 	-rm -f src/$(DEPDIR)/mapping.Po
 	-rm -f src/$(DEPDIR)/process.Po
+	-rm -f src/$(DEPDIR)/reduce_binomial.Po
 	-rm -f src/$(DEPDIR)/reduce_linear.Po
 	-rm -f src/$(DEPDIR)/scatter_binomial.Po
 	-rm -f src/$(DEPDIR)/taulop_concurrent.Po

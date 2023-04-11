@@ -1,8 +1,8 @@
 //
-//  reduce_linear.hpp
-//  Implementation of a Linear Reduce
+//  reduce_binomial.hpp
+//  Implementation of a Binomial Reduce
 //
-//  Created by jarico on 27/Ma/2023
+//  Created by jarico on 11/04/2023
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
@@ -18,31 +18,30 @@
 
 
 
-/*  Linear Reduce.
+/*  Binomial Reduce.
  
- Star pattern. Root receives from all the other processes in turns and compute.
- The algorithm is implemented in Open MPI 4.1.5. All processes send messages
- (concurrently) to the root process, which computes buffer in inverse order
- of rank (from P-1 to 0).
+ Binomial tree pattern.
+ The algorithm is implemented in Open MPI 4.1.5 base colls.
  
  */
 
-class ReduceLinear : public Collective {
+class ReduceBinomial : public Collective {
    
 private:
    
 public:
    
-    ReduceLinear ();
-   ~ReduceLinear ();
+    ReduceBinomial ();
+   ~ReduceBinomial ();
    
    // Parameters:
    //   1. Communicator (including a mapping) of the processes to execute the
    //      collective operation.
    //   2. Size of the message (vector of one element).
    //   3. Root of the operation.
+   //   4. Operation to apply.
    TauLopCost * evaluate (Communicator *comm, int *size, int root, OpType op) override;
 };
 
 
-#endif /* reduce_linear_hpp */
+#endif /* reduce_binomial_hpp */

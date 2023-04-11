@@ -1,8 +1,7 @@
 //
-//  reduce_linear.cpp
-//  TauLopCost
+//  reduce_binomial.cpp
 //
-//  Created by jarico on 27/Mar/23.
+//  Created by jarico on 11/04/23.
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
@@ -23,17 +22,17 @@ using namespace std;
 
 
 
-ReduceLinear::ReduceLinear () {
+ReduceBinomial::ReduceBinomial () {
    
 }
 
 
-ReduceLinear::~ReduceLinear () {   
+ReduceBinomial::~ReduceBinomial () {
    
 }
 
 
-TauLopCost * ReduceLinear::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * ReduceBinomial::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;

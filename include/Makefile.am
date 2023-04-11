@@ -28,7 +28,8 @@ libtaulop_a_HEADERS += config.h \
   include/cost_element.hpp \
   include/alltoall_basic.hpp \
   include/alltoall_linear.hpp \
-  include/alltoall_pairwise.hpp
+  include/alltoall_pairwise.hpp \
+  include/reduce_binomial.hpp
 
 
 

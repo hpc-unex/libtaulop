@@ -25,7 +25,8 @@ libtaulop_a_SOURCES += src/process.cpp \
   src/cost_element.cpp \
   src/alltoall_basic.cpp \
   src/alltoall_linear.cpp \
-  src/alltoall_pairwise.cpp
+  src/alltoall_pairwise.cpp \
+  src/reduce_binomial.cpp
 
 
 
