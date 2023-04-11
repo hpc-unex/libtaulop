@@ -5,7 +5,7 @@
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
-#include "reduce_linear.hpp"
+#include "reduce_binomial.hpp"
 
 #include "transmission.hpp"
 #include "computation.hpp"

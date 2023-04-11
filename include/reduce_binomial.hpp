@@ -6,8 +6,8 @@
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
-#ifndef reduce_linear_hpp
-#define reduce_linear_hpp
+#ifndef reduce_binomial_hpp
+#define reduce_binomial_hpp
 
 #include "collective.hpp"
 #include "communicator.hpp"

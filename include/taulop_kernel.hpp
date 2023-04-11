@@ -23,6 +23,11 @@
 #include "allgather_ring.hpp"
 #include "allgather_rda.hpp"
 #include "reduce_linear.hpp"
+#include "reduce_binomial.hpp"
+#include "alltoall_basic.hpp"
+#include "alltoall_linear.hpp"
+#include "alltoall_pairwise.hpp"
+#include "scatter_binomial.hpp"
 #include "graph_collective.hpp"
 
 #include "cost_element.hpp"
