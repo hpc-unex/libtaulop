@@ -25,6 +25,8 @@
  (concurrently) to the root process, which computes buffer in inverse order
  of rank (from P-1 to 0).
  
+ TODO: Not sure that this model match the implementation.
+ 
  */
 
 class ReduceLinear : public Collective {
