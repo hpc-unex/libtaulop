@@ -83,7 +83,6 @@ TauLopCost * ReduceBinomial::evaluate (Communicator *comm, int *size, int root, 
       cout << " ----  Stage " << stage << endl;
       conc->show();
 #endif
-      conc->show();
       
       conc->evaluate(cost);
       

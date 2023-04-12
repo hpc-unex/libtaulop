@@ -40,12 +40,34 @@ TauLopCost * ReduceLinear::evaluate (Communicator *comm, int *size, int root, Op
    Transmission     *T    = nullptr;
    Computation      *g    = nullptr;
    
+   int n   = 1;
+   int tau = 1;
+
    
    int P = comm->getSize();
    
    conc = new TauLopConcurrent ();
    
-   for (int rank = P-1; rank >= 0; rank--) {
+   // Process P-1 sends and the buffer is not operated.
+   if (root != P-1) {
+      seq  = new TauLopSequence ();
+      
+      int node_src = comm->getNode(P-1);
+      int node_dst = comm->getNode(root);
+      
+      Process p_src {P-1,  node_src};
+      Process p_dst {root, node_dst};
+      
+      int channel = (node_src == node_dst) ? 0 : 1;
+      
+      T = new Transmission(p_src, p_dst, channel, n, *size, tau);
+      seq->add(T);
+      
+      conc->add(seq);
+   }
+
+   // Rest of processes.
+   for (int rank = P-2; rank >= 0; rank--) {
       
       seq  = new TauLopSequence ();
       
@@ -58,22 +80,20 @@ TauLopCost * ReduceLinear::evaluate (Communicator *comm, int *size, int root, Op
          Process p_dst {root, node_dst};
          
          int channel = (node_src == node_dst) ? 0 : 1;
-         
-         int n   = 1;
-         int tau = 1;
-         
+                  
          T = new Transmission(p_src, p_dst, channel, n, *size, tau);
          seq->add(T);
          
-         conc->add(seq);
-         
       }
+
+      int     node_src = comm->getNode(rank);
+      Process p_src {rank, node_src};
       
-      if (rank != P-1) { // First is received but not operated to.
-         g = new Computation(*size, op);
-         seq->add(g);
-      }
-      
+      g = new Computation(p_src, *size, op);
+      seq->add(g);
+                  
+      conc->add(seq);
+
    }
    
 #if TLOP_DEBUG == 1
