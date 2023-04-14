@@ -47,10 +47,10 @@ TauLopCost * ReduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int r
    int P = comm->getSize();
    
    conc = new TauLopConcurrent ();
+   seq  = new TauLopSequence   ();
    
    // Process P-1 sends and the buffer is not operated.
    if (root != P-1) {
-      seq  = new TauLopSequence ();
       
       int node_src = comm->getNode(P-1);
       int node_dst = comm->getNode(root);
@@ -62,15 +62,11 @@ TauLopCost * ReduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int r
       
       T = new Transmission(p_src, p_dst, channel, n, *size, tau);
       seq->add(T);
-      
-      conc->add(seq);
    }
 
    // Rest of processes.
    for (int rank = P-2; rank >= 0; rank--) {
-      
-      seq  = new TauLopSequence ();
-      
+            
       if (rank != root) {
          
          int node_src = comm->getNode(rank);
@@ -92,9 +88,9 @@ TauLopCost * ReduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int r
       g = new Computation(p_src, *size, op);
       seq->add(g);
                   
-      conc->add(seq);
-
    }
+   
+   conc->add(seq);
    
 #if TLOP_DEBUG == 1
    cout << " ----  Root " << root << endl;
