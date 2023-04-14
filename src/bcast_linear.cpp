@@ -34,9 +34,9 @@ BcastLinear::~BcastLinear () {
 
 TauLopCost * BcastLinear::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
-   TauLopConcurrent *conc;
-   TauLopSequence   *seq;
-   Transmission     *c;
+   TauLopConcurrent *conc = nullptr;
+   TauLopSequence   *seq  = nullptr;
+   Transmission     *T    = nullptr;
    
    int P = comm->getSize();
    
@@ -59,8 +59,8 @@ TauLopCost * BcastLinear::evaluate (Communicator *comm, int *size, int root, OpT
       
       int n = 1;
       
-      c = new Transmission(p_src, p_dst, channel, n, *size, tau);
-      seq->add(c);
+      T = new Transmission(p_src, p_dst, channel, n, *size, tau);
+      seq->add(T);
    }
    
    conc->add(seq);

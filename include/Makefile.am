@@ -30,8 +30,8 @@ libtaulop_a_HEADERS += config.h \
   include/alltoall_linear.hpp \
   include/alltoall_pairwise.hpp \
   include/reduce_binomial_openmpi.hpp \
-  include/allreduce_linear_openmpi.hpp
-
+  include/allreduce_linear_openmpi.hpp \
+  include/allreduce_nonoverlap_openmpi.hpp
 
 
 

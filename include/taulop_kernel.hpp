@@ -29,6 +29,7 @@
 #include "alltoall_pairwise.hpp"
 #include "scatter_binomial.hpp"
 #include "allreduce_linear_openmpi.hpp"
+#include "allreduce_nonoverlap_openmpi.hpp"
 #include "graph_collective.hpp"
 
 #include "cost_element.hpp"
