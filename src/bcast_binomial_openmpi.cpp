@@ -33,9 +33,9 @@ BcastBinomialOpenMPI::~BcastBinomialOpenMPI () {
 
 TauLopCost * BcastBinomialOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
-   TauLopConcurrent *conc;
-   TauLopSequence   *seq;
-   Transmission     *c;
+   TauLopConcurrent *conc = nullptr;
+   TauLopSequence   *seq  = nullptr;
+   Transmission     *c    = nullptr;
    
    TauLopCost       *cost = new TauLopCost();
    

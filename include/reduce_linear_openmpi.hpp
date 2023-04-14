@@ -1,13 +1,13 @@
 //
-//  reduce_linear.hpp
+//  reduce_linear_openmpi.hpp
 //  Implementation of a Linear Reduce
 //
 //  Created by jarico on 27/Ma/2023
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
-#ifndef reduce_linear_hpp
-#define reduce_linear_hpp
+#ifndef reduce_linear_openmpi_hpp
+#define reduce_linear_openmpi_hpp
 
 #include "collective.hpp"
 #include "communicator.hpp"
@@ -29,14 +29,14 @@
  
  */
 
-class ReduceLinear : public Collective {
+class ReduceLinearOpenMPI : public Collective {
    
 private:
    
 public:
    
-    ReduceLinear ();
-   ~ReduceLinear ();
+    ReduceLinearOpenMPI ();
+   ~ReduceLinearOpenMPI ();
    
    // Parameters:
    //   1. Communicator (including a mapping) of the processes to execute the
@@ -47,4 +47,4 @@ public:
 };
 
 
-#endif /* reduce_linear_hpp */
+#endif /* reduce_linear_openmpi_hpp */

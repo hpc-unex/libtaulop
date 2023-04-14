@@ -1,18 +1,19 @@
 //
-//  gather_binomial.cpp
-//  TauLopCost
+//  reduce_binomial_openmpi.cpp
 //
-//  Created by jarico on 20/Apr/17
+//  Created by jarico on 11/04/23.
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
-#include "gather_binomial.hpp"
+#include "reduce_binomial_openmpi.hpp"
 
 #include "transmission.hpp"
+#include "computation.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
 #include "taulop_concurrent.hpp"
 #include "taulop_sequence.hpp"
+#include "taulop_cost.hpp"
 
 #include <math.h>
 #include <iostream>
@@ -21,33 +22,37 @@ using namespace std;
 
 
 
-GatherBinomial::GatherBinomial () {
-   
-}
-
-GatherBinomial::~GatherBinomial () {
+ReduceBinomialOpenMPI::ReduceBinomialOpenMPI () {
    
 }
 
 
-TauLopCost * GatherBinomial::evaluate (Communicator *comm, int *size, int root, OpType op) {
+ReduceBinomialOpenMPI::~ReduceBinomialOpenMPI () {
    
+}
+
+
+TauLopCost * ReduceBinomialOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
+
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
-   Transmission     *c    = nullptr;
+   Transmission     *T    = nullptr;
+   Computation      *g    = nullptr;
+
    
    TauLopCost       *cost = new TauLopCost();
    
    int P = comm->getSize();
    
-   int mask  = 1;
-   int stage = 0;
+   int num_stages = ceil(log2(P));
+   int mask  = 1 << (num_stages - 1);
+   int stage = num_stages - 1;
    
-   while (mask < P) {
-      
+   while (mask > 0) {
+            
       conc = new TauLopConcurrent ();
             
-      for (int r = 0; r < P; r += pow(2, stage)) {
+      for (int r = 0; r < pow(2, stage); r++) {
          
          if ((mask & r) == 0) {
                         
@@ -67,27 +72,24 @@ TauLopCost * GatherBinomial::evaluate (Communicator *comm, int *size, int root, 
             
             int channel = (p_src.getNode() == p_dst.getNode()) ? 0 : 1;
             
-            // How many bytes to send? (needed if P is not power of 2)
-            int recvblks = mask;
-            if (2 * recvblks > P) {
-               recvblks = P - mask;
-            }
-            int m = (*size) * recvblks;
-            
+            int m    = *size;
             int n    = 1;
             int tau  = 1;
             
-            c = new Transmission(p_src, p_dst, channel, n, m, tau);
-            seq->add(c);
+            T = new Transmission(p_src, p_dst, channel, n, m, tau);
+            seq->add(T);
+            
+            g = new Computation(p_dst, m, op);
+            seq->add(g);
             
             conc->add(seq);
             
          }
          
       }
-      mask <<= 1;
-      stage++;
-      
+      mask = mask >> 1;
+      stage--;
+            
 #if TLOP_DEBUG == 1
       cout << " ----  Stage " << stage << endl;
       conc->show();

@@ -1,12 +1,12 @@
 //
-//  reduce_linear.cpp
+//  reduce_linear_openmpi.cpp
 //  TauLopCost
 //
 //  Created by jarico on 27/Mar/23.
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
-#include "reduce_linear.hpp"
+#include "reduce_linear_openmpi.hpp"
 
 #include "transmission.hpp"
 #include "computation.hpp"
@@ -23,17 +23,17 @@ using namespace std;
 
 
 
-ReduceLinear::ReduceLinear () {
+ReduceLinearOpenMPI::ReduceLinearOpenMPI () {
    
 }
 
 
-ReduceLinear::~ReduceLinear () {   
+ReduceLinearOpenMPI::~ReduceLinearOpenMPI () {
    
 }
 
 
-TauLopCost * ReduceLinear::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * ReduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;

@@ -24,6 +24,8 @@
  
  TODO: Its cost is calculated by stages. It does not take into acount possible overlapping
  between stages.
+ 
+ TODO: Test if working for root != 0 and P != power of two
  */
 
 class GatherBinomial : public Collective {

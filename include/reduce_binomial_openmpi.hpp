@@ -1,13 +1,13 @@
 //
-//  reduce_binomial.hpp
+//  reduce_binomial_openmpi.hpp
 //  Implementation of a Binomial Reduce
 //
 //  Created by jarico on 11/04/2023
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
-#ifndef reduce_binomial_hpp
-#define reduce_binomial_hpp
+#ifndef reduce_binomial_openmpi_hpp
+#define reduce_binomial_openmpi_hpp
 
 #include "collective.hpp"
 #include "communicator.hpp"
@@ -25,14 +25,14 @@
  
  */
 
-class ReduceBinomial : public Collective {
+class ReduceBinomialOpenMPI : public Collective {
    
 private:
    
 public:
    
-    ReduceBinomial ();
-   ~ReduceBinomial ();
+    ReduceBinomialOpenMPI ();
+   ~ReduceBinomialOpenMPI ();
    
    // Parameters:
    //   1. Communicator (including a mapping) of the processes to execute the
@@ -44,4 +44,4 @@ public:
 };
 
 
-#endif /* reduce_binomial_hpp */
+#endif /* reduce_binomial_openmpi_hpp */

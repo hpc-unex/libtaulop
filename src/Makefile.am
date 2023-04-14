@@ -20,13 +20,13 @@ libtaulop_a_SOURCES += src/process.cpp \
   src/bcast_binomial_openmpi.cpp \
   src/graph.cpp \
   src/graph_collective.cpp \
-  src/reduce_linear.cpp \
+  src/reduce_linear_openmpi.cpp \
   src/computation.cpp \
   src/cost_element.cpp \
   src/alltoall_basic.cpp \
   src/alltoall_linear.cpp \
   src/alltoall_pairwise.cpp \
-  src/reduce_binomial.cpp
+  src/reduce_binomial_openmpi.cpp
 
 
 

@@ -23,13 +23,13 @@ libtaulop_a_HEADERS += config.h \
   include/bcast_binomial_openmpi.hpp \
   include/graph.hpp \
   include/graph_collective.hpp \
-  include/reduce_linear.hpp \
+  include/reduce_linear_openmpi.hpp \
   include/computation.hpp \
   include/cost_element.hpp \
   include/alltoall_basic.hpp \
   include/alltoall_linear.hpp \
   include/alltoall_pairwise.hpp \
-  include/reduce_binomial.hpp
+  include/reduce_binomial_openmpi.hpp
 
 
 
