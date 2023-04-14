@@ -87,7 +87,7 @@ TauLopCost * GatherBinomial::evaluate (Communicator *comm, int *size, int root, 
       }
       mask <<= 1;
       stage++;
-      
+            
 #if TLOP_DEBUG == 1
       cout << " ----  Stage " << stage << endl;
       conc->show();

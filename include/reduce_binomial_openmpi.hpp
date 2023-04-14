@@ -23,6 +23,8 @@
  Binomial tree pattern.
  The algorithm is implemented in Open MPI 4.1.5 base colls.
  
+ Non-segmented model of the binomial reduce.
+ 
  */
 
 class ReduceBinomialOpenMPI : public Collective {
