@@ -28,8 +28,6 @@ libtaulop_a_SOURCES += src/process.cpp \
   src/alltoall_pairwise.cpp \
   src/reduce_binomial_openmpi.cpp \
   src/allreduce_linear_openmpi.cpp \
-  src/allreduce_nonoverlap_openmpi.cpp
-
-
-
-
+  src/allreduce_nonoverlap_openmpi.cpp \
+  src/allreduce_rda.cpp \
+  src/allreduce_ring.cpp

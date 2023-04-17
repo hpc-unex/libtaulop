@@ -30,6 +30,8 @@
 #include "scatter_binomial.hpp"
 #include "allreduce_linear_openmpi.hpp"
 #include "allreduce_nonoverlap_openmpi.hpp"
+#include "allreduce_rda.hpp"
+#include "allreduce_ring.hpp"
 #include "graph_collective.hpp"
 
 #include "cost_element.hpp"

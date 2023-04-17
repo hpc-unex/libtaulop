@@ -156,7 +156,8 @@ am_libtaulop_a_OBJECTS = src/process.$(OBJEXT) \
 	src/alltoall_linear.$(OBJEXT) src/alltoall_pairwise.$(OBJEXT) \
 	src/reduce_binomial_openmpi.$(OBJEXT) \
 	src/allreduce_linear_openmpi.$(OBJEXT) \
-	src/allreduce_nonoverlap_openmpi.$(OBJEXT)
+	src/allreduce_nonoverlap_openmpi.$(OBJEXT) \
+	src/allreduce_rda.$(OBJEXT) src/allreduce_ring.$(OBJEXT)
 libtaulop_a_OBJECTS = $(am_libtaulop_a_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -177,6 +178,7 @@ am__depfiles_remade = src/$(DEPDIR)/allgather_rda.Po \
 	src/$(DEPDIR)/allgather_ring.Po \
 	src/$(DEPDIR)/allreduce_linear_openmpi.Po \
 	src/$(DEPDIR)/allreduce_nonoverlap_openmpi.Po \
+	src/$(DEPDIR)/allreduce_rda.Po src/$(DEPDIR)/allreduce_ring.Po \
 	src/$(DEPDIR)/alltoall_basic.Po \
 	src/$(DEPDIR)/alltoall_linear.Po \
 	src/$(DEPDIR)/alltoall_pairwise.Po \
@@ -368,7 +370,8 @@ libtaulop_a_HEADERS = config.h include/taulop_config.h \
 	include/alltoall_pairwise.hpp \
 	include/reduce_binomial_openmpi.hpp \
 	include/allreduce_linear_openmpi.hpp \
-	include/allreduce_nonoverlap_openmpi.hpp
+	include/allreduce_nonoverlap_openmpi.hpp \
+	include/allreduce_rda.hpp include/allreduce_ring.hpp
 libtaulop_a_SOURCES = src/process.cpp src/taulop_cost.cpp \
 	src/transmission.cpp src/taulop_params.cpp \
 	src/taulop_operator.cpp src/taulop_sequence.cpp \
@@ -384,7 +387,8 @@ libtaulop_a_SOURCES = src/process.cpp src/taulop_cost.cpp \
 	src/alltoall_linear.cpp src/alltoall_pairwise.cpp \
 	src/reduce_binomial_openmpi.cpp \
 	src/allreduce_linear_openmpi.cpp \
-	src/allreduce_nonoverlap_openmpi.cpp
+	src/allreduce_nonoverlap_openmpi.cpp src/allreduce_rda.cpp \
+	src/allreduce_ring.cpp
 EXTRA_DIST = 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
@@ -536,6 +540,10 @@ src/allreduce_linear_openmpi.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/allreduce_nonoverlap_openmpi.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/allreduce_rda.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/allreduce_ring.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 
 libtaulop.a: $(libtaulop_a_OBJECTS) $(libtaulop_a_DEPENDENCIES) $(EXTRA_libtaulop_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libtaulop.a
@@ -553,6 +561,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/allgather_ring.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/allreduce_linear_openmpi.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/allreduce_nonoverlap_openmpi.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/allreduce_rda.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/allreduce_ring.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/alltoall_basic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/alltoall_linear.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/alltoall_pairwise.Po@am__quote@ # am--include-marker
@@ -897,6 +907,8 @@ distclean: distclean-am
 	-rm -f src/$(DEPDIR)/allgather_ring.Po
 	-rm -f src/$(DEPDIR)/allreduce_linear_openmpi.Po
 	-rm -f src/$(DEPDIR)/allreduce_nonoverlap_openmpi.Po
+	-rm -f src/$(DEPDIR)/allreduce_rda.Po
+	-rm -f src/$(DEPDIR)/allreduce_ring.Po
 	-rm -f src/$(DEPDIR)/alltoall_basic.Po
 	-rm -f src/$(DEPDIR)/alltoall_linear.Po
 	-rm -f src/$(DEPDIR)/alltoall_pairwise.Po
@@ -974,6 +986,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f src/$(DEPDIR)/allgather_ring.Po
 	-rm -f src/$(DEPDIR)/allreduce_linear_openmpi.Po
 	-rm -f src/$(DEPDIR)/allreduce_nonoverlap_openmpi.Po
+	-rm -f src/$(DEPDIR)/allreduce_rda.Po
+	-rm -f src/$(DEPDIR)/allreduce_ring.Po
 	-rm -f src/$(DEPDIR)/alltoall_basic.Po
 	-rm -f src/$(DEPDIR)/alltoall_linear.Po
 	-rm -f src/$(DEPDIR)/alltoall_pairwise.Po
