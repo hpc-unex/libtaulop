@@ -26,14 +26,14 @@
   
  */
 
-class AllReduceLinearOpenMPI : public Collective {
+class AllreduceLinearOpenMPI : public Collective {
    
 private:
    
 public:
    
-    AllReduceLinearOpenMPI ();
-   ~AllReduceLinearOpenMPI ();
+    AllreduceLinearOpenMPI ();
+   ~AllreduceLinearOpenMPI ();
    
    // Parameters:
    //   1. Communicator (including a mapping) of the processes to execute the

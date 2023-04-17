@@ -25,17 +25,17 @@ using namespace std;
 
 
 
-AllReduceLinearOpenMPI::AllReduceLinearOpenMPI () {
+AllreduceLinearOpenMPI::AllreduceLinearOpenMPI () {
    
 }
 
 
-AllReduceLinearOpenMPI::~AllReduceLinearOpenMPI () {
+AllreduceLinearOpenMPI::~AllreduceLinearOpenMPI () {
    
 }
 
 
-TauLopCost * AllReduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AllreduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
       
    int P  = comm->getSize();
    

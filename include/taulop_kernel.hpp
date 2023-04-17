@@ -32,6 +32,8 @@
 #include "allreduce_nonoverlap_openmpi.hpp"
 #include "allreduce_rda.hpp"
 #include "allreduce_ring.hpp"
+#include "allreduce_ring_segm.hpp"
+#include "allreduce_rabenseifner.hpp"
 #include "graph_collective.hpp"
 
 #include "cost_element.hpp"

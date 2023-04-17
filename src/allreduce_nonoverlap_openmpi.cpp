@@ -25,17 +25,17 @@ using namespace std;
 
 
 
-AllReduceNonOverlapOpenMPI::AllReduceNonOverlapOpenMPI () {
+AllreduceNonOverlapOpenMPI::AllreduceNonOverlapOpenMPI () {
    
 }
 
 
-AllReduceNonOverlapOpenMPI::~AllReduceNonOverlapOpenMPI () {
+AllreduceNonOverlapOpenMPI::~AllreduceNonOverlapOpenMPI () {
    
 }
 
 
-TauLopCost * AllReduceNonOverlapOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AllreduceNonOverlapOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
       
    int P  = comm->getSize();
    

@@ -28,14 +28,14 @@
   
  */
 
-class AllReduceNonOverlapOpenMPI : public Collective {
+class AllreduceNonOverlapOpenMPI : public Collective {
    
 private:
    
 public:
    
-    AllReduceNonOverlapOpenMPI ();
-   ~AllReduceNonOverlapOpenMPI ();
+    AllreduceNonOverlapOpenMPI ();
+   ~AllreduceNonOverlapOpenMPI ();
    
    // Parameters:
    //   1. Communicator (including a mapping) of the processes to execute the

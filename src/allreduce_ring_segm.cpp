@@ -1,12 +1,12 @@
 //
-//  allreduce_ring.cpp
+//  allreduce_ring_segm.cpp
 //  Ring Alreduce algorithm
 //
 //  Created by jarico on 17/04/23.
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
-#include "allreduce_ring.hpp"
+#include "allreduce_ring_segm.hpp"
 
 #include "transmission.hpp"
 #include "computation.hpp"
@@ -22,23 +22,25 @@ using namespace std;
 
 
 
-AllreduceRing::AllreduceRing () {
+AllreduceRingSegm::AllreduceRingSegm () {
    
 }
 
 
-AllreduceRing::~AllreduceRing () {
+AllreduceRingSegm::~AllreduceRingSegm () {
    
 }
 
 
-TauLopCost * AllreduceRing::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
    Transmission     *T    = nullptr;
    Computation      *g    = nullptr;
    
+   
+   cout << endl << "  **********   FALTA POR IMPLEMENTAR   **********" << endl << endl;
    
    int P = comm->getSize();
    

@@ -1,12 +1,12 @@
 //
-//  allreduce_ring.cpp
-//  Ring Alreduce algorithm
+//  allreduce_rabenseifner.cpp
+//  Rabenseifner's Allreduce algorithm
 //
 //  Created by jarico on 17/04/23.
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
-#include "allreduce_ring.hpp"
+#include "allreduce_rabenseifner.hpp"
 
 #include "transmission.hpp"
 #include "computation.hpp"
@@ -22,23 +22,25 @@ using namespace std;
 
 
 
-AllreduceRing::AllreduceRing () {
+AllreduceRabenseifner::AllreduceRabenseifner () {
    
 }
 
 
-AllreduceRing::~AllreduceRing () {
+AllreduceRabenseifner::~AllreduceRabenseifner () {
    
 }
 
 
-TauLopCost * AllreduceRing::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AllreduceRabenseifner::evaluate (Communicator *comm, int *size, int root, OpType op) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
    Transmission     *T    = nullptr;
    Computation      *g    = nullptr;
    
+   
+   cout << endl << endl << " *********  RABENSEIFNER POR IMPLEMENTAR   **********" << endl << endl;
    
    int P = comm->getSize();
    
