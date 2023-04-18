@@ -42,16 +42,63 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, int *size, int roo
    
    cout << endl << "  **********   FALTA POR IMPLEMENTAR   **********" << endl << endl;
    
-   int P = comm->getSize();
+   int P  = comm->getSize();
+   int ms = 32; // Size of a message in bytes (TO BE TESTED ???)
    
+   if (*size < (ms * P)) { // REQUIRES m multple of ms and P and *size > ms * P
+      return nullptr;
+   }
+   int steps = ceil(*size / (ms * P));
+      
    conc = new TauLopConcurrent ();
    
-   /*  Allreduce Ring  */
+   /*  Computation phase  */
+   for (int p = 0; p < P; p++) {
+      
+      for (int s = 0; s < steps; s++) {
+         
+         seq = new TauLopSequence ();
+   
+         for (int d = 1; d < P; d++) {
+            
+            /* Does not mind the process rank */
+            int src = p;
+            int dst = (p + 1) % P;
+            
+            int node_src = comm->getNode(src);
+            int node_dst = comm->getNode(dst);
+            
+            Process p_src {src, node_src};
+            Process p_dst {dst, node_dst};
+            
+            int channel = (node_src == node_dst) ? 0 : 1;
+            
+            int n   = 1;
+            int tau = 1;
+            
+            T = new Transmission(p_src, p_dst, channel, n, ms, tau);
+            seq->add(T);
+            
+            g = new Computation(p_src, ms, op);
+            seq->add(g);
+         }
+         
+      }
+      
+      conc->add(seq);
+   }
+   
+   // Both phases are sequential:
+   TauLopCost *cost = new TauLopCost();
+   conc->evaluate(cost);
+   
+
+   /* Distribution (communication) phase */
    for (int p = 0; p < P; p++) {
       
       seq = new TauLopSequence ();
       
-      for (int stage = 0; stage < P-1; stage++) {
+      for (int d = 0; d < P-1; d++) {
          
          /* Does not mind the process rank */
          int src = p;
@@ -68,22 +115,18 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, int *size, int roo
          int n   = 1;
          int tau = 1;
          
-         T = new Transmission(p_src, p_dst, channel, n, *size, tau);
+         T = new Transmission(p_src, p_dst, channel, n, ms * P, tau);
          seq->add(T);
-         
-         g = new Computation(p_src, *size, op);
-         seq->add(g);
-         
       }
+      
       conc->add(seq);
    }
+
    
 #if TLOP_DEBUG == 1
    cout << "P = " << P << endl;
    conc->show();
 #endif
-   
-   TauLopCost *cost = new TauLopCost();
    
    conc->evaluate(cost);
    
