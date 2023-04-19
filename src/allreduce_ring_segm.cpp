@@ -39,27 +39,32 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, int *size, int roo
    Transmission     *T    = nullptr;
    Computation      *g    = nullptr;
    
-   
-   cout << endl << "  **********   FALTA POR IMPLEMENTAR   **********" << endl << endl;
+   TauLopCost *cost = new TauLopCost();
    
    int P  = comm->getSize();
-   int ms = 32; // Size of a message in bytes (TO BE TESTED ???)
+   int ms = 128; // Size of a message in bytes (TO BE TESTED ???)
    
    if (*size < (ms * P)) { // REQUIRES m multple of ms and P and *size > ms * P
-      return nullptr;
+      cerr << "[allreduce_ring_segm] AllReduce Ring Segmented requires m >= (ms x P)." << endl;
+      return cost;
    }
-   int steps = ceil(*size / (ms * P));
+   
+   int steps   = ceil(*size / (ms * P));
+   int last_ms = *size % ms; // Las segment could be not complete
+   if (last_ms == 0)  last_ms = ms;
       
    conc = new TauLopConcurrent ();
    
    /*  Computation phase  */
    for (int p = 0; p < P; p++) {
       
+      seq  = new TauLopSequence ();
+      
       for (int s = 0; s < steps; s++) {
          
-         seq = new TauLopSequence ();
+         if (s == steps - 1)  ms = last_ms;
    
-         for (int d = 1; d < P; d++) {
+         for (int d = 2; d < P; d++) {
             
             /* Does not mind the process rank */
             int src = p;
@@ -89,7 +94,6 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, int *size, int roo
    }
    
    // Both phases are sequential:
-   TauLopCost *cost = new TauLopCost();
    conc->evaluate(cost);
    
 
@@ -115,7 +119,7 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, int *size, int roo
          int n   = 1;
          int tau = 1;
          
-         T = new Transmission(p_src, p_dst, channel, n, ms * P, tau);
+         T = new Transmission(p_src, p_dst, channel, n, *size / P, tau);
          seq->add(T);
       }
       
