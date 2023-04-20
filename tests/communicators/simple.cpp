@@ -33,8 +33,9 @@ int main (int argc, const char * argv[]) {
    
    // 3. Execute an algorithm
    Collective *bin = new BcastBinomial();
-   int bsize = 128 * 1024;
-   TauLopCost *t_bin = bin->evaluate(world, &bsize, 0);
+   int m = 128 * 1024;
+   CollParams cp {m, 0};
+   TauLopCost *t_bin = bin->evaluate(world, cp);
    
    cout << "Time: " << fixed << std::setprecision (9) << t_bin->getTime() << endl;
    delete t_bin;

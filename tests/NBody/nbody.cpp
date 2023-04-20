@@ -12,6 +12,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <iomanip>
+#include <vector>
 using namespace std;
 
 
@@ -84,21 +85,26 @@ double nbody_coll_ring (Communicator *comm, int n_bodies[]) {
    
    int    P = comm->getSize();
    double t = 0.0;
-   int    rsize [P];
+   vector<int> rsize;
    
    // 1. All processes interchange their mass center
    Collective *allg = new AllgatherRing ();
    int size = sizeof(Body);
-   TauLopCost *tc_allg = allg->evaluate(comm, &size);
+   CollParams cp {size};
+   
+   TauLopCost *tc_allg = allg->evaluate(comm, cp);
    t = tc_allg->getTime();
    delete tc_allg;
    
    // 2. Root gathers all data for showing
    Collective *gbin = new GatherVBinomial ();
    
-   for (int i = 0; i < P; i++)
-      rsize[i] = sizeof(Body) * n_bodies[i];
-   TauLopCost *tc_gat = gbin->evaluate(comm, rsize, 0);
+   for (int i = 0; i < P; i++) {
+      rsize.push_back(sizeof(Body) * n_bodies[i]);
+   }
+   CollParams cpg {rsize, 0};
+   
+   TauLopCost *tc_gat = gbin->evaluate(comm, cpg);
    t = t + tc_gat->getTime();
    delete tc_gat;
    
@@ -115,22 +121,26 @@ double nbody_coll_rda (Communicator *comm, int n_bodies[]) {
    
    int    P = comm->getSize();
    double t = 0.0;
-   int    rsize [P];
+   vector<int> rsize;
    
    // 1. All processes interchange their mass center
    Collective *allg = new AllgatherRDA ();
    int size = sizeof(Body);
-   TauLopCost *tc_allg = allg->evaluate(comm, &size);
+   CollParams cp {size};
+   
+   TauLopCost *tc_allg = allg->evaluate(comm, cp);
    t = tc_allg->getTime();
    delete tc_allg;
    
    // 2. Root gathers all data for showing
    Collective *gbin = new GatherVBinomial ();
    
-   for (int i = 0; i < P; i++)
-      rsize[i] = sizeof(Body) * n_bodies[i];
+   for (int i = 0; i < P; i++) {
+      rsize.push_back(sizeof(Body) * n_bodies[i]);
+   }
+   CollParams cpg {rsize, 0};
    
-   TauLopCost *tc_gat = gbin->evaluate(comm, rsize, 0);
+   TauLopCost *tc_gat = gbin->evaluate(comm, cpg);
    t = t + tc_gat->getTime();
    delete tc_gat;
    
