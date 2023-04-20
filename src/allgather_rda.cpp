@@ -8,6 +8,7 @@
 
 #include "allgather_rda.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
@@ -31,15 +32,16 @@ AllgatherRDA::~AllgatherRDA () {
 }
 
 
-TauLopCost * AllgatherRDA::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AllgatherRDA::evaluate (Communicator *comm, const CollParams &cparams) {
    
-   TauLopConcurrent *conc;
-   TauLopSequence   *seq;
-   Transmission     *c;
+   TauLopConcurrent *conc = nullptr;
+   TauLopSequence   *seq  = nullptr;
+   Transmission     *T    = nullptr;
    
    TauLopCost       *cost = new TauLopCost();
    
    int P = comm->getSize();
+   int m = cparams.getM();
    
    /* Allgather RDA  (P^2 processes) */
    for (int stage = 0; pow(2, stage) < P; stage++) {
@@ -63,12 +65,11 @@ TauLopCost * AllgatherRDA::evaluate (Communicator *comm, int *size, int root, Op
          
          int channel = (node_src == node_dst) ? 0 : 1;
          
-         int n = 1;
-         
+         int n   = 1;
          int tau = 1;
          
-         c = new Transmission(p_src, p_dst, channel, n, b * (*size), tau);
-         seq->add(c);
+         T = new Transmission(p_src, p_dst, channel, n, b * m, tau);
+         seq->add(T);
          
          conc->add(seq);
       }

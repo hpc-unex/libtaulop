@@ -10,6 +10,7 @@
 #define collective_hpp
 
 #include "graph.hpp"
+#include "coll_params.hpp"
 #include "communicator.hpp"
 #include "taulop_config.h"
 #include "taulop_cost.hpp"
@@ -34,11 +35,9 @@ public:
         ~Collective ();
    
    void  setGraph (Graph &g);
-   
-   virtual TauLopCost * evaluate (Communicator *comm,
-                                  int          *size,
-                                  int           root = RANK_UNDEFINED,
-                                  OpType        op   = OpType::DEFAULT)  = 0;
+
+   // ABC. 
+   virtual TauLopCost * evaluate (Communicator *comm, const CollParams &cparams) = 0;
 };
 
 #endif /* collective_hpp */

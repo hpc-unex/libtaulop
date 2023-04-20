@@ -3,12 +3,15 @@
 //  Implementation of a Binomial Gather
 //
 //  Created by jarico on 20/Apr/17.
+//    Modified by jarico on 20/04/23: include CollParams.
+//
 //  Copyright © 2017 Juan A. Rico. All rights reserved.
 //
 
 #ifndef gather_binomial_hpp
 #define gather_binomial_hpp
 
+#include "coll_params.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
 #include "taulop_cost.hpp"
@@ -40,9 +43,10 @@ public:
    // Parameters:
    //   1. Communicator (including a mapping) of the processes to execute the
    //      collective operation.
-   //   2. Size of the message (vector of one element).
-   //   3. Root for this operation.
-   TauLopCost * evaluate (Communicator *comm, int *size, int root, OpType op = OpType::DEFAULT) override;
+   //   2. Collective Parameters, including:
+   //      - (m)    Size of the message.
+   //      - (root) Root for this operation.
+   TauLopCost * evaluate (Communicator *comm, const CollParams &cparams)  override;
 };
 
 

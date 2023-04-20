@@ -7,6 +7,7 @@
 
 #include "reduce_binomial_openmpi.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "computation.hpp"
 #include "collective.hpp"
@@ -32,17 +33,19 @@ ReduceBinomialOpenMPI::~ReduceBinomialOpenMPI () {
 }
 
 
-TauLopCost * ReduceBinomialOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * ReduceBinomialOpenMPI::evaluate (Communicator *comm, const CollParams &cparams) {
 
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
    Transmission     *T    = nullptr;
    Computation      *g    = nullptr;
-
    
    TauLopCost       *cost = new TauLopCost();
    
-   int P = comm->getSize();
+   int P     = comm->getSize();
+   int root  = cparams.getRoot();
+   int m     = cparams.getM();
+   OpType op = cparams.getOp();
    
    int num_stages = ceil(log2(P));
    int mask  = 1 << (num_stages - 1);
@@ -72,7 +75,6 @@ TauLopCost * ReduceBinomialOpenMPI::evaluate (Communicator *comm, int *size, int
             
             int channel = (p_src.getNode() == p_dst.getNode()) ? 0 : 1;
             
-            int m    = *size;
             int n    = 1;
             int tau  = 1;
             

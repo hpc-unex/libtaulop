@@ -8,6 +8,7 @@
 
 #include "reduce_linear_openmpi.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "computation.hpp"
 #include "collective.hpp"
@@ -33,7 +34,7 @@ ReduceLinearOpenMPI::~ReduceLinearOpenMPI () {
 }
 
 
-TauLopCost * ReduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * ReduceLinearOpenMPI::evaluate (Communicator *comm, const CollParams &cparams) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
@@ -44,7 +45,11 @@ TauLopCost * ReduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int r
    int tau = 1;
 
    
-   int P = comm->getSize();
+   int P     = comm->getSize();
+   int root  = cparams.getRoot();
+   int m     = cparams.getM();
+   OpType op = cparams.getOp();
+   
    
    conc = new TauLopConcurrent ();
    seq  = new TauLopSequence   ();
@@ -60,7 +65,7 @@ TauLopCost * ReduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int r
       
       int channel = (node_src == node_dst) ? 0 : 1;
       
-      T = new Transmission(p_src, p_dst, channel, n, *size, tau);
+      T = new Transmission(p_src, p_dst, channel, n, m, tau);
       seq->add(T);
    }
 
@@ -77,7 +82,7 @@ TauLopCost * ReduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int r
          
          int channel = (node_src == node_dst) ? 0 : 1;
                   
-         T = new Transmission(p_src, p_dst, channel, n, *size, tau);
+         T = new Transmission(p_src, p_dst, channel, n, m, tau);
          seq->add(T);
          
       }
@@ -85,7 +90,7 @@ TauLopCost * ReduceLinearOpenMPI::evaluate (Communicator *comm, int *size, int r
       int     node_src = comm->getNode(rank);
       Process p_src {rank, node_src};
       
-      g = new Computation(p_src, *size, op);
+      g = new Computation(p_src, m, op);
       seq->add(g);
                   
    }

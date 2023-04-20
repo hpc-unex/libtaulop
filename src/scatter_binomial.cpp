@@ -8,6 +8,7 @@
 
 #include "scatter_binomial.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
@@ -30,15 +31,17 @@ ScatterBinomial::~ScatterBinomial () {
 }
 
 
-TauLopCost * ScatterBinomial::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * ScatterBinomial::evaluate (Communicator *comm, const CollParams &cparams) {
    
-   TauLopConcurrent *conc;
-   TauLopSequence   *seq;
-   Transmission     *c;
+   TauLopConcurrent *conc = nullptr;
+   TauLopSequence   *seq  = nullptr;
+   Transmission     *T    = nullptr;
    
    TauLopCost       *cost = new TauLopCost();
    
-   int P = comm->getSize();
+   int P    = comm->getSize();
+   int root = cparams.getRoot();
+   int m    = cparams.getM();
    
    for (int stage = 0; pow(2, stage) < P; stage++) {
       
@@ -59,12 +62,12 @@ TauLopCost * ScatterBinomial::evaluate (Communicator *comm, int *size, int root,
          
          int channel = (p_src.getNode() == p_dst.getNode()) ? 0 : 1;
          
-         int stagesize = (*size) * pow(2, stage);
-         int m    = 1;
+         int stagesize = m * pow(2, stage);
+         int n    = 1;
          int tau  = 1;
          
-         c = new Transmission(p_src, p_dst, channel, m, stagesize, tau);
-         seq->add(c);
+         T = new Transmission(p_src, p_dst, channel, n, stagesize, tau);
+         seq->add(T);
          
          conc->add(seq);
          

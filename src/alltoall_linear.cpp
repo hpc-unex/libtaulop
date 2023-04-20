@@ -8,6 +8,7 @@
 
 #include "alltoall_linear.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
@@ -30,12 +31,11 @@ AlltoallLinear::~AlltoallLinear () {
 }
 
 
-TauLopCost * AlltoallLinear::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AlltoallLinear::evaluate (Communicator *comm, const CollParams &cparams) {
    
-   TauLopConcurrent *conc;
-   TauLopSequence   *seq;
-   Transmission     *T;
-   Process          *p_src, *p_dst;
+   TauLopConcurrent *conc = nullptr;
+   TauLopSequence   *seq  = nullptr;
+   Transmission     *T    = nullptr;
    
    // This algorithm uses a sendrecv in each process for the local data
    // Then post a receive (using non-blocking communication) from the rest, with the order:
@@ -47,6 +47,7 @@ TauLopCost * AlltoallLinear::evaluate (Communicator *comm, int *size, int root, 
    TauLopCost *cost = new TauLopCost();
    
    int P = comm->getSize();
+   int m = cparams.getM();
    
    conc = new TauLopConcurrent ();
    
@@ -62,15 +63,14 @@ TauLopCost * AlltoallLinear::evaluate (Communicator *comm, int *size, int root, 
          int node_src = comm->getNode(src);
          int node_dst = comm->getNode(dst);
          
-         p_src = new Process (src, node_src);
-         p_dst = new Process (dst, node_dst);
+         Process p_src {src, node_src};
+         Process p_dst {dst, node_dst};
          
          int channel = (node_src == node_dst) ? 0 : 1;
          int n = 1;
          int tau = 1;
          
-         T = new Transmission(p_src, p_dst, channel, n, (*size), tau);
-         
+         T = new Transmission(p_src, p_dst, channel, n, m, tau);
          seq->add(T);
          
       }

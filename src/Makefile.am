@@ -32,4 +32,5 @@ libtaulop_a_SOURCES += src/process.cpp \
   src/allreduce_rda.cpp \
   src/allreduce_ring.cpp \
   src/allreduce_ring_segm.cpp \
-  src/allreduce_rabenseifner.cpp
+  src/allreduce_rabenseifner.cpp \
+  src/coll_params.cpp

@@ -8,6 +8,7 @@
 
 #include "allreduce_ring_segm.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "computation.hpp"
 #include "collective.hpp"
@@ -32,7 +33,7 @@ AllreduceRingSegm::~AllreduceRingSegm () {
 }
 
 
-TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, const CollParams &cparams) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
@@ -41,16 +42,19 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, int *size, int roo
    
    TauLopCost *cost = new TauLopCost();
    
-   int P  = comm->getSize();
-   int ms = 128; // Size of a message in bytes (TO BE TESTED ???)
+   int    P  = comm->getSize();
+   int    m  = cparams.getM();
+   OpType op = cparams.getOp();
    
-   if (*size < (ms * P)) { // REQUIRES m multple of ms and P and *size > ms * P
+   int ms = 128; // Size of a message in bytes (TO BE TESTED ???)
+
+   if (m < (ms * P)) { // REQUIRES m multple of ms and P and *size > ms * P
       cerr << "[allreduce_ring_segm] AllReduce Ring Segmented requires m >= (ms x P)." << endl;
       return cost;
    }
-   
-   int steps   = ceil(*size / (ms * P));
-   int last_ms = *size % ms; // Las segment could be not complete
+      
+   int steps   = ceil(m / (ms * P));
+   int last_ms = m % ms; // Las segment could be not complete
    if (last_ms == 0)  last_ms = ms;
       
    conc = new TauLopConcurrent ();
@@ -119,7 +123,7 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, int *size, int roo
          int n   = 1;
          int tau = 1;
          
-         T = new Transmission(p_src, p_dst, channel, n, *size / P, tau);
+         T = new Transmission(p_src, p_dst, channel, n, m / P, tau);
          seq->add(T);
       }
       

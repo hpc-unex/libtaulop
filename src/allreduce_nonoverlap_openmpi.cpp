@@ -10,6 +10,7 @@
 #include "reduce_binomial_openmpi.hpp"
 #include "bcast_binomial_openmpi.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "computation.hpp"
 #include "collective.hpp"
@@ -35,19 +36,24 @@ AllreduceNonOverlapOpenMPI::~AllreduceNonOverlapOpenMPI () {
 }
 
 
-TauLopCost * AllreduceNonOverlapOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AllreduceNonOverlapOpenMPI::evaluate (Communicator *comm, const CollParams &cparams) {
       
    int P  = comm->getSize();
    
    Communicator *world = new Communicator (P);
+   int root  = 0;
+   int m     = cparams.getM();
+   OpType op = cparams.getOp();
+   
+   CollParams cp (m, root, op);
    
    // 1. Reduce to root = 0
    Collective *reduce = new ReduceBinomialOpenMPI();
-   TauLopCost *cost_red = reduce->evaluate(world, size, root, OpType::SUM);
+   TauLopCost *cost_red = reduce->evaluate(world, cp);
    
    // 2. Broadcast from 0 to P processes
    Collective *bcast = new BcastBinomialOpenMPI();
-   TauLopCost *cost_cast = bcast->evaluate(world, size, root);
+   TauLopCost *cost_cast = bcast->evaluate(world, cp);
    
    // Sum models
    cost_cast->add(cost_red);

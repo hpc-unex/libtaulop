@@ -8,6 +8,7 @@
 
 #include "allgather_ring.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
@@ -31,14 +32,15 @@ AllgatherRing::~AllgatherRing () {
 }
 
 
-TauLopCost * AllgatherRing::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AllgatherRing::evaluate (Communicator *comm, const CollParams &cparams) {
    
-   TauLopConcurrent *conc;
-   TauLopSequence   *seq;
-   Transmission     *c;
+   TauLopConcurrent *conc = nullptr;
+   TauLopSequence   *seq  = nullptr;
+   Transmission     *T    = nullptr;
    
    
    int P = comm->getSize();
+   int m = cparams.getM();
    
    conc = new TauLopConcurrent ();
    
@@ -65,8 +67,8 @@ TauLopCost * AllgatherRing::evaluate (Communicator *comm, int *size, int root, O
          
          int tau = 1;
          
-         c = new Transmission(p_src, p_dst, channel, n, *size, tau);
-         seq->add(c);
+         T = new Transmission(p_src, p_dst, channel, n, m, tau);
+         seq->add(T);
          
       }
       conc->add(seq);

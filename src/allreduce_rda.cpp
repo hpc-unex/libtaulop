@@ -8,6 +8,7 @@
 
 #include "allreduce_rda.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "computation.hpp"
 #include "collective.hpp"
@@ -32,17 +33,18 @@ AllreduceRDA::~AllreduceRDA () {
 }
 
 
-TauLopCost * AllreduceRDA::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AllreduceRDA::evaluate (Communicator *comm, const CollParams &cparams) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
    Transmission     *T    = nullptr;
    Computation      *g    = nullptr;
-   
-   
+      
    TauLopCost       *cost = new TauLopCost();
    
-   int P = comm->getSize();
+   int    P  = comm->getSize();
+   int    m  = cparams.getM();
+   OpType op = cparams.getOp();
    
    /* Allreduce RDA  (P^2 processes) */
    for (int stage = 0; pow(2, stage) < P; stage++) {
@@ -69,10 +71,10 @@ TauLopCost * AllreduceRDA::evaluate (Communicator *comm, int *size, int root, Op
          int n   = 1;
          int tau = 1;
          
-         T = new Transmission(p_src, p_dst, channel, n, b * (*size), tau);
+         T = new Transmission(p_src, p_dst, channel, n, b * m, tau);
          seq->add(T);
          
-         g = new Computation(p_src, b * (*size), op);
+         g = new Computation(p_src, b * m, op);
          seq->add(g);
          
          conc->add(seq);

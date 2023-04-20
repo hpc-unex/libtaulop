@@ -7,6 +7,7 @@
 
 #include "graph_collective.hpp"
 
+#include "coll_params.hpp"
 #include "graph.hpp"
 #include "transmission.hpp"
 #include "collective.hpp"
@@ -31,15 +32,16 @@ GraphCollective::~GraphCollective () {
 }
 
 
-TauLopCost * GraphCollective::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * GraphCollective::evaluate (Communicator *comm, const CollParams &cparams) {
    
-   TauLopConcurrent *conc;
-   TauLopSequence   *seq;
-   Transmission     *c;
+   TauLopConcurrent *conc = nullptr;
+   TauLopSequence   *seq  = nullptr;
+   Transmission     *T    = nullptr;
    
    TauLopCost       *cost = new TauLopCost();
    
    int P = comm->getSize();
+   int m = cparams.getM();
    
    for (int depth = 2; depth <= this->graph.maxDepth(); depth++) {
       
@@ -66,8 +68,8 @@ TauLopCost * GraphCollective::evaluate (Communicator *comm, int *size, int root,
          int n   = 1;
          int tau = 1;
          
-         c = new Transmission(p_src, p_dst, channel, n, *size, tau);
-         seq->add(c);
+         T = new Transmission(p_src, p_dst, channel, n, m, tau);
+         seq->add(T);
          
          conc->add(seq);
          

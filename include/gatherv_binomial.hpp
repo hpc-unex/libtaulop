@@ -3,12 +3,15 @@
 //  Implementation of a Binomial GatherV
 //
 //  Created by jarico on 23/Apr/17.
+//    Modified by jarico on 20/04/23: include CollParams.
+//
 //  Copyright © 2017 Juan A. Rico. All rights reserved.
 //
 
 #ifndef gatherv_binomial_hpp
 #define gatherv_binomial_hpp
 
+#include "coll_params.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
 #include "taulop_cost.hpp"
@@ -38,9 +41,10 @@ public:
    // Parameters:
    //   1. Communicator (including a mapping) of the processes to execute the
    //      collective operation.
-   //   2. Size of the message (vector of P elements with the size of process P_i in pos i).
-   //   3. Root for this operation.
-   TauLopCost * evaluate (Communicator *comm, int *size, int root, OpType op = OpType::DEFAULT) override;
+   //   2. Collectiva parameters, including:
+   //      - (m)    Size of the message (vector of P elements with the size of process P_i in pos i).
+   //      - (root) Root for this operation.
+   TauLopCost * evaluate (Communicator *comm, const CollParams &cparams)  override;
 };
 
 

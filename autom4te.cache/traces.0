@@ -800,9 +800,6 @@ m4trace:configure.ac:3: -1- m4_pattern_allow([^LIBS$])
 m4trace:configure.ac:3: -1- m4_pattern_allow([^build_alias$])
 m4trace:configure.ac:3: -1- m4_pattern_allow([^host_alias$])
 m4trace:configure.ac:3: -1- m4_pattern_allow([^target_alias$])
-m4trace:configure.ac:5: -1- _m4_warn([obsolete], [The macro `AC_CONFIG_HEADER' is obsolete.
-You should run autoupdate.], [./lib/autoconf/status.m4:719: AC_CONFIG_HEADER is expanded from...
-configure.ac:5: the top level])
 m4trace:configure.ac:7: -1- AM_INIT_AUTOMAKE([subdir-objects])
 m4trace:configure.ac:7: -1- m4_pattern_allow([^AM_[A-Z]+FLAGS$])
 m4trace:configure.ac:7: -1- AM_SET_CURRENT_AUTOMAKE_VERSION

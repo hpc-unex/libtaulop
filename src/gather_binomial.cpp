@@ -30,15 +30,17 @@ GatherBinomial::~GatherBinomial () {
 }
 
 
-TauLopCost * GatherBinomial::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * GatherBinomial::evaluate (Communicator *comm, const CollParams &cparams) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
-   Transmission     *c    = nullptr;
+   Transmission     *T    = nullptr;
    
    TauLopCost       *cost = new TauLopCost();
    
-   int P = comm->getSize();
+   int P    = comm->getSize();
+   int m    = cparams.getM();
+   int root = cparams.getRoot();
    
    int mask  = 1;
    int stage = 0;
@@ -72,13 +74,12 @@ TauLopCost * GatherBinomial::evaluate (Communicator *comm, int *size, int root, 
             if (2 * recvblks > P) {
                recvblks = P - mask;
             }
-            int m = (*size) * recvblks;
             
             int n    = 1;
             int tau  = 1;
             
-            c = new Transmission(p_src, p_dst, channel, n, m, tau);
-            seq->add(c);
+            T = new Transmission(p_src, p_dst, channel, n, m * recvblks, tau);
+            seq->add(T);
             
             conc->add(seq);
             

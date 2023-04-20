@@ -12,6 +12,7 @@
 
 #include "communicator.hpp"
 #include "mapping.hpp"
+#include "coll_params.hpp"
 #include "collective.hpp"
 #include "graph.hpp"
 

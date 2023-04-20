@@ -8,6 +8,7 @@
 
 #include "gatherv_binomial.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
@@ -30,13 +31,14 @@ GatherVBinomial::~GatherVBinomial () {
 }
 
 
-TauLopCost * GatherVBinomial::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * GatherVBinomial::evaluate (Communicator *comm, const CollParams &cparams) {
    
-   TauLopConcurrent *conc;
-   TauLopSequence   *seq;
-   Transmission     *c;
+   TauLopConcurrent *conc = nullptr;
+   TauLopSequence   *seq  = nullptr;
+   Transmission     *T    = nullptr;
    
-   int P = comm->getSize();
+   int P    = comm->getSize();
+   int root = cparams.getRoot();
    
    conc = new TauLopConcurrent ();
    
@@ -52,13 +54,13 @@ TauLopCost * GatherVBinomial::evaluate (Communicator *comm, int *size, int root,
       int channel = (p_src.getNode() == p_dst.getNode()) ? 0 : 1;
       
       // How many bytes to send? (needed if P is not power of 2)
-      int m = size[rank];
+      int m = cparams.getM(rank);
       
       int n    = 1;
       int tau  = 1;
       
-      c = new Transmission(p_src, p_dst, channel, n, m, tau);
-      seq->add(c);
+      T = new Transmission(p_src, p_dst, channel, n, m, tau);
+      seq->add(T);
       
       conc->add(seq);
    }

@@ -8,6 +8,7 @@
 
 #include "allreduce_ring.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "computation.hpp"
 #include "collective.hpp"
@@ -32,15 +33,16 @@ AllreduceRing::~AllreduceRing () {
 }
 
 
-TauLopCost * AllreduceRing::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * AllreduceRing::evaluate (Communicator *comm, const CollParams &cparams) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
    Transmission     *T    = nullptr;
    Computation      *g    = nullptr;
-   
-   
-   int P = comm->getSize();
+      
+   int    P  = comm->getSize();
+   int    m  = cparams.getM();
+   OpType op = cparams.getOp();
    
    conc = new TauLopConcurrent ();
    
@@ -66,10 +68,10 @@ TauLopCost * AllreduceRing::evaluate (Communicator *comm, int *size, int root, O
          int n   = 1;
          int tau = 1;
          
-         T = new Transmission(p_src, p_dst, channel, n, *size, tau);
+         T = new Transmission(p_src, p_dst, channel, n, m, tau);
          seq->add(T);
          
-         g = new Computation(p_src, *size, op);
+         g = new Computation(p_src, m, op);
          seq->add(g);
          
       }

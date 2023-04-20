@@ -3,12 +3,15 @@
 //  Implementation of a Linear AllReduce
 //
 //  Created by jarico on 14/04/2023
+//    Modified by jarico on 20/04/23: include CollParams.
+//
 //  Copyright © 2016 Juan A. Rico. All rights reserved.
 //
 
 #ifndef allreduce_linear_openmpi_hpp
 #define allreduce_linear_openmpi_hpp
 
+#include "coll_params.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
 #include "taulop_cost.hpp"
@@ -38,10 +41,10 @@ public:
    // Parameters:
    //   1. Communicator (including a mapping) of the processes to execute the
    //      collective operation.
-   //   2. Size of the message (vector of one element).
-   //   3. Root of the operation (not used. Set to 0).
-   //   4. Operation to apply
-   TauLopCost * evaluate (Communicator *comm, int *size, int root, OpType op) override;
+   //   2. Collective parameters, including:
+   //      - (m)  Size of the message (vector of one element).
+   //      - (op) Operation to apply
+   TauLopCost * evaluate (Communicator *comm, const CollParams &cparams)  override;
 };
 
 

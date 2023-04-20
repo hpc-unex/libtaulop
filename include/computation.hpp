@@ -11,14 +11,10 @@
 
 #include "cost_element.hpp"
 #include "process.hpp"
-//#include "taulop_params.hpp"
+#include "coll_params.hpp"
 
 #include <iostream>
 
-
-// MPI operation types
-// DEFAULT = SUM, arbitrary.
-enum class OpType {DEFAULT, MAX, MIN, SUM, PROD, LAND, BAND, LOR, BOR, LXOR, BXOR, MAXLOC, MINLOC};
 
 
 // Attributes represent a Computation in the format:  n x (tau || g(m))

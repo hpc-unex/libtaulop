@@ -31,15 +31,17 @@ BcastBinomial::~BcastBinomial () {
 }
 
 
-TauLopCost * BcastBinomial::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * BcastBinomial::evaluate (Communicator *comm, const CollParams &cparams) {
    
-   TauLopConcurrent *conc;
-   TauLopSequence   *seq;
-   Transmission     *c;
+   TauLopConcurrent *conc = nullptr;
+   TauLopSequence   *seq  = nullptr;
+   Transmission     *T    = nullptr;
    
    TauLopCost       *cost = new TauLopCost();
    
-   int P = comm->getSize();
+   int P    = comm->getSize();
+   int m    = cparams.getM();
+   int root = cparams.getRoot();
    
    for (int stage = 0; pow(2, stage) < P; stage++) {
       
@@ -66,8 +68,8 @@ TauLopCost * BcastBinomial::evaluate (Communicator *comm, int *size, int root, O
          int n   = 1;
          int tau = 1;
          
-         c = new Transmission(p_src, p_dst, channel, n, *size, tau);
-         seq->add(c);
+         T = new Transmission(p_src, p_dst, channel, n, m, tau);
+         seq->add(T);
          
          conc->add(seq);
          

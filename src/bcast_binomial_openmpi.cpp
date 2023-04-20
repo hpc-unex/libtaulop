@@ -8,6 +8,7 @@
 
 #include "bcast_binomial_openmpi.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
@@ -31,21 +32,22 @@ BcastBinomialOpenMPI::~BcastBinomialOpenMPI () {
 }
 
 
-TauLopCost * BcastBinomialOpenMPI::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * BcastBinomialOpenMPI::evaluate (Communicator *comm, const CollParams &cparams) { 
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
-   Transmission     *c    = nullptr;
+   Transmission     *T    = nullptr;
    
    TauLopCost       *cost = new TauLopCost();
    
    int P = comm->getSize();
+   int m = cparams.getM();
    
    for (int stage = 0; pow(2, stage) < P; stage++) {
       
       conc = new TauLopConcurrent ();
       
-      int p = root;
+      int p = cparams.getRoot();
       
       for (int t = 0; t < pow(2, stage); t++) {
          
@@ -66,8 +68,8 @@ TauLopCost * BcastBinomialOpenMPI::evaluate (Communicator *comm, int *size, int 
          int n   = 1;
          int tau = 1;
          
-         c = new Transmission(p_src, p_dst, channel, n, *size, tau);
-         seq->add(c);
+         T = new Transmission(p_src, p_dst, channel, n, m, tau);
+         seq->add(T);
          
          conc->add(seq);
          

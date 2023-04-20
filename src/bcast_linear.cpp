@@ -8,6 +8,7 @@
 
 #include "bcast_linear.hpp"
 
+#include "coll_params.hpp"
 #include "transmission.hpp"
 #include "collective.hpp"
 #include "communicator.hpp"
@@ -32,13 +33,15 @@ BcastLinear::~BcastLinear () {
 }
 
 
-TauLopCost * BcastLinear::evaluate (Communicator *comm, int *size, int root, OpType op) {
+TauLopCost * BcastLinear::evaluate (Communicator *comm, const CollParams &cparams) {
    
    TauLopConcurrent *conc = nullptr;
    TauLopSequence   *seq  = nullptr;
    Transmission     *T    = nullptr;
    
-   int P = comm->getSize();
+   int P    = comm->getSize();
+   int root = cparams.getRoot();
+   int m    = cparams.getM();
    
    conc = new TauLopConcurrent ();
    seq  = new TauLopSequence ();
@@ -56,10 +59,9 @@ TauLopCost * BcastLinear::evaluate (Communicator *comm, int *size, int root, OpT
       int channel = (node_src == node_dst) ? 0 : 1;
       
       int tau = 1;
+      int n   = 1;
       
-      int n = 1;
-      
-      T = new Transmission(p_src, p_dst, channel, n, *size, tau);
+      T = new Transmission(p_src, p_dst, channel, n, m, tau);
       seq->add(T);
    }
    
