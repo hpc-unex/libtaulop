@@ -13,6 +13,13 @@ include src/Makefile.am
 
 
 tests : all
-	@mkdir -p $(exec_prefix)/bin && cd tests && $(MAKE) && mv test_* $(exec_prefix)/bin
-
+	@mkdir -p $(exec_prefix)/bin && cd tests && $(MAKE)
+	@mv -f tests/test_p2p $(exec_prefix)/bin/p2p
+	@mv -f tests/test_colls $(exec_prefix)/bin/colls
+	@mv -f tests/test_comm_creation $(exec_prefix)/bin/comm_creation ;
+	@mv -f tests/test_comm_simple $(exec_prefix)/bin/comm_simples ;
+	@mv -f tests/test_axbt $(exec_prefix)/bin/axbt ;
+	@mv -f tests/test_nbody $(exec_prefix)/bin/nbody ;
+	@mv -f tests/test_wave2d $(exec_prefix)/bin/wave2d ;
+	@mv -f tests/imb_taulop $(exec_prefix)/bin/imb_taulop
 
