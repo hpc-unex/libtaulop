@@ -21,5 +21,10 @@ tests : all
 	@mv -f tests/test_axbt $(exec_prefix)/bin/axbt ;
 	@mv -f tests/test_nbody $(exec_prefix)/bin/nbody ;
 	@mv -f tests/test_wave2d $(exec_prefix)/bin/wave2d ;
-	@mv -f tests/imb_taulop $(exec_prefix)/bin/imb_taulop
+	@mv -f tests/imb_taulop $(exec_prefix)/bin/imb_taulop ;
+	@mkdir -p $(exec_prefix)/scripts ;
+	@mkdir -p $(exec_prefix)/scripts/compare ;
+	@mkdir -p $(exec_prefix)/scripts/transform ;
+	@cp -f $(top_srcdir)/tests/imb/compare/* $(exec_prefix)/scripts/compare ;
+	@cp -f $(top_srcdir)/params/transform/* $(exec_prefix)/scripts/transform
 
