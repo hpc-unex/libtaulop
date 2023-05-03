@@ -1,6 +1,6 @@
 #AC_PREREQ([2.71])
 
-AC_INIT([taulop],[1.1],[jarico@unex.es])
+AC_INIT([taulop],[1.2],[jarico@unex.es])
 AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
