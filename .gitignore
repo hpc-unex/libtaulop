@@ -2,4 +2,4 @@
 **/.DS_Store
 config.h.in~
 configure~
-
+**/__pycache__
