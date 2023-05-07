@@ -74,7 +74,7 @@ def getOverheadConfig(lines):
             config["P"] = int(v[1])
             continue
 
-        if (v[0] == "#m"):
+        if (v[0] == "#"):
             break
 
     for i in range(sizes, len(lines)): # Starting after mapping lines
@@ -199,22 +199,14 @@ def generateChannel(args):
     overhead_name  = args.overhead
     transfert_name = args.transfert
 
-
     # 1. Read lines of the overhead_XXX and transfertime_XXX.txt files:
     with open(overhead_name) as f_overhead:
-
         o_lines = f_overhead.readlines()
-
         f_overhead.close()
 
-
     with open(transfert_name) as f_transfert:
-
         tt_lines = f_transfert.readlines()
-
         f_transfert.close()
-
-
 
 
     # 2. Get data from file "overhead_xxx.txt"
@@ -224,12 +216,11 @@ def generateChannel(args):
 
     # 2b. Get data -> Config
     config = getOverheadConfig(o_lines)
-    P = config["P"]
+    P   = config["P"]
+    tau = config["tau"]
 
     # 2c. Get data -> times
     o_times = getOverheadTimes(o_lines)
-
-
 
 
     # 3. Get data from file "transfertime_xxx.txt"
@@ -237,7 +228,30 @@ def generateChannel(args):
     # 3a & 3b: assuming same config and mapping than in overhead.
 
     # 3c. Get data -> times
-    tt_times = getTransferTimes(tt_lines, P)
+    tt_times = getTransferTimes(tt_lines, tau)
 
 
-    return mapping, config, o_times, tt_times
+    # 4. Create a Pandas DataFrame with all the data read from MPIBLib output files
+    #
+    #         o(m)   T(m,1)   T(m,2)   ...   T(m,tau)
+    #     1    -       -        -              -
+    #    64    -       -        -              -
+    #   128    -       -        -              -
+    #   ...
+    #   MAX    -       -        -              -
+    #
+    #   Values are those read from MPIBLib output files. Next step is to transform 
+    #    values into actual taulop parameters.
+
+    cols = ['o(m)'] + ['T(m, {})'.format(i) for i in range(1, tau+1)]
+
+    o_array = np.array([list(o_times.values())]).T  # Rows = m, Cols = o(m)
+    t_array = np.array(list(tt_times.values()))     # Rows = m, Cols = T(m,1) ... T(m, tau)
+
+    mpiblib_times = pd.DataFrame(np.concatenate((o_array, t_array), axis=1),
+                                 columns = cols,
+                                 index   = o_times.keys())
+
+    #num_m = o_array.shape[0]
+
+    return mapping, config, mpiblib_times #o_times, tt_times

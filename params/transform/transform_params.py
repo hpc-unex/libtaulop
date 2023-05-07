@@ -27,26 +27,27 @@ def print_data(msg, data):
 def execute_transform (args):
 
     # 1. Generate dictionaries with the information from the MPIBLib file outputs.
-    mapping, config, o_times, tt_times = generateChannel(args)
+    mapping, config, mpiblib_times = generateChannel(args)
 
     # 2. Process previous data to get a Pandas dataframe with the times (taulop parameter values)
     #     The times from MPIBLib are processed according to their communication channel.
-    times = process(args.channel, config, o_times, tt_times)
+    taulop_times = processChannel(args.channel, config, mpiblib_times)
 
     # 3. Print values
     if args.verbose:
         print_data("Configuration data: ", config)
         print_data("Mapping data: ", mapping)
-        print_data("Overhead Times data: ", o_times)
-        print_data("Transfer Times data: ", tt_times)
+        print_data("MPIBLib times: ", mpiblib_times)
+        print_data("Taulop times: ", taulop_times)
+        #print_data("Transfer Times data: ", tt_times)
 
     # 4. Generate plot (png) file
     if args.plot:
-        plot_params(times, args)
+        plot_params(taulop_times, args)
 
     # 5. Write output file with parameters of a channel ready to be used by taulop-library.
     if args.writefile:
-        saveOutputFiles(times, args)
+        saveOutputFiles(taulop_times, args)
 
     return
 

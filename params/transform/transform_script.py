@@ -9,7 +9,9 @@ from transform_params  import execute_transform
 
 # configuration
 
-path = "/Users/jarico/Documents/Investigacion/Software/taulop-tool/taulop_develop/parameters/Metropolis/02"
+i_path = "/Users/jarico/Documents/Investigacion/Software/taulop-tool/taulop_develop/parameters/Metropolis/04"
+o_path = "/Users/jarico/Documents/Investigacion/Software/taulop-tool/taulop_develop/parameters/Metropolis/04"
+
 channels = ["SHM", "TCP", "IB"]
 machines = ["Metropolis"]
 
@@ -30,15 +32,17 @@ if __name__ == "__main__":
             args = dict()
 
             # 1a. Read file names
-            prefix = path + "/" # + machine + "_"
-            suffix = "_" + channel + ".txt"
+            i_prefix = i_path + "/" # + machine + "_"
+            i_suffix = "_" + channel + ".txt"
+
+            o_prefix = o_path + "/" 
 
             args["verbose"]   = False
             args["channel"]   = channel
-            args["overhead"]  = prefix + "overhead" + suffix
-            args["transfert"] = prefix + "transfertime" + suffix
-            args["writefile"] = channel + ".txt"
-            args["plot"]      = channel + ".png"
+            args["overhead"]  = i_prefix + "overhead" + i_suffix
+            args["transfert"] = i_prefix + "transfertime" + i_suffix
+            args["writefile"] = o_prefix + channel + ".txt"
+            args["plot"]      = o_prefix + channel + ".png"
             # 1b. Convert to Namespace in ArgParse:
             main_args = argparse.Namespace(**args)
 
