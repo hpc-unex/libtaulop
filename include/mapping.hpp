@@ -12,11 +12,14 @@
 #include <iostream>
 
 
-// Default mappings constants
-const int MAPPING_UNDEF = 0; // Undefined (random)
-const int MAPPING_SEQ   = 1; // Sequential mapping  (p / Q, Q = #cores/node)
-const int MAPPING_RR    = 2; // Round Robin mapping (p % Q, Q = #cores/node)
-
+// Mapping types
+//  Default:    all processes to node 0 (ocerride mapping and number of
+//               nodes/processes per node).
+//  Sequential: processes are placed to fill node 0, and then node 1, etc.
+//  RoundRobin: processes are placed to node 0, node 1, etc. with wraparound.
+//  Random:     processes are placed randomly in nodes (controls the number of processes
+//               per node)
+enum class Map {Default, Sequential, RoundRobin, Random};
 
 
 class Mapping {
@@ -31,10 +34,10 @@ protected:
     
 public:
     
-    Mapping  (int P);
-    Mapping  (int P, int *nodes);
-    Mapping  (int P, int Q, int predef_map);
-    ~Mapping ();
+     Mapping  (int P);
+     Mapping  (int P, int *nodes);
+     Mapping  (int P, int Q, Map map);
+    ~Mapping  ();
     
     Mapping& operator = (const Mapping &m);
     
