@@ -52,7 +52,7 @@ double ex2_bcast (int P) {
    
    Communicator *world = new Communicator (P);
    
-   Mapping *map = new Mapping(P, Q, MAPPING_SEQ);
+   Mapping *map = new Mapping (P, Q, Map::Sequential);
    world->map(map);
    world->show();
    
@@ -75,7 +75,7 @@ double ex3_bcast (int P) {
    
    Communicator *world = new Communicator (P);
    
-   Mapping *map = new Mapping(P, Q, MAPPING_SEQ);
+   Mapping *map = new Mapping(P, Q, Map::Sequential);
    world->map(map);
    world->show();
    
@@ -110,7 +110,7 @@ int ex4_colls (int P) {
    
    
    // 3. Create the virtual topology (mapping of processes to nodes)
-   Mapping *map = new Mapping(P, Q, MAPPING_SEQ);
+   Mapping *map = new Mapping(P, Q, Map::Sequential);
    // 3.1. Assign the mapping to a communicator
    world->map(map);
    world->show();
@@ -170,7 +170,7 @@ int ex4_colls (int P) {
    cout << endl << "P = " << comm->getSize() << "  \t Root = 0 \t 1 \t 2 ... " << endl;
    cout << "---------------------------------------------------------------" << endl;
    
-   Mapping *map_seq = new Mapping (P/2, 4, MAPPING_SEQ);
+   Mapping *map_seq = new Mapping (P/2, 4, Map::Sequential);
    comm->map(map_seq);
    
    for (int m = MIN_SIZE; m <= MAX_SIZE; m *= 2) {

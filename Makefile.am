@@ -15,7 +15,11 @@ include src/Makefile.am
 tests : all
 	@mkdir -p $(exec_prefix)/bin && cd tests && $(MAKE)
 	@mv -f tests/test_p2p $(exec_prefix)/bin/p2p
+	@mv -f tests/test_computation $(exec_prefix)/bin/computation
 	@mv -f tests/test_colls $(exec_prefix)/bin/colls
+	@mv -f tests/test_reduce $(exec_prefix)/bin/reduce
+	@mv -f tests/test_allreduce $(exec_prefix)/bin/allreduce
+	@mv -f tests/test_scatter $(exec_prefix)/bin/scatter
 	@mv -f tests/test_comm_creation $(exec_prefix)/bin/comm_creation ;
 	@mv -f tests/test_comm_simple $(exec_prefix)/bin/comm_simples ;
 	@mv -f tests/test_axbt $(exec_prefix)/bin/axbt ;

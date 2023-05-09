@@ -34,7 +34,7 @@ int main (int argc, const char * argv[]) {
    
    
    // 2. Create the virtual topology (mapping of processes to nodes)
-   Mapping *map = new Mapping(P, Q, MAPPING_SEQ);
+   Mapping *map = new Mapping(P, Q, Map::Sequential);
    // 3.1. Assign the mapping to a communicator
    world->map(map);
    world->show();

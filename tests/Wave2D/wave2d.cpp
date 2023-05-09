@@ -118,12 +118,12 @@ int main (int argc, const char * argv[]) {
    //   P : number of processes
    //   Q : number of processes in each node
    //   M : (calculated) number of nodes
-   //   MAPPING_SEQ : processes
+   //   Map::Sequential : processes
    //      ranks 0 .. Q-1  to node 0
    //      ranks Q .. 2Q-1 to node 1
    //       ...
    Communicator *world = new Communicator (P);
-   Mapping *map = new Mapping(P, Q, MAPPING_SEQ);
+   Mapping *map = new Mapping(P, Q, Map::Sequential);
    world->map(map);
    
    cout << endl << "Sequential Mapping: " << endl;
@@ -146,10 +146,10 @@ int main (int argc, const char * argv[]) {
    //   P : number of processes
    //   Q : number of processes in each node
    //   M : (calculated) number of nodes
-   //   MAPPING_RR : processes
+   //   Map::RoundRobin : processes
    //      ranks 0  Q    2Q   .. Q(Q-1)   to node 0
    //      ranks 1  Q+1  2Q+1 .. Q(Q-1)+1 to node
-   map = new Mapping(P, Q, MAPPING_RR);
+   map = new Mapping(P, Q, Map::RoundRobin); 
    world->map(map);
    
    cout << endl << "Round Robin Mapping: " << endl;
