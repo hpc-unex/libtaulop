@@ -1,41 +1,63 @@
 //
-//  reduce.cpp
-//  Test reduce collective operations
+//  main.cpp
+//  allgather algorithms
 //
-//  Created by jarico on 09/05/23.
+//  Created by jarico on 20/4/17.
 //  Copyright © 2017 jarico. All rights reserved.
 //
 
 #include "taulop_kernel.hpp"
 #include "args.h"
+
 #include <cstdlib>
 #include <iostream>
 #include <cmath>
 #include <iomanip>
-#include <unistd.h>
-#include <getopt.h>
 using namespace std;
 
 
-// Reduce algorithms
+// Allgather algorithms
 
-double reduce_linear (const TaulopArgs &args) {
+double rda_allgather (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
    Mapping *map = new Mapping (args.P, args.Q, args.mapping);
    world->map(map);
-      
-   Collective *reduce  = new ReduceLinearOpenMPI();
-   CollParams cp {args.m, args.root, args.op};
+
+   Collective *rda  = new AllgatherRDA();
+   CollParams cp {args.m};
    
-   TauLopCost *tc = reduce->evaluate(world, cp);
+   TauLopCost *tc = rda->evaluate(world, cp);
+   double t = tc->getTime();
    
    if (args.verbose) {
       world->show();
       tc->show();
    }
    
+   delete tc;
+   delete world;
+   
+   return t;
+}
+
+
+double ring_allgather (const TaulopArgs &args) {
+   
+   Communicator *world = new Communicator (args.P);
+   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   world->map(map);
+
+   Collective *ring  = new AllgatherRing();
+   CollParams cp {args.m};
+   
+   TauLopCost *tc = ring->evaluate(world, cp);
    double t = tc->getTime();
+   
+   if (args.verbose) {
+      world->show();
+      tc->show();
+   }
    
    delete tc;
    delete world;
@@ -45,33 +67,9 @@ double reduce_linear (const TaulopArgs &args) {
 
 
 
-double reduce_binomial (const TaulopArgs &args) {
-   
-   Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
-   world->map(map);
-
-   Collective *reduce  = new ReduceBinomialOpenMPI();
-   CollParams cp {args.m, args.root, args.op};
-   
-   TauLopCost *tc = reduce->evaluate(world, cp);
-      
-   if (args.verbose) {
-      world->show();
-      tc->show();
-   }
-   
-   double t = tc->getTime();
-
-   delete tc;
-   delete world;
-   
-   return t;
-}
 
 
-
-int main (int argc, char * argv[]) {
+int main (int argc, char *argv[]) {
    
    double t = 0.0;
    
@@ -83,14 +81,15 @@ int main (int argc, char * argv[]) {
    // Params
    TaulopArgs &args = TaulopArgs::GetArgs(argc, argv);
       
-   // Linear Reduce
-   t = reduce_linear(args);
-   args.printTime(t, "Reduce Linear    ");
+   
+   // Comparison of allgather algorithms
+   t = rda_allgather(args);
+   args.printTime(t, "Allgather RDA:  ");
 
-   // Binomial Reduce
-   t = reduce_binomial(args);
-   args.printTime(t, "Reduce Binomial  ");
+   t = ring_allgather(args);
+   args.printTime(t, "Allgather Ring: ");
 
+   
    return 0;
 }
 

@@ -87,11 +87,12 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 noinst_PROGRAMS = test_p2p$(EXEEXT) test_computation$(EXEEXT) \
-	test_colls$(EXEEXT) test_reduce$(EXEEXT) \
-	test_allreduce$(EXEEXT) test_scatter$(EXEEXT) \
-	test_comm_creation$(EXEEXT) test_comm_simple$(EXEEXT) \
-	test_axbt$(EXEEXT) test_wave2d$(EXEEXT) test_nbody$(EXEEXT) \
-	imb_taulop$(EXEEXT)
+	test_gather$(EXEEXT) test_bcast$(EXEEXT) \
+	test_allgather$(EXEEXT) test_alltoall$(EXEEXT) \
+	test_reduce$(EXEEXT) test_allreduce$(EXEEXT) \
+	test_scatter$(EXEEXT) test_comm_creation$(EXEEXT) \
+	test_comm_simple$(EXEEXT) test_axbt$(EXEEXT) \
+	test_wave2d$(EXEEXT) test_nbody$(EXEEXT) imb_taulop$(EXEEXT)
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -110,6 +111,13 @@ imb_taulop_OBJECTS = $(am_imb_taulop_OBJECTS)
 imb_taulop_DEPENDENCIES =
 imb_taulop_LINK = $(CXXLD) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_allgather_OBJECTS =  \
+	basics/colls/test_allgather-allgather.$(OBJEXT) \
+	utils/test_allgather-args.$(OBJEXT)
+test_allgather_OBJECTS = $(am_test_allgather_OBJECTS)
+test_allgather_DEPENDENCIES =
+test_allgather_LINK = $(CXXLD) $(test_allgather_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_test_allreduce_OBJECTS =  \
 	basics/colls/test_allreduce-allreduce.$(OBJEXT) \
 	utils/test_allreduce-args.$(OBJEXT)
@@ -117,15 +125,23 @@ test_allreduce_OBJECTS = $(am_test_allreduce_OBJECTS)
 test_allreduce_DEPENDENCIES =
 test_allreduce_LINK = $(CXXLD) $(test_allreduce_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_alltoall_OBJECTS =  \
+	basics/colls/test_alltoall-alltoall.$(OBJEXT) \
+	utils/test_alltoall-args.$(OBJEXT)
+test_alltoall_OBJECTS = $(am_test_alltoall_OBJECTS)
+test_alltoall_DEPENDENCIES =
+test_alltoall_LINK = $(CXXLD) $(test_alltoall_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_test_axbt_OBJECTS = ParallelAxBt/test_axbt-axbt.$(OBJEXT)
 test_axbt_OBJECTS = $(am_test_axbt_OBJECTS)
 test_axbt_DEPENDENCIES =
 test_axbt_LINK = $(CXXLD) $(test_axbt_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-am_test_colls_OBJECTS = basics/colls/test_colls-colls.$(OBJEXT)
-test_colls_OBJECTS = $(am_test_colls_OBJECTS)
-test_colls_DEPENDENCIES =
-test_colls_LINK = $(CXXLD) $(test_colls_CXXFLAGS) $(CXXFLAGS) \
+am_test_bcast_OBJECTS = basics/colls/test_bcast-bcast.$(OBJEXT) \
+	utils/test_bcast-args.$(OBJEXT)
+test_bcast_OBJECTS = $(am_test_bcast_OBJECTS)
+test_bcast_DEPENDENCIES =
+test_bcast_LINK = $(CXXLD) $(test_bcast_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_test_comm_creation_OBJECTS =  \
 	basics/communicators/test_comm_creation-creation.$(OBJEXT)
@@ -146,6 +162,12 @@ test_computation_OBJECTS = $(am_test_computation_OBJECTS)
 test_computation_DEPENDENCIES =
 test_computation_LINK = $(CXXLD) $(test_computation_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_test_gather_OBJECTS = basics/colls/test_gather-gather.$(OBJEXT) \
+	utils/test_gather-args.$(OBJEXT)
+test_gather_OBJECTS = $(am_test_gather_OBJECTS)
+test_gather_DEPENDENCIES =
+test_gather_LINK = $(CXXLD) $(test_gather_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_test_nbody_OBJECTS = NBody/test_nbody-nbody.$(OBJEXT)
 test_nbody_OBJECTS = $(am_test_nbody_OBJECTS)
 test_nbody_DEPENDENCIES =
@@ -191,8 +213,11 @@ am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = NBody/$(DEPDIR)/test_nbody-nbody.Po \
 	ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po \
 	Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po \
+	basics/colls/$(DEPDIR)/test_allgather-allgather.Po \
 	basics/colls/$(DEPDIR)/test_allreduce-allreduce.Po \
-	basics/colls/$(DEPDIR)/test_colls-colls.Po \
+	basics/colls/$(DEPDIR)/test_alltoall-alltoall.Po \
+	basics/colls/$(DEPDIR)/test_bcast-bcast.Po \
+	basics/colls/$(DEPDIR)/test_gather-gather.Po \
 	basics/colls/$(DEPDIR)/test_reduce-reduce.Po \
 	basics/colls/$(DEPDIR)/test_scatter-scatter.Po \
 	basics/communicators/$(DEPDIR)/test_comm_creation-creation.Po \
@@ -201,8 +226,12 @@ am__depfiles_remade = NBody/$(DEPDIR)/test_nbody-nbody.Po \
 	basics/p2p/$(DEPDIR)/test_p2p-p2p.Po \
 	imb/$(DEPDIR)/taulop-imb_taulop.Po \
 	imb/$(DEPDIR)/taulop-pingpong.Po \
+	utils/$(DEPDIR)/test_allgather-args.Po \
 	utils/$(DEPDIR)/test_allreduce-args.Po \
+	utils/$(DEPDIR)/test_alltoall-args.Po \
+	utils/$(DEPDIR)/test_bcast-args.Po \
 	utils/$(DEPDIR)/test_computation-args.Po \
+	utils/$(DEPDIR)/test_gather-args.Po \
 	utils/$(DEPDIR)/test_reduce-args.Po \
 	utils/$(DEPDIR)/test_scatter-args.Po
 am__mv = mv -f
@@ -223,18 +252,22 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(imb_taulop_SOURCES) $(test_allreduce_SOURCES) \
-	$(test_axbt_SOURCES) $(test_colls_SOURCES) \
+SOURCES = $(imb_taulop_SOURCES) $(test_allgather_SOURCES) \
+	$(test_allreduce_SOURCES) $(test_alltoall_SOURCES) \
+	$(test_axbt_SOURCES) $(test_bcast_SOURCES) \
 	$(test_comm_creation_SOURCES) $(test_comm_simple_SOURCES) \
-	$(test_computation_SOURCES) $(test_nbody_SOURCES) \
-	$(test_p2p_SOURCES) $(test_reduce_SOURCES) \
-	$(test_scatter_SOURCES) $(test_wave2d_SOURCES)
-DIST_SOURCES = $(imb_taulop_SOURCES) $(test_allreduce_SOURCES) \
-	$(test_axbt_SOURCES) $(test_colls_SOURCES) \
+	$(test_computation_SOURCES) $(test_gather_SOURCES) \
+	$(test_nbody_SOURCES) $(test_p2p_SOURCES) \
+	$(test_reduce_SOURCES) $(test_scatter_SOURCES) \
+	$(test_wave2d_SOURCES)
+DIST_SOURCES = $(imb_taulop_SOURCES) $(test_allgather_SOURCES) \
+	$(test_allreduce_SOURCES) $(test_alltoall_SOURCES) \
+	$(test_axbt_SOURCES) $(test_bcast_SOURCES) \
 	$(test_comm_creation_SOURCES) $(test_comm_simple_SOURCES) \
-	$(test_computation_SOURCES) $(test_nbody_SOURCES) \
-	$(test_p2p_SOURCES) $(test_reduce_SOURCES) \
-	$(test_scatter_SOURCES) $(test_wave2d_SOURCES)
+	$(test_computation_SOURCES) $(test_gather_SOURCES) \
+	$(test_nbody_SOURCES) $(test_p2p_SOURCES) \
+	$(test_reduce_SOURCES) $(test_scatter_SOURCES) \
+	$(test_wave2d_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -353,15 +386,24 @@ test_p2p_LDADD = -L$(libdir) -ltaulop
 test_computation_SOURCES = basics/computation/computation.cpp utils/args.cpp
 test_computation_CXXFLAGS = $(AM_CXXFLAGS)
 test_computation_LDADD = -L$(libdir) -ltaulop
-test_colls_SOURCES = basics/colls/colls.cpp
-test_colls_CXXFLAGS = $(AM_CXXFLAGS)
-test_colls_LDADD = -L$(libdir) -ltaulop
+test_gather_SOURCES = basics/colls/gather.cpp utils/args.cpp
+test_gather_CXXFLAGS = $(AM_CXXFLAGS)
+test_gather_LDADD = -L$(libdir) -ltaulop
 test_comm_simple_SOURCES = basics/communicators/simple.cpp
 test_comm_simple_CXXFLAGS = $(AM_CXXFLAGS)
 test_comm_simple_LDADD = -L$(libdir) -ltaulop
 test_comm_creation_SOURCES = basics/communicators/creation.cpp
 test_comm_creation_CXXFLAGS = $(AM_CXXFLAGS)
 test_comm_creation_LDADD = -L$(libdir) -ltaulop
+test_bcast_SOURCES = basics/colls/bcast.cpp utils/args.cpp
+test_bcast_CXXFLAGS = $(AM_CXXFLAGS)
+test_bcast_LDADD = -L$(libdir) -ltaulop
+test_allgather_SOURCES = basics/colls/allgather.cpp utils/args.cpp
+test_allgather_CXXFLAGS = $(AM_CXXFLAGS)
+test_allgather_LDADD = -L$(libdir) -ltaulop
+test_alltoall_SOURCES = basics/colls/alltoall.cpp utils/args.cpp
+test_alltoall_CXXFLAGS = $(AM_CXXFLAGS)
+test_alltoall_LDADD = -L$(libdir) -ltaulop
 test_reduce_SOURCES = basics/colls/reduce.cpp utils/args.cpp
 test_reduce_CXXFLAGS = $(AM_CXXFLAGS)
 test_reduce_LDADD = -L$(libdir) -ltaulop
@@ -439,7 +481,7 @@ basics/colls/$(am__dirstamp):
 basics/colls/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) basics/colls/$(DEPDIR)
 	@: > basics/colls/$(DEPDIR)/$(am__dirstamp)
-basics/colls/test_allreduce-allreduce.$(OBJEXT):  \
+basics/colls/test_allgather-allgather.$(OBJEXT):  \
 	basics/colls/$(am__dirstamp) \
 	basics/colls/$(DEPDIR)/$(am__dirstamp)
 utils/$(am__dirstamp):
@@ -448,12 +490,30 @@ utils/$(am__dirstamp):
 utils/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) utils/$(DEPDIR)
 	@: > utils/$(DEPDIR)/$(am__dirstamp)
+utils/test_allgather-args.$(OBJEXT): utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
+
+test_allgather$(EXEEXT): $(test_allgather_OBJECTS) $(test_allgather_DEPENDENCIES) $(EXTRA_test_allgather_DEPENDENCIES) 
+	@rm -f test_allgather$(EXEEXT)
+	$(AM_V_CXXLD)$(test_allgather_LINK) $(test_allgather_OBJECTS) $(test_allgather_LDADD) $(LIBS)
+basics/colls/test_allreduce-allreduce.$(OBJEXT):  \
+	basics/colls/$(am__dirstamp) \
+	basics/colls/$(DEPDIR)/$(am__dirstamp)
 utils/test_allreduce-args.$(OBJEXT): utils/$(am__dirstamp) \
 	utils/$(DEPDIR)/$(am__dirstamp)
 
 test_allreduce$(EXEEXT): $(test_allreduce_OBJECTS) $(test_allreduce_DEPENDENCIES) $(EXTRA_test_allreduce_DEPENDENCIES) 
 	@rm -f test_allreduce$(EXEEXT)
 	$(AM_V_CXXLD)$(test_allreduce_LINK) $(test_allreduce_OBJECTS) $(test_allreduce_LDADD) $(LIBS)
+basics/colls/test_alltoall-alltoall.$(OBJEXT):  \
+	basics/colls/$(am__dirstamp) \
+	basics/colls/$(DEPDIR)/$(am__dirstamp)
+utils/test_alltoall-args.$(OBJEXT): utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
+
+test_alltoall$(EXEEXT): $(test_alltoall_OBJECTS) $(test_alltoall_DEPENDENCIES) $(EXTRA_test_alltoall_DEPENDENCIES) 
+	@rm -f test_alltoall$(EXEEXT)
+	$(AM_V_CXXLD)$(test_alltoall_LINK) $(test_alltoall_OBJECTS) $(test_alltoall_LDADD) $(LIBS)
 ParallelAxBt/$(am__dirstamp):
 	@$(MKDIR_P) ParallelAxBt
 	@: > ParallelAxBt/$(am__dirstamp)
@@ -466,12 +526,14 @@ ParallelAxBt/test_axbt-axbt.$(OBJEXT): ParallelAxBt/$(am__dirstamp) \
 test_axbt$(EXEEXT): $(test_axbt_OBJECTS) $(test_axbt_DEPENDENCIES) $(EXTRA_test_axbt_DEPENDENCIES) 
 	@rm -f test_axbt$(EXEEXT)
 	$(AM_V_CXXLD)$(test_axbt_LINK) $(test_axbt_OBJECTS) $(test_axbt_LDADD) $(LIBS)
-basics/colls/test_colls-colls.$(OBJEXT): basics/colls/$(am__dirstamp) \
+basics/colls/test_bcast-bcast.$(OBJEXT): basics/colls/$(am__dirstamp) \
 	basics/colls/$(DEPDIR)/$(am__dirstamp)
+utils/test_bcast-args.$(OBJEXT): utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
 
-test_colls$(EXEEXT): $(test_colls_OBJECTS) $(test_colls_DEPENDENCIES) $(EXTRA_test_colls_DEPENDENCIES) 
-	@rm -f test_colls$(EXEEXT)
-	$(AM_V_CXXLD)$(test_colls_LINK) $(test_colls_OBJECTS) $(test_colls_LDADD) $(LIBS)
+test_bcast$(EXEEXT): $(test_bcast_OBJECTS) $(test_bcast_DEPENDENCIES) $(EXTRA_test_bcast_DEPENDENCIES) 
+	@rm -f test_bcast$(EXEEXT)
+	$(AM_V_CXXLD)$(test_bcast_LINK) $(test_bcast_OBJECTS) $(test_bcast_LDADD) $(LIBS)
 basics/communicators/$(am__dirstamp):
 	@$(MKDIR_P) basics/communicators
 	@: > basics/communicators/$(am__dirstamp)
@@ -507,6 +569,15 @@ utils/test_computation-args.$(OBJEXT): utils/$(am__dirstamp) \
 test_computation$(EXEEXT): $(test_computation_OBJECTS) $(test_computation_DEPENDENCIES) $(EXTRA_test_computation_DEPENDENCIES) 
 	@rm -f test_computation$(EXEEXT)
 	$(AM_V_CXXLD)$(test_computation_LINK) $(test_computation_OBJECTS) $(test_computation_LDADD) $(LIBS)
+basics/colls/test_gather-gather.$(OBJEXT):  \
+	basics/colls/$(am__dirstamp) \
+	basics/colls/$(DEPDIR)/$(am__dirstamp)
+utils/test_gather-args.$(OBJEXT): utils/$(am__dirstamp) \
+	utils/$(DEPDIR)/$(am__dirstamp)
+
+test_gather$(EXEEXT): $(test_gather_OBJECTS) $(test_gather_DEPENDENCIES) $(EXTRA_test_gather_DEPENDENCIES) 
+	@rm -f test_gather$(EXEEXT)
+	$(AM_V_CXXLD)$(test_gather_LINK) $(test_gather_OBJECTS) $(test_gather_LDADD) $(LIBS)
 NBody/$(am__dirstamp):
 	@$(MKDIR_P) NBody
 	@: > NBody/$(am__dirstamp)
@@ -580,8 +651,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@NBody/$(DEPDIR)/test_nbody-nbody.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@basics/colls/$(DEPDIR)/test_allgather-allgather.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@basics/colls/$(DEPDIR)/test_allreduce-allreduce.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@basics/colls/$(DEPDIR)/test_colls-colls.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@basics/colls/$(DEPDIR)/test_alltoall-alltoall.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@basics/colls/$(DEPDIR)/test_bcast-bcast.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@basics/colls/$(DEPDIR)/test_gather-gather.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@basics/colls/$(DEPDIR)/test_reduce-reduce.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@basics/colls/$(DEPDIR)/test_scatter-scatter.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@basics/communicators/$(DEPDIR)/test_comm_creation-creation.Po@am__quote@ # am--include-marker
@@ -590,8 +664,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@basics/p2p/$(DEPDIR)/test_p2p-p2p.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@imb/$(DEPDIR)/taulop-imb_taulop.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@imb/$(DEPDIR)/taulop-pingpong.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_allgather-args.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_allreduce-args.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_alltoall-args.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_bcast-args.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_computation-args.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_gather-args.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_reduce-args.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_scatter-args.Po@am__quote@ # am--include-marker
 
@@ -645,6 +723,34 @@ imb/taulop-pingpong.obj: imb/pingpong.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-pingpong.obj `if test -f 'imb/pingpong.cpp'; then $(CYGPATH_W) 'imb/pingpong.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/pingpong.cpp'; fi`
 
+basics/colls/test_allgather-allgather.o: basics/colls/allgather.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allgather_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_allgather-allgather.o -MD -MP -MF basics/colls/$(DEPDIR)/test_allgather-allgather.Tpo -c -o basics/colls/test_allgather-allgather.o `test -f 'basics/colls/allgather.cpp' || echo '$(srcdir)/'`basics/colls/allgather.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_allgather-allgather.Tpo basics/colls/$(DEPDIR)/test_allgather-allgather.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='basics/colls/allgather.cpp' object='basics/colls/test_allgather-allgather.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allgather_CXXFLAGS) $(CXXFLAGS) -c -o basics/colls/test_allgather-allgather.o `test -f 'basics/colls/allgather.cpp' || echo '$(srcdir)/'`basics/colls/allgather.cpp
+
+basics/colls/test_allgather-allgather.obj: basics/colls/allgather.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allgather_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_allgather-allgather.obj -MD -MP -MF basics/colls/$(DEPDIR)/test_allgather-allgather.Tpo -c -o basics/colls/test_allgather-allgather.obj `if test -f 'basics/colls/allgather.cpp'; then $(CYGPATH_W) 'basics/colls/allgather.cpp'; else $(CYGPATH_W) '$(srcdir)/basics/colls/allgather.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_allgather-allgather.Tpo basics/colls/$(DEPDIR)/test_allgather-allgather.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='basics/colls/allgather.cpp' object='basics/colls/test_allgather-allgather.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allgather_CXXFLAGS) $(CXXFLAGS) -c -o basics/colls/test_allgather-allgather.obj `if test -f 'basics/colls/allgather.cpp'; then $(CYGPATH_W) 'basics/colls/allgather.cpp'; else $(CYGPATH_W) '$(srcdir)/basics/colls/allgather.cpp'; fi`
+
+utils/test_allgather-args.o: utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allgather_CXXFLAGS) $(CXXFLAGS) -MT utils/test_allgather-args.o -MD -MP -MF utils/$(DEPDIR)/test_allgather-args.Tpo -c -o utils/test_allgather-args.o `test -f 'utils/args.cpp' || echo '$(srcdir)/'`utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/test_allgather-args.Tpo utils/$(DEPDIR)/test_allgather-args.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/args.cpp' object='utils/test_allgather-args.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allgather_CXXFLAGS) $(CXXFLAGS) -c -o utils/test_allgather-args.o `test -f 'utils/args.cpp' || echo '$(srcdir)/'`utils/args.cpp
+
+utils/test_allgather-args.obj: utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allgather_CXXFLAGS) $(CXXFLAGS) -MT utils/test_allgather-args.obj -MD -MP -MF utils/$(DEPDIR)/test_allgather-args.Tpo -c -o utils/test_allgather-args.obj `if test -f 'utils/args.cpp'; then $(CYGPATH_W) 'utils/args.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/args.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/test_allgather-args.Tpo utils/$(DEPDIR)/test_allgather-args.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/args.cpp' object='utils/test_allgather-args.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allgather_CXXFLAGS) $(CXXFLAGS) -c -o utils/test_allgather-args.obj `if test -f 'utils/args.cpp'; then $(CYGPATH_W) 'utils/args.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/args.cpp'; fi`
+
 basics/colls/test_allreduce-allreduce.o: basics/colls/allreduce.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allreduce_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_allreduce-allreduce.o -MD -MP -MF basics/colls/$(DEPDIR)/test_allreduce-allreduce.Tpo -c -o basics/colls/test_allreduce-allreduce.o `test -f 'basics/colls/allreduce.cpp' || echo '$(srcdir)/'`basics/colls/allreduce.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_allreduce-allreduce.Tpo basics/colls/$(DEPDIR)/test_allreduce-allreduce.Po
@@ -673,6 +779,34 @@ utils/test_allreduce-args.obj: utils/args.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allreduce_CXXFLAGS) $(CXXFLAGS) -c -o utils/test_allreduce-args.obj `if test -f 'utils/args.cpp'; then $(CYGPATH_W) 'utils/args.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/args.cpp'; fi`
 
+basics/colls/test_alltoall-alltoall.o: basics/colls/alltoall.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_alltoall_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_alltoall-alltoall.o -MD -MP -MF basics/colls/$(DEPDIR)/test_alltoall-alltoall.Tpo -c -o basics/colls/test_alltoall-alltoall.o `test -f 'basics/colls/alltoall.cpp' || echo '$(srcdir)/'`basics/colls/alltoall.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_alltoall-alltoall.Tpo basics/colls/$(DEPDIR)/test_alltoall-alltoall.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='basics/colls/alltoall.cpp' object='basics/colls/test_alltoall-alltoall.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_alltoall_CXXFLAGS) $(CXXFLAGS) -c -o basics/colls/test_alltoall-alltoall.o `test -f 'basics/colls/alltoall.cpp' || echo '$(srcdir)/'`basics/colls/alltoall.cpp
+
+basics/colls/test_alltoall-alltoall.obj: basics/colls/alltoall.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_alltoall_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_alltoall-alltoall.obj -MD -MP -MF basics/colls/$(DEPDIR)/test_alltoall-alltoall.Tpo -c -o basics/colls/test_alltoall-alltoall.obj `if test -f 'basics/colls/alltoall.cpp'; then $(CYGPATH_W) 'basics/colls/alltoall.cpp'; else $(CYGPATH_W) '$(srcdir)/basics/colls/alltoall.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_alltoall-alltoall.Tpo basics/colls/$(DEPDIR)/test_alltoall-alltoall.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='basics/colls/alltoall.cpp' object='basics/colls/test_alltoall-alltoall.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_alltoall_CXXFLAGS) $(CXXFLAGS) -c -o basics/colls/test_alltoall-alltoall.obj `if test -f 'basics/colls/alltoall.cpp'; then $(CYGPATH_W) 'basics/colls/alltoall.cpp'; else $(CYGPATH_W) '$(srcdir)/basics/colls/alltoall.cpp'; fi`
+
+utils/test_alltoall-args.o: utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_alltoall_CXXFLAGS) $(CXXFLAGS) -MT utils/test_alltoall-args.o -MD -MP -MF utils/$(DEPDIR)/test_alltoall-args.Tpo -c -o utils/test_alltoall-args.o `test -f 'utils/args.cpp' || echo '$(srcdir)/'`utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/test_alltoall-args.Tpo utils/$(DEPDIR)/test_alltoall-args.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/args.cpp' object='utils/test_alltoall-args.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_alltoall_CXXFLAGS) $(CXXFLAGS) -c -o utils/test_alltoall-args.o `test -f 'utils/args.cpp' || echo '$(srcdir)/'`utils/args.cpp
+
+utils/test_alltoall-args.obj: utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_alltoall_CXXFLAGS) $(CXXFLAGS) -MT utils/test_alltoall-args.obj -MD -MP -MF utils/$(DEPDIR)/test_alltoall-args.Tpo -c -o utils/test_alltoall-args.obj `if test -f 'utils/args.cpp'; then $(CYGPATH_W) 'utils/args.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/args.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/test_alltoall-args.Tpo utils/$(DEPDIR)/test_alltoall-args.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/args.cpp' object='utils/test_alltoall-args.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_alltoall_CXXFLAGS) $(CXXFLAGS) -c -o utils/test_alltoall-args.obj `if test -f 'utils/args.cpp'; then $(CYGPATH_W) 'utils/args.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/args.cpp'; fi`
+
 ParallelAxBt/test_axbt-axbt.o: ParallelAxBt/axbt.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_axbt_CXXFLAGS) $(CXXFLAGS) -MT ParallelAxBt/test_axbt-axbt.o -MD -MP -MF ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Tpo -c -o ParallelAxBt/test_axbt-axbt.o `test -f 'ParallelAxBt/axbt.cpp' || echo '$(srcdir)/'`ParallelAxBt/axbt.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Tpo ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po
@@ -687,19 +821,33 @@ ParallelAxBt/test_axbt-axbt.obj: ParallelAxBt/axbt.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_axbt_CXXFLAGS) $(CXXFLAGS) -c -o ParallelAxBt/test_axbt-axbt.obj `if test -f 'ParallelAxBt/axbt.cpp'; then $(CYGPATH_W) 'ParallelAxBt/axbt.cpp'; else $(CYGPATH_W) '$(srcdir)/ParallelAxBt/axbt.cpp'; fi`
 
-basics/colls/test_colls-colls.o: basics/colls/colls.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_colls_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_colls-colls.o -MD -MP -MF basics/colls/$(DEPDIR)/test_colls-colls.Tpo -c -o basics/colls/test_colls-colls.o `test -f 'basics/colls/colls.cpp' || echo '$(srcdir)/'`basics/colls/colls.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_colls-colls.Tpo basics/colls/$(DEPDIR)/test_colls-colls.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='basics/colls/colls.cpp' object='basics/colls/test_colls-colls.o' libtool=no @AMDEPBACKSLASH@
+basics/colls/test_bcast-bcast.o: basics/colls/bcast.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_bcast_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_bcast-bcast.o -MD -MP -MF basics/colls/$(DEPDIR)/test_bcast-bcast.Tpo -c -o basics/colls/test_bcast-bcast.o `test -f 'basics/colls/bcast.cpp' || echo '$(srcdir)/'`basics/colls/bcast.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_bcast-bcast.Tpo basics/colls/$(DEPDIR)/test_bcast-bcast.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='basics/colls/bcast.cpp' object='basics/colls/test_bcast-bcast.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_colls_CXXFLAGS) $(CXXFLAGS) -c -o basics/colls/test_colls-colls.o `test -f 'basics/colls/colls.cpp' || echo '$(srcdir)/'`basics/colls/colls.cpp
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_bcast_CXXFLAGS) $(CXXFLAGS) -c -o basics/colls/test_bcast-bcast.o `test -f 'basics/colls/bcast.cpp' || echo '$(srcdir)/'`basics/colls/bcast.cpp
 
-basics/colls/test_colls-colls.obj: basics/colls/colls.cpp
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_colls_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_colls-colls.obj -MD -MP -MF basics/colls/$(DEPDIR)/test_colls-colls.Tpo -c -o basics/colls/test_colls-colls.obj `if test -f 'basics/colls/colls.cpp'; then $(CYGPATH_W) 'basics/colls/colls.cpp'; else $(CYGPATH_W) '$(srcdir)/basics/colls/colls.cpp'; fi`
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_colls-colls.Tpo basics/colls/$(DEPDIR)/test_colls-colls.Po
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='basics/colls/colls.cpp' object='basics/colls/test_colls-colls.obj' libtool=no @AMDEPBACKSLASH@
+basics/colls/test_bcast-bcast.obj: basics/colls/bcast.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_bcast_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_bcast-bcast.obj -MD -MP -MF basics/colls/$(DEPDIR)/test_bcast-bcast.Tpo -c -o basics/colls/test_bcast-bcast.obj `if test -f 'basics/colls/bcast.cpp'; then $(CYGPATH_W) 'basics/colls/bcast.cpp'; else $(CYGPATH_W) '$(srcdir)/basics/colls/bcast.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_bcast-bcast.Tpo basics/colls/$(DEPDIR)/test_bcast-bcast.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='basics/colls/bcast.cpp' object='basics/colls/test_bcast-bcast.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_colls_CXXFLAGS) $(CXXFLAGS) -c -o basics/colls/test_colls-colls.obj `if test -f 'basics/colls/colls.cpp'; then $(CYGPATH_W) 'basics/colls/colls.cpp'; else $(CYGPATH_W) '$(srcdir)/basics/colls/colls.cpp'; fi`
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_bcast_CXXFLAGS) $(CXXFLAGS) -c -o basics/colls/test_bcast-bcast.obj `if test -f 'basics/colls/bcast.cpp'; then $(CYGPATH_W) 'basics/colls/bcast.cpp'; else $(CYGPATH_W) '$(srcdir)/basics/colls/bcast.cpp'; fi`
+
+utils/test_bcast-args.o: utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_bcast_CXXFLAGS) $(CXXFLAGS) -MT utils/test_bcast-args.o -MD -MP -MF utils/$(DEPDIR)/test_bcast-args.Tpo -c -o utils/test_bcast-args.o `test -f 'utils/args.cpp' || echo '$(srcdir)/'`utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/test_bcast-args.Tpo utils/$(DEPDIR)/test_bcast-args.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/args.cpp' object='utils/test_bcast-args.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_bcast_CXXFLAGS) $(CXXFLAGS) -c -o utils/test_bcast-args.o `test -f 'utils/args.cpp' || echo '$(srcdir)/'`utils/args.cpp
+
+utils/test_bcast-args.obj: utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_bcast_CXXFLAGS) $(CXXFLAGS) -MT utils/test_bcast-args.obj -MD -MP -MF utils/$(DEPDIR)/test_bcast-args.Tpo -c -o utils/test_bcast-args.obj `if test -f 'utils/args.cpp'; then $(CYGPATH_W) 'utils/args.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/args.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/test_bcast-args.Tpo utils/$(DEPDIR)/test_bcast-args.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/args.cpp' object='utils/test_bcast-args.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_bcast_CXXFLAGS) $(CXXFLAGS) -c -o utils/test_bcast-args.obj `if test -f 'utils/args.cpp'; then $(CYGPATH_W) 'utils/args.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/args.cpp'; fi`
 
 basics/communicators/test_comm_creation-creation.o: basics/communicators/creation.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_comm_creation_CXXFLAGS) $(CXXFLAGS) -MT basics/communicators/test_comm_creation-creation.o -MD -MP -MF basics/communicators/$(DEPDIR)/test_comm_creation-creation.Tpo -c -o basics/communicators/test_comm_creation-creation.o `test -f 'basics/communicators/creation.cpp' || echo '$(srcdir)/'`basics/communicators/creation.cpp
@@ -756,6 +904,34 @@ utils/test_computation-args.obj: utils/args.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/args.cpp' object='utils/test_computation-args.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_computation_CXXFLAGS) $(CXXFLAGS) -c -o utils/test_computation-args.obj `if test -f 'utils/args.cpp'; then $(CYGPATH_W) 'utils/args.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/args.cpp'; fi`
+
+basics/colls/test_gather-gather.o: basics/colls/gather.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gather_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_gather-gather.o -MD -MP -MF basics/colls/$(DEPDIR)/test_gather-gather.Tpo -c -o basics/colls/test_gather-gather.o `test -f 'basics/colls/gather.cpp' || echo '$(srcdir)/'`basics/colls/gather.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_gather-gather.Tpo basics/colls/$(DEPDIR)/test_gather-gather.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='basics/colls/gather.cpp' object='basics/colls/test_gather-gather.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gather_CXXFLAGS) $(CXXFLAGS) -c -o basics/colls/test_gather-gather.o `test -f 'basics/colls/gather.cpp' || echo '$(srcdir)/'`basics/colls/gather.cpp
+
+basics/colls/test_gather-gather.obj: basics/colls/gather.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gather_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_gather-gather.obj -MD -MP -MF basics/colls/$(DEPDIR)/test_gather-gather.Tpo -c -o basics/colls/test_gather-gather.obj `if test -f 'basics/colls/gather.cpp'; then $(CYGPATH_W) 'basics/colls/gather.cpp'; else $(CYGPATH_W) '$(srcdir)/basics/colls/gather.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) basics/colls/$(DEPDIR)/test_gather-gather.Tpo basics/colls/$(DEPDIR)/test_gather-gather.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='basics/colls/gather.cpp' object='basics/colls/test_gather-gather.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gather_CXXFLAGS) $(CXXFLAGS) -c -o basics/colls/test_gather-gather.obj `if test -f 'basics/colls/gather.cpp'; then $(CYGPATH_W) 'basics/colls/gather.cpp'; else $(CYGPATH_W) '$(srcdir)/basics/colls/gather.cpp'; fi`
+
+utils/test_gather-args.o: utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gather_CXXFLAGS) $(CXXFLAGS) -MT utils/test_gather-args.o -MD -MP -MF utils/$(DEPDIR)/test_gather-args.Tpo -c -o utils/test_gather-args.o `test -f 'utils/args.cpp' || echo '$(srcdir)/'`utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/test_gather-args.Tpo utils/$(DEPDIR)/test_gather-args.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/args.cpp' object='utils/test_gather-args.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gather_CXXFLAGS) $(CXXFLAGS) -c -o utils/test_gather-args.o `test -f 'utils/args.cpp' || echo '$(srcdir)/'`utils/args.cpp
+
+utils/test_gather-args.obj: utils/args.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gather_CXXFLAGS) $(CXXFLAGS) -MT utils/test_gather-args.obj -MD -MP -MF utils/$(DEPDIR)/test_gather-args.Tpo -c -o utils/test_gather-args.obj `if test -f 'utils/args.cpp'; then $(CYGPATH_W) 'utils/args.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/args.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) utils/$(DEPDIR)/test_gather-args.Tpo utils/$(DEPDIR)/test_gather-args.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='utils/args.cpp' object='utils/test_gather-args.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_gather_CXXFLAGS) $(CXXFLAGS) -c -o utils/test_gather-args.obj `if test -f 'utils/args.cpp'; then $(CYGPATH_W) 'utils/args.cpp'; else $(CYGPATH_W) '$(srcdir)/utils/args.cpp'; fi`
 
 NBody/test_nbody-nbody.o: NBody/nbody.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_nbody_CXXFLAGS) $(CXXFLAGS) -MT NBody/test_nbody-nbody.o -MD -MP -MF NBody/$(DEPDIR)/test_nbody-nbody.Tpo -c -o NBody/test_nbody-nbody.o `test -f 'NBody/nbody.cpp' || echo '$(srcdir)/'`NBody/nbody.cpp
@@ -1000,8 +1176,11 @@ distclean: distclean-am
 		-rm -f NBody/$(DEPDIR)/test_nbody-nbody.Po
 	-rm -f ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po
 	-rm -f Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po
+	-rm -f basics/colls/$(DEPDIR)/test_allgather-allgather.Po
 	-rm -f basics/colls/$(DEPDIR)/test_allreduce-allreduce.Po
-	-rm -f basics/colls/$(DEPDIR)/test_colls-colls.Po
+	-rm -f basics/colls/$(DEPDIR)/test_alltoall-alltoall.Po
+	-rm -f basics/colls/$(DEPDIR)/test_bcast-bcast.Po
+	-rm -f basics/colls/$(DEPDIR)/test_gather-gather.Po
 	-rm -f basics/colls/$(DEPDIR)/test_reduce-reduce.Po
 	-rm -f basics/colls/$(DEPDIR)/test_scatter-scatter.Po
 	-rm -f basics/communicators/$(DEPDIR)/test_comm_creation-creation.Po
@@ -1010,8 +1189,12 @@ distclean: distclean-am
 	-rm -f basics/p2p/$(DEPDIR)/test_p2p-p2p.Po
 	-rm -f imb/$(DEPDIR)/taulop-imb_taulop.Po
 	-rm -f imb/$(DEPDIR)/taulop-pingpong.Po
+	-rm -f utils/$(DEPDIR)/test_allgather-args.Po
 	-rm -f utils/$(DEPDIR)/test_allreduce-args.Po
+	-rm -f utils/$(DEPDIR)/test_alltoall-args.Po
+	-rm -f utils/$(DEPDIR)/test_bcast-args.Po
 	-rm -f utils/$(DEPDIR)/test_computation-args.Po
+	-rm -f utils/$(DEPDIR)/test_gather-args.Po
 	-rm -f utils/$(DEPDIR)/test_reduce-args.Po
 	-rm -f utils/$(DEPDIR)/test_scatter-args.Po
 	-rm -f Makefile
@@ -1062,8 +1245,11 @@ maintainer-clean: maintainer-clean-am
 		-rm -f NBody/$(DEPDIR)/test_nbody-nbody.Po
 	-rm -f ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po
 	-rm -f Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po
+	-rm -f basics/colls/$(DEPDIR)/test_allgather-allgather.Po
 	-rm -f basics/colls/$(DEPDIR)/test_allreduce-allreduce.Po
-	-rm -f basics/colls/$(DEPDIR)/test_colls-colls.Po
+	-rm -f basics/colls/$(DEPDIR)/test_alltoall-alltoall.Po
+	-rm -f basics/colls/$(DEPDIR)/test_bcast-bcast.Po
+	-rm -f basics/colls/$(DEPDIR)/test_gather-gather.Po
 	-rm -f basics/colls/$(DEPDIR)/test_reduce-reduce.Po
 	-rm -f basics/colls/$(DEPDIR)/test_scatter-scatter.Po
 	-rm -f basics/communicators/$(DEPDIR)/test_comm_creation-creation.Po
@@ -1072,8 +1258,12 @@ maintainer-clean: maintainer-clean-am
 	-rm -f basics/p2p/$(DEPDIR)/test_p2p-p2p.Po
 	-rm -f imb/$(DEPDIR)/taulop-imb_taulop.Po
 	-rm -f imb/$(DEPDIR)/taulop-pingpong.Po
+	-rm -f utils/$(DEPDIR)/test_allgather-args.Po
 	-rm -f utils/$(DEPDIR)/test_allreduce-args.Po
+	-rm -f utils/$(DEPDIR)/test_alltoall-args.Po
+	-rm -f utils/$(DEPDIR)/test_bcast-args.Po
 	-rm -f utils/$(DEPDIR)/test_computation-args.Po
+	-rm -f utils/$(DEPDIR)/test_gather-args.Po
 	-rm -f utils/$(DEPDIR)/test_reduce-args.Po
 	-rm -f utils/$(DEPDIR)/test_scatter-args.Po
 	-rm -f Makefile

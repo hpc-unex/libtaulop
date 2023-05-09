@@ -1,41 +1,39 @@
 //
-//  reduce.cpp
-//  Test reduce collective operations
+//  main.cpp
+//  test_colls
 //
-//  Created by jarico on 09/05/23.
+//  Created by jarico on 20/4/17.
 //  Copyright © 2017 jarico. All rights reserved.
 //
 
 #include "taulop_kernel.hpp"
 #include "args.h"
+
 #include <cstdlib>
 #include <iostream>
 #include <cmath>
 #include <iomanip>
-#include <unistd.h>
-#include <getopt.h>
 using namespace std;
 
 
-// Reduce algorithms
+// Gather algorithms
 
-double reduce_linear (const TaulopArgs &args) {
+double binomial_gather (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
    Mapping *map = new Mapping (args.P, args.Q, args.mapping);
    world->map(map);
-      
-   Collective *reduce  = new ReduceLinearOpenMPI();
-   CollParams cp {args.m, args.root, args.op};
+
+   Collective *gather  = new GatherBinomial();
+   CollParams cp {args.m, args.root};
    
-   TauLopCost *tc = reduce->evaluate(world, cp);
+   TauLopCost *tc = gather->evaluate(world, cp);
+   double t = tc->getTime();
    
    if (args.verbose) {
       world->show();
       tc->show();
    }
-   
-   double t = tc->getTime();
    
    delete tc;
    delete world;
@@ -44,25 +42,25 @@ double reduce_linear (const TaulopArgs &args) {
 }
 
 
-
-double reduce_binomial (const TaulopArgs &args) {
+double binomial_v_gather (const TaulopArgs &args, int *m) {
    
    Communicator *world = new Communicator (args.P);
    Mapping *map = new Mapping (args.P, args.Q, args.mapping);
    world->map(map);
 
-   Collective *reduce  = new ReduceBinomialOpenMPI();
-   CollParams cp {args.m, args.root, args.op};
+   Collective *gatherv = new GatherVBinomial();
    
-   TauLopCost *tc = reduce->evaluate(world, cp);
-      
+   vector<int> vm {m, m + args.P}; // initial and end elements
+   CollParams cp {vm, args.root};
+   
+   TauLopCost *tc = gatherv->evaluate(world, cp);
+   double t = tc->getTime();
+   
    if (args.verbose) {
       world->show();
       tc->show();
    }
    
-   double t = tc->getTime();
-
    delete tc;
    delete world;
    
@@ -70,8 +68,7 @@ double reduce_binomial (const TaulopArgs &args) {
 }
 
 
-
-int main (int argc, char * argv[]) {
+int main (int argc, char *argv[]) {
    
    double t = 0.0;
    
@@ -83,14 +80,22 @@ int main (int argc, char * argv[]) {
    // Params
    TaulopArgs &args = TaulopArgs::GetArgs(argc, argv);
       
-   // Linear Reduce
-   t = reduce_linear(args);
-   args.printTime(t, "Reduce Linear    ");
 
-   // Binomial Reduce
-   t = reduce_binomial(args);
-   args.printTime(t, "Reduce Binomial  ");
+   // Gather
+   t = binomial_gather(args);
+   args.printTime(t, "Gather Binomial:    ");
 
+   
+   // Gather V
+   int *mptr = new int [args.P];
+   for (int i = 0; i < args.P; i++) mptr[i] = args.m;
+
+   t = binomial_v_gather(args, mptr);
+   args.printTime(t, "Gather V Binomial:  ");
+   
+   delete [] mptr;
+
+   
    return 0;
 }
 

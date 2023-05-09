@@ -1081,7 +1081,10 @@ tests : all
 	@mkdir -p $(exec_prefix)/bin && cd tests && $(MAKE)
 	@mv -f tests/test_p2p $(exec_prefix)/bin/p2p
 	@mv -f tests/test_computation $(exec_prefix)/bin/computation
-	@mv -f tests/test_colls $(exec_prefix)/bin/colls
+	@mv -f tests/test_gather $(exec_prefix)/bin/gather
+	@mv -f tests/test_bcast $(exec_prefix)/bin/bcast
+	@mv -f tests/test_allgather $(exec_prefix)/bin/allgather
+	@mv -f tests/test_alltoall $(exec_prefix)/bin/alltoall
 	@mv -f tests/test_reduce $(exec_prefix)/bin/reduce
 	@mv -f tests/test_allreduce $(exec_prefix)/bin/allreduce
 	@mv -f tests/test_scatter $(exec_prefix)/bin/scatter

@@ -1,6 +1,6 @@
 AM_CXXFLAGS = -I$(includedir) -I$(top_srcdir)/tests/utils
 
-noinst_PROGRAMS =  test_p2p test_computation test_colls test_reduce test_allreduce test_scatter test_comm_creation test_comm_simple test_axbt test_wave2d test_nbody imb_taulop
+noinst_PROGRAMS =  test_p2p test_computation test_gather test_bcast test_allgather test_alltoall test_reduce test_allreduce test_scatter test_comm_creation test_comm_simple test_axbt test_wave2d test_nbody imb_taulop
 
 
 test_p2p_SOURCES = basics/p2p/p2p.cpp
@@ -11,9 +11,9 @@ test_computation_SOURCES = basics/computation/computation.cpp utils/args.cpp
 test_computation_CXXFLAGS = $(AM_CXXFLAGS)
 test_computation_LDADD = -L$(libdir) -ltaulop
 
-test_colls_SOURCES = basics/colls/colls.cpp
-test_colls_CXXFLAGS = $(AM_CXXFLAGS)
-test_colls_LDADD = -L$(libdir) -ltaulop
+test_gather_SOURCES = basics/colls/gather.cpp utils/args.cpp
+test_gather_CXXFLAGS = $(AM_CXXFLAGS)
+test_gather_LDADD = -L$(libdir) -ltaulop
 
 test_comm_simple_SOURCES = basics/communicators/simple.cpp
 test_comm_simple_CXXFLAGS = $(AM_CXXFLAGS)
@@ -22,6 +22,18 @@ test_comm_simple_LDADD = -L$(libdir) -ltaulop
 test_comm_creation_SOURCES = basics/communicators/creation.cpp
 test_comm_creation_CXXFLAGS = $(AM_CXXFLAGS)
 test_comm_creation_LDADD = -L$(libdir) -ltaulop
+
+test_bcast_SOURCES = basics/colls/bcast.cpp utils/args.cpp
+test_bcast_CXXFLAGS = $(AM_CXXFLAGS)
+test_bcast_LDADD = -L$(libdir) -ltaulop
+
+test_allgather_SOURCES = basics/colls/allgather.cpp utils/args.cpp
+test_allgather_CXXFLAGS = $(AM_CXXFLAGS)
+test_allgather_LDADD = -L$(libdir) -ltaulop
+
+test_alltoall_SOURCES = basics/colls/alltoall.cpp utils/args.cpp
+test_alltoall_CXXFLAGS = $(AM_CXXFLAGS)
+test_alltoall_LDADD = -L$(libdir) -ltaulop
 
 test_reduce_SOURCES = basics/colls/reduce.cpp utils/args.cpp
 test_reduce_CXXFLAGS = $(AM_CXXFLAGS)
