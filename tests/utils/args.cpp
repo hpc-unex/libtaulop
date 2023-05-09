@@ -66,6 +66,7 @@ TaulopArgs::TaulopArgs (int argc, char **argv) {
        {"num_procs",      required_argument,  nullptr,       'P'},
        {"num_nodes",      required_argument,  nullptr,       'M'},
        {"procs_per_node", required_argument,  nullptr,       'Q'},
+       {"root",           required_argument,  nullptr,       'r'},
        {"operation",      required_argument,  nullptr,       'o'},
        {"mapping",        required_argument,  nullptr,       'd'},
        {"units",          required_argument,  nullptr,       'u'},
@@ -76,7 +77,7 @@ TaulopArgs::TaulopArgs (int argc, char **argv) {
 
    int c;
    int option_index = 0;
-   while ((c = getopt_long(argc, argv, "-m:P:M:Q:M:o:d:u:vh", long_options, &option_index)) != -1) {
+   while ((c = getopt_long(argc, argv, "-m:P:M:Q:M:o:d:u:r:vh", long_options, &option_index)) != -1) {
             
       switch (c) {
                         
@@ -94,6 +95,10 @@ TaulopArgs::TaulopArgs (int argc, char **argv) {
 
          case 'Q':
             this->Q = stoi(optarg);
+            break;
+
+         case 'r':
+            this->root = stoi(optarg);
             break;
 
          case 'o':
@@ -140,6 +145,7 @@ TaulopArgs::TaulopArgs (int argc, char **argv) {
             cout << "\t -m, --msg_size       <num>: Size of message in bytes. Default: " << this->m << endl;
             cout << "\t -M, --num_nodes      <num>: Number of nodes in the computer. Default: " << this->M << endl;
             cout << "\t -Q, --procs_per_node <num>: Number of processes in each node of the computer. Default: " << this->Q << endl;
+            cout << "\t -r, --root           <num>: Root rank number for rooted collectives. Default: " << this->root << endl;
             cout << "\t -o, --operation      <str>: Type of operation in case of reduction. Default: " << operation_s [(int) this->op] << endl;
             cout << "\t -d, --mapping        <str>: Mapping of ranks to nodess. Default: " << mapping_s [(int) this->mapping] << endl;
             cout << "\t -u, --units          <str>: Units to show times [s|ms|us|ns|fs]. Default: " << units_s[(int) this->unit] << endl;
@@ -160,13 +166,14 @@ TaulopArgs::TaulopArgs (int argc, char **argv) {
    
    
    if (this->verbose) {
-      cout << "Parameters: "          << endl;
-      cout << "  P:  "    << this->P  << endl;
-      cout << "  Q:  "    << this->Q  << endl;
-      cout << "  M:  "    << this->M  << endl;
-      cout << "  m:  "    << this->m  << endl;
+      cout << "Parameters: "              << endl;
+      cout << "  P:    "    << this->P    << endl;
+      cout << "  Q:    "    << this->Q    << endl;
+      cout << "  M:    "    << this->M    << endl;
+      cout << "  root: "    << this->root << endl;
+      cout << "  m:    "    << this->m    << endl;
       
-      cout << "  mapping: " << mapping_s   [(int) this->mapping] << endl;      
+      cout << "  mapping: " << mapping_s   [(int) this->mapping] << endl;
       cout << "  units:   " << units_s     [(int) this->unit]    << endl;
       cout << "  Optype:  " << operation_s [(int) this->op]      << endl;
    }
