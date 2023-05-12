@@ -160,7 +160,18 @@ Parameters:
 **``$ ~/imb_taulop --help``**.
 
 
-3) Go to the taulop library ``~/tests/imb/compare`` and execute the Python script with the appropiate files (output from IMB and taulop estimations). It will show (and generate PNG files) to compare estimations and actual values.
+3) In the folder ``~/tests/imb/compare`` a comparison utility is included. It is a Python script, which could be invoked as:
+
+``$ python ~/imb_compare.py -i ./input_IMB.txt -t ../input_TLOP.txt --error_file error.png --plot_file plot.png -v``
+
+It takes two text files as inputs, (1) the IMB generated file containing the measurements of a benchmar, and (2) the taulop generated file containing the estimations for an IMB-like benchmark (using *imb_taulop* utility).
+Output are plots of the error (both proportional and relative) and the comparison in Latency and Bandwidth. Screen output is used if the output files are not provided.
+
+Please, use:
+
+``$ python ~/imb_compare.py --help``
+
+to obtain descriptions of additional arguments.
 
 
 
