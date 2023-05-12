@@ -20,6 +20,8 @@ Mapping::Mapping  (int P) {
    for (int p = 0; p < P; p++) {
       this->nodes[p] = 0;
    }
+   
+   this->mapping = Map::Default;
 }
 
 
@@ -31,6 +33,8 @@ Mapping::Mapping  (int P, int *nodes) {
    for (int p = 0; p < P; p++) {
       this->nodes[p] = nodes[p];
    }
+   
+   this->mapping = Map::User;
 }
 
 
@@ -89,6 +93,8 @@ Mapping::Mapping (int P, int Q, Map map) {
             this->nodes[p] = 0;
       }
    }
+   
+   this->mapping = map;
 }
 
 
@@ -100,15 +106,23 @@ Mapping::~Mapping () {
 
 
 Mapping& Mapping::operator = (const Mapping &m) {
+   
    if (this != &m) {
+      
       if (m.P != this->getP()) { // new size
          delete nodes;
          this->P = m.P;
          nodes = new int[this->P];
       }
-      for (int i=0; i< this->P; i++)
+      
+      for (int i=0; i< this->P; i++) {
          this->nodes[i] = m.nodes[i];
+      }
+      
+      this->mapping = m.mapping;
+      
    }
+   
    return *this;
 }
 
@@ -126,6 +140,10 @@ int Mapping::getP() {
 }
 
 void Mapping::show () {
+   
+   static string mapping_s [5] = {"Default", "Sequential", "RoundRobin", "Random", "User"};
+   
+   cout << "Mapping: " << mapping_s[(int)this->mapping] << endl;
    
    cout << "Nodes: [";
    for (int p = 0; p < this->P; p++) {
