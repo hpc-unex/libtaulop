@@ -147,14 +147,17 @@ taulop library provides with an utility to compare outputs from Intel MPI benchm
 
 2) At installation folder you will find ``bin/imb_taulop``. Execute a command like:
 
-``$ ~/imb_taulop -npmin 2 -msglen sizes.txt -input benchmarks.txt -channels channels.txt -machines machines.txt``
+``$ ~/imb_taulop Broadcast -a Binomial -msglen sizes.txt -P 8 -Q 2 -M 4 --write_file output_bcast.txt --mapping Sequential -v``
 
-Parameters -msglen, -npmin and -input (containing the names of benchmarks to run one per line). The values should be the same as actually measured by IMB.
+Parameters: 
 
-*-channels* specifies a file with the names of the communication channels (one per line, for instance, SHM, TCP, IB, ARIES, etc.) to compare. 
-*-machines* specifies a file with the names (one per line) of the machines (clusters) to use.
+*--msglen:* allos to specify a file containing messages lengths (one per line).
+*--write_file* writes output to a specified file.
+*--mapping* specifies a default-type mapping [Default, Sequential, RoundRobin, Random, User]. In case of Map::User, option *--map_file* is needed to specify the text file to read the mapping (node for each rank, one per line).
 
-**Note: by now, imb_taulop performs a comparison of only one benchmark at a time, for several channels and machines (under development)**.
+**Note: more parameters and options by typing:**
+
+**``$ ~/imb_taulop --help``**.
 
 
 3) Go to the taulop library ``~/tests/imb/compare`` and execute the Python script with the appropiate files (output from IMB and taulop estimations). It will show (and generate PNG files) to compare estimations and actual values.

@@ -338,25 +338,25 @@ Benchmark::Benchmark (int argc, char *argv[]) {
       cout << "Options (similar to IMB):"                                         << endl;
       
       cout << "Flags:" << endl;
-      cout << "\t-help,           -h:  show this help."                           << endl;
-      cout << "\t-verbose,        -v:  verbose output."                           << endl;
+      cout << "\t--help,           -h:  show this help."                           << endl;
+      cout << "\t--verbose,        -v:  verbose output."                           << endl;
       
       cout << "Arguments:" << endl;
-      cout << "\t-msglen,         -m:  file name with message lengths."           << endl;
+      cout << "\t--msglen,         -m:  file name with message lengths."           << endl;
       
-      cout << "\t-algorithm,      -a:  Algorithm for the collective to execute."           << endl;
+      cout << "\t--algorithm,      -a:  Algorithm for the collective to execute."           << endl;
       
-      cout << "\t-write_file,     -w:  file name prefix for writing results."      << endl;
-      cout << "\t-operation,      -o:  (NO ACTIVADO) Operation type for reduce collectives. Default: " << s_operations[(int)this->optype] << endl;
-      cout << "\t-num_procs,      -P:  Number of processes to run the benchmark. Default " << this->P << endl;
-      cout << "\t-num_nodes,      -M:  Number of nodes to run the benchmark. Default " << this->M << endl;
-      cout << "\t-procs_per_node, -Q:  Number of processes per node. Default: " << this->Q << endl;
-      cout << "\t-root,           -r:  Root process rank in case of rooted collective. Default: " << this->root << endl;
+      cout << "\t--write_file,     -w:  file name prefix for writing results."      << endl;
+      cout << "\t--operation,      -o:  (NO ACTIVADO) Operation type for reduce collectives. Default: " << s_operations[(int)this->optype] << endl;
+      cout << "\t--num_procs,      -P:  Number of processes to run the benchmark. Default " << this->P << endl;
+      cout << "\t--num_nodes,      -M:  Number of nodes to run the benchmark. Default " << this->M << endl;
+      cout << "\t--procs_per_node, -Q:  Number of processes per node. Default: " << this->Q << endl;
+      cout << "\t--root,           -r:  Root process rank in case of rooted collective. Default: " << this->root << endl;
       
-      cout << "\t-mapping,        -d:  Predefined mapping of processes [Default, Sequential, RoundRobin, Random, User]." << endl;
-      cout << "\t-map_file,       -x:  Map file of ranks to nodes (one rank-node per line).  Overrides mapping option." << endl;
-      cout << "\t-imb_file,       -i:  (NO ACTIVADO) IMB generated file as input to compare." << endl;
-      cout << "\t-error_file,     -e:  (NO ACTIVADO) Error comparing IMB and imb_taulop results." << endl;
+      cout << "\t--mapping,        -d:  Predefined mapping of processes [Default, Sequential, RoundRobin, Random, User]." << endl;
+      cout << "\t--map_file,       -x:  Map file of ranks to nodes (one rank-node per line).  Overrides mapping option." << endl;
+      cout << "\t--imb_file,       -i:  (NO ACTIVADO) IMB generated file as input to compare." << endl;
+      cout << "\t--error_file,     -e:  (NO ACTIVADO) Error comparing IMB and imb_taulop results." << endl;
       
       exit(0);
    }
