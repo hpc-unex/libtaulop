@@ -59,7 +59,7 @@ test_wave2d_SOURCES = Wave2D/wave2d.cpp
 test_wave2d_CXXFLAGS = $(AM_CXXFLAGS)
 test_wave2d_LDADD = -L$(libdir) -ltaulop
 
-imb_taulop_SOURCES = imb/imb_taulop.cpp imb/pingpong.cpp
+imb_taulop_SOURCES = imb/imb_taulop.cpp imb/pingpong.cpp imb/broadcast.cpp imb/reduce.cpp imb/allreduce.cpp imb/benchmark.cpp
 imb_taulop_CXXFLAGS = $(AM_CXXFLAGS)
 imb_taulop_LDADD = -L$(libdir) -ltaulop
 

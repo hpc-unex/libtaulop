@@ -129,10 +129,7 @@ int Benchmark::parseArgs (int argc, char *argv[]) {
       {"num_nodes",      required_argument,  nullptr,  'M'},
       {"procs_per_node", required_argument,  nullptr,  'Q'},
       {"root",           required_argument,  nullptr,  'r'},
-      
-      {"img_file",       required_argument,  nullptr,  'i'},
-      {"error_file",     required_argument,  nullptr,  'e'},
-      
+            
       {"verbose",        no_argument,        &verbose,  0 },
       {"help",           no_argument,        nullptr,  'h'},
       {nullptr,          0,                  nullptr,   0 }
@@ -140,7 +137,7 @@ int Benchmark::parseArgs (int argc, char *argv[]) {
    
    int c;
    int option_index = 0;
-   while ((c = getopt_long(argc, argv, "-m:a:o:d:x:P:M:Q:r:i:e:w:vh", long_options, &option_index)) != -1) {
+   while ((c = getopt_long(argc, argv, "-m:a:o:d:x:P:M:Q:r:w:vh", long_options, &option_index)) != -1) {
       
       switch (c) {
             
@@ -182,16 +179,7 @@ int Benchmark::parseArgs (int argc, char *argv[]) {
          case 'w':
             this->write_file = optarg;
             break;
-            
-         case 'i':
-            this->imb_file = optarg;
-            break;
-            
-         case 'e':
-            this->error_file = optarg;
-            break;
-            
-            
+                        
          case 'P':
             this->P = stoi(optarg);
             break;
@@ -355,8 +343,6 @@ Benchmark::Benchmark (int argc, char *argv[]) {
       
       cout << "\t--mapping,        -d:  Predefined mapping of processes [Default, Sequential, RoundRobin, Random, User]." << endl;
       cout << "\t--map_file,       -x:  Map file of ranks to nodes (one rank-node per line).  Overrides mapping option." << endl;
-      cout << "\t--imb_file,       -i:  (NO ACTIVADO) IMB generated file as input to compare." << endl;
-      cout << "\t--error_file,     -e:  (NO ACTIVADO) Error comparing IMB and imb_taulop results." << endl;
       
       exit(0);
    }
@@ -378,8 +364,6 @@ Benchmark::Benchmark (int argc, char *argv[]) {
       cout << "Write to file:  " << this->write_file                   << endl;
       cout << "Msglen file:    " << this->msglen_file                  << endl;
       
-      cout << "IMB input file: " << this->imb_file                     << endl;
-      cout << "Error file:     " << this->error_file                   << endl;
    }
    
    /* 2. Read message lengths to estimate (-msglen, -m) */
@@ -437,24 +421,4 @@ void Benchmark::write () {
    
 }
 
-
-void Benchmark::error () {
-   
-   cout << endl << "*** [Benchmark::error()] NOT implemented by now ***" << endl << endl;
-   
-   
-   if (this->imb_file == "") {
-      cerr << "ERROR: need an IMB file to compare: " << this->imb_file << endl;
-      return;
-   }
-   
-   if (this->error_file != "") {
-      // 1. Open
-      // 2. Write error in each m
-      if (this->verbose) {
-         
-      }
-      // 3. Close
-   }
-}
 

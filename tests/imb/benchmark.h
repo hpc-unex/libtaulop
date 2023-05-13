@@ -223,7 +223,6 @@ public:
         Benchmark (int argc, char *argv[]);
    void run       ();
    void write     ();
-   void error     ();
    
 };
 

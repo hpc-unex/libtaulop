@@ -106,7 +106,9 @@ CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_imb_taulop_OBJECTS = imb/taulop-imb_taulop.$(OBJEXT) \
-	imb/taulop-pingpong.$(OBJEXT)
+	imb/taulop-pingpong.$(OBJEXT) imb/taulop-broadcast.$(OBJEXT) \
+	imb/taulop-reduce.$(OBJEXT) imb/taulop-allreduce.$(OBJEXT) \
+	imb/taulop-benchmark.$(OBJEXT)
 imb_taulop_OBJECTS = $(am_imb_taulop_OBJECTS)
 imb_taulop_DEPENDENCIES =
 imb_taulop_LINK = $(CXXLD) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) \
@@ -224,8 +226,12 @@ am__depfiles_remade = NBody/$(DEPDIR)/test_nbody-nbody.Po \
 	basics/communicators/$(DEPDIR)/test_comm_simple-simple.Po \
 	basics/computation/$(DEPDIR)/test_computation-computation.Po \
 	basics/p2p/$(DEPDIR)/test_p2p-p2p.Po \
+	imb/$(DEPDIR)/taulop-allreduce.Po \
+	imb/$(DEPDIR)/taulop-benchmark.Po \
+	imb/$(DEPDIR)/taulop-broadcast.Po \
 	imb/$(DEPDIR)/taulop-imb_taulop.Po \
 	imb/$(DEPDIR)/taulop-pingpong.Po \
+	imb/$(DEPDIR)/taulop-reduce.Po \
 	utils/$(DEPDIR)/test_allgather-args.Po \
 	utils/$(DEPDIR)/test_allreduce-args.Po \
 	utils/$(DEPDIR)/test_alltoall-args.Po \
@@ -422,7 +428,7 @@ test_axbt_LDADD = -L$(libdir) -ltaulop
 test_wave2d_SOURCES = Wave2D/wave2d.cpp
 test_wave2d_CXXFLAGS = $(AM_CXXFLAGS)
 test_wave2d_LDADD = -L$(libdir) -ltaulop
-imb_taulop_SOURCES = imb/imb_taulop.cpp imb/pingpong.cpp
+imb_taulop_SOURCES = imb/imb_taulop.cpp imb/pingpong.cpp imb/broadcast.cpp imb/reduce.cpp imb/allreduce.cpp imb/benchmark.cpp
 imb_taulop_CXXFLAGS = $(AM_CXXFLAGS)
 imb_taulop_LDADD = -L$(libdir) -ltaulop
 all: all-am
@@ -470,6 +476,14 @@ imb/$(DEPDIR)/$(am__dirstamp):
 imb/taulop-imb_taulop.$(OBJEXT): imb/$(am__dirstamp) \
 	imb/$(DEPDIR)/$(am__dirstamp)
 imb/taulop-pingpong.$(OBJEXT): imb/$(am__dirstamp) \
+	imb/$(DEPDIR)/$(am__dirstamp)
+imb/taulop-broadcast.$(OBJEXT): imb/$(am__dirstamp) \
+	imb/$(DEPDIR)/$(am__dirstamp)
+imb/taulop-reduce.$(OBJEXT): imb/$(am__dirstamp) \
+	imb/$(DEPDIR)/$(am__dirstamp)
+imb/taulop-allreduce.$(OBJEXT): imb/$(am__dirstamp) \
+	imb/$(DEPDIR)/$(am__dirstamp)
+imb/taulop-benchmark.$(OBJEXT): imb/$(am__dirstamp) \
 	imb/$(DEPDIR)/$(am__dirstamp)
 
 imb_taulop$(EXEEXT): $(imb_taulop_OBJECTS) $(imb_taulop_DEPENDENCIES) $(EXTRA_imb_taulop_DEPENDENCIES) 
@@ -662,8 +676,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@basics/communicators/$(DEPDIR)/test_comm_simple-simple.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@basics/computation/$(DEPDIR)/test_computation-computation.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@basics/p2p/$(DEPDIR)/test_p2p-p2p.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@imb/$(DEPDIR)/taulop-allreduce.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@imb/$(DEPDIR)/taulop-benchmark.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@imb/$(DEPDIR)/taulop-broadcast.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@imb/$(DEPDIR)/taulop-imb_taulop.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@imb/$(DEPDIR)/taulop-pingpong.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@imb/$(DEPDIR)/taulop-reduce.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_allgather-args.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_allreduce-args.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@utils/$(DEPDIR)/test_alltoall-args.Po@am__quote@ # am--include-marker
@@ -722,6 +740,62 @@ imb/taulop-pingpong.obj: imb/pingpong.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='imb/pingpong.cpp' object='imb/taulop-pingpong.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-pingpong.obj `if test -f 'imb/pingpong.cpp'; then $(CYGPATH_W) 'imb/pingpong.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/pingpong.cpp'; fi`
+
+imb/taulop-broadcast.o: imb/broadcast.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -MT imb/taulop-broadcast.o -MD -MP -MF imb/$(DEPDIR)/taulop-broadcast.Tpo -c -o imb/taulop-broadcast.o `test -f 'imb/broadcast.cpp' || echo '$(srcdir)/'`imb/broadcast.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) imb/$(DEPDIR)/taulop-broadcast.Tpo imb/$(DEPDIR)/taulop-broadcast.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='imb/broadcast.cpp' object='imb/taulop-broadcast.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-broadcast.o `test -f 'imb/broadcast.cpp' || echo '$(srcdir)/'`imb/broadcast.cpp
+
+imb/taulop-broadcast.obj: imb/broadcast.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -MT imb/taulop-broadcast.obj -MD -MP -MF imb/$(DEPDIR)/taulop-broadcast.Tpo -c -o imb/taulop-broadcast.obj `if test -f 'imb/broadcast.cpp'; then $(CYGPATH_W) 'imb/broadcast.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/broadcast.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) imb/$(DEPDIR)/taulop-broadcast.Tpo imb/$(DEPDIR)/taulop-broadcast.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='imb/broadcast.cpp' object='imb/taulop-broadcast.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-broadcast.obj `if test -f 'imb/broadcast.cpp'; then $(CYGPATH_W) 'imb/broadcast.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/broadcast.cpp'; fi`
+
+imb/taulop-reduce.o: imb/reduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -MT imb/taulop-reduce.o -MD -MP -MF imb/$(DEPDIR)/taulop-reduce.Tpo -c -o imb/taulop-reduce.o `test -f 'imb/reduce.cpp' || echo '$(srcdir)/'`imb/reduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) imb/$(DEPDIR)/taulop-reduce.Tpo imb/$(DEPDIR)/taulop-reduce.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='imb/reduce.cpp' object='imb/taulop-reduce.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-reduce.o `test -f 'imb/reduce.cpp' || echo '$(srcdir)/'`imb/reduce.cpp
+
+imb/taulop-reduce.obj: imb/reduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -MT imb/taulop-reduce.obj -MD -MP -MF imb/$(DEPDIR)/taulop-reduce.Tpo -c -o imb/taulop-reduce.obj `if test -f 'imb/reduce.cpp'; then $(CYGPATH_W) 'imb/reduce.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/reduce.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) imb/$(DEPDIR)/taulop-reduce.Tpo imb/$(DEPDIR)/taulop-reduce.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='imb/reduce.cpp' object='imb/taulop-reduce.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-reduce.obj `if test -f 'imb/reduce.cpp'; then $(CYGPATH_W) 'imb/reduce.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/reduce.cpp'; fi`
+
+imb/taulop-allreduce.o: imb/allreduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -MT imb/taulop-allreduce.o -MD -MP -MF imb/$(DEPDIR)/taulop-allreduce.Tpo -c -o imb/taulop-allreduce.o `test -f 'imb/allreduce.cpp' || echo '$(srcdir)/'`imb/allreduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) imb/$(DEPDIR)/taulop-allreduce.Tpo imb/$(DEPDIR)/taulop-allreduce.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='imb/allreduce.cpp' object='imb/taulop-allreduce.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-allreduce.o `test -f 'imb/allreduce.cpp' || echo '$(srcdir)/'`imb/allreduce.cpp
+
+imb/taulop-allreduce.obj: imb/allreduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -MT imb/taulop-allreduce.obj -MD -MP -MF imb/$(DEPDIR)/taulop-allreduce.Tpo -c -o imb/taulop-allreduce.obj `if test -f 'imb/allreduce.cpp'; then $(CYGPATH_W) 'imb/allreduce.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/allreduce.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) imb/$(DEPDIR)/taulop-allreduce.Tpo imb/$(DEPDIR)/taulop-allreduce.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='imb/allreduce.cpp' object='imb/taulop-allreduce.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-allreduce.obj `if test -f 'imb/allreduce.cpp'; then $(CYGPATH_W) 'imb/allreduce.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/allreduce.cpp'; fi`
+
+imb/taulop-benchmark.o: imb/benchmark.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -MT imb/taulop-benchmark.o -MD -MP -MF imb/$(DEPDIR)/taulop-benchmark.Tpo -c -o imb/taulop-benchmark.o `test -f 'imb/benchmark.cpp' || echo '$(srcdir)/'`imb/benchmark.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) imb/$(DEPDIR)/taulop-benchmark.Tpo imb/$(DEPDIR)/taulop-benchmark.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='imb/benchmark.cpp' object='imb/taulop-benchmark.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-benchmark.o `test -f 'imb/benchmark.cpp' || echo '$(srcdir)/'`imb/benchmark.cpp
+
+imb/taulop-benchmark.obj: imb/benchmark.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -MT imb/taulop-benchmark.obj -MD -MP -MF imb/$(DEPDIR)/taulop-benchmark.Tpo -c -o imb/taulop-benchmark.obj `if test -f 'imb/benchmark.cpp'; then $(CYGPATH_W) 'imb/benchmark.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/benchmark.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) imb/$(DEPDIR)/taulop-benchmark.Tpo imb/$(DEPDIR)/taulop-benchmark.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='imb/benchmark.cpp' object='imb/taulop-benchmark.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-benchmark.obj `if test -f 'imb/benchmark.cpp'; then $(CYGPATH_W) 'imb/benchmark.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/benchmark.cpp'; fi`
 
 basics/colls/test_allgather-allgather.o: basics/colls/allgather.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allgather_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_allgather-allgather.o -MD -MP -MF basics/colls/$(DEPDIR)/test_allgather-allgather.Tpo -c -o basics/colls/test_allgather-allgather.o `test -f 'basics/colls/allgather.cpp' || echo '$(srcdir)/'`basics/colls/allgather.cpp
@@ -1187,8 +1261,12 @@ distclean: distclean-am
 	-rm -f basics/communicators/$(DEPDIR)/test_comm_simple-simple.Po
 	-rm -f basics/computation/$(DEPDIR)/test_computation-computation.Po
 	-rm -f basics/p2p/$(DEPDIR)/test_p2p-p2p.Po
+	-rm -f imb/$(DEPDIR)/taulop-allreduce.Po
+	-rm -f imb/$(DEPDIR)/taulop-benchmark.Po
+	-rm -f imb/$(DEPDIR)/taulop-broadcast.Po
 	-rm -f imb/$(DEPDIR)/taulop-imb_taulop.Po
 	-rm -f imb/$(DEPDIR)/taulop-pingpong.Po
+	-rm -f imb/$(DEPDIR)/taulop-reduce.Po
 	-rm -f utils/$(DEPDIR)/test_allgather-args.Po
 	-rm -f utils/$(DEPDIR)/test_allreduce-args.Po
 	-rm -f utils/$(DEPDIR)/test_alltoall-args.Po
@@ -1256,8 +1334,12 @@ maintainer-clean: maintainer-clean-am
 	-rm -f basics/communicators/$(DEPDIR)/test_comm_simple-simple.Po
 	-rm -f basics/computation/$(DEPDIR)/test_computation-computation.Po
 	-rm -f basics/p2p/$(DEPDIR)/test_p2p-p2p.Po
+	-rm -f imb/$(DEPDIR)/taulop-allreduce.Po
+	-rm -f imb/$(DEPDIR)/taulop-benchmark.Po
+	-rm -f imb/$(DEPDIR)/taulop-broadcast.Po
 	-rm -f imb/$(DEPDIR)/taulop-imb_taulop.Po
 	-rm -f imb/$(DEPDIR)/taulop-pingpong.Po
+	-rm -f imb/$(DEPDIR)/taulop-reduce.Po
 	-rm -f utils/$(DEPDIR)/test_allgather-args.Po
 	-rm -f utils/$(DEPDIR)/test_allreduce-args.Po
 	-rm -f utils/$(DEPDIR)/test_alltoall-args.Po
