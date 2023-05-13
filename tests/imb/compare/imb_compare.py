@@ -117,7 +117,7 @@ def getTaulopTimes (taulop_filename):
 # Plot/Save latency and bandwidth
 def plotLatencyAndBandwidth(imb_times, tlop_times, plot_file=None):
 
-    fig, ax = plt.subplots(1, 2, figsize=(16,6), dpi=80, sharex=True)
+    fig, ax = plt.subplots(1, 2, figsize=(16,8))
 
     x = imb_times.index
 
@@ -126,16 +126,20 @@ def plotLatencyAndBandwidth(imb_times, tlop_times, plot_file=None):
     ax[0].set_title("Latency")
     ax[0].xaxis.set_ticks(x)
     ax[0].set_xticklabels(imb_times.index, rotation=45)
-    ax[0].set_xlabel("m (bytes)")
-    ax[0].set_ylabel("time (secs)")
+    ax[0].set_xlabel("Size (bytes)")
+    ax[0].set_ylabel("Time (secs)")
     ax[0].legend()
 
     ax[1].plot(x, imb_times['Bandwidth'], label="IMB Measurement")
     ax[1].plot(x, tlop_times['Bandwidth'], label="t-Lop Estimation")
     ax[1].set_title("Bandwidth")
+    ax[1].xaxis.set_ticks(x)
     ax[1].set_xticklabels(imb_times.index, rotation=45)
+    ax[1].set_xlabel("Size (bytes)")
     ax[1].set_ylabel("MBytes/sec")
     ax[1].legend()
+
+    fig.suptitle(args.label)
 
     if plot_file:
         plt.savefig(plot_file)
@@ -170,17 +174,18 @@ def plotError (imb_times, tlop_times, error_file=None):
     mre = np.mean(Rel)
 
     # Plot figure
-    fig, ax = plt.subplots(figsize=(8,6), dpi=80)
+    fig, ax = plt.subplots(figsize=(8,8))
 
     x = imb_times.index
 
     #ax.set_xscale('log')
     ax.plot(x, P, label="Proportional Error")
     ax.plot(x, Rel, label="Relative Error")
-    ax.set_title("Error")
+    ax.set_title(args.label)
     ax.xaxis.set_ticks(x)
     ax.set_xticklabels(imb_times.index, rotation=45)
-    ax.set_xlabel("m (bytes)")
+    ax.set_xlabel("Size (bytes)")
+    ax.set_ylabel("Error")
     ax.legend()
 
     if error_file:
@@ -243,6 +248,9 @@ if __name__ == "__main__":
                         
     parser.add_argument('-p', '--plot_file', default=None,
                         help = "Output plot png file (default: no png file).")          # Plot PNG output file
+
+    parser.add_argument('-l', '--label', default="Benchmark",
+                        help = "Title of the plots.")         
 
     args = parser.parse_args()
 
