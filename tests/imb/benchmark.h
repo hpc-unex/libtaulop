@@ -86,6 +86,12 @@ enum class    e_algorithm        { Default,   Linear,   Binomial,   BinomialOMPI
 static string s_algorithm [10] = {"Default", "Linear", "Binomial", "BinomialOMPI", "LinearOMPI", "NonoverlapOMPI", "RecDoublingOMPI", "RingOMPI", "RingSegmOMPI", "RabenseifnerOMPI"};
 
 
+/* Networks supported, in addition to SHM */
+enum class    Network_t       { NONET,  TCP,   IB,   ARIES };
+static string channels_s[4] = { "SHM", "TCP", "IB", "ARIES"};
+
+
+
 
 // Benchmark to execute: sequence of if-else
 static Results_t (*getBenchmark(e_benchmark bench, e_algorithm alg))(const Arguments_t &) {
@@ -197,6 +203,9 @@ private:
    
    string            msglen_file;
    vector<int>       sizes;
+   
+   Network_t         network;
+   vector<string>    channels;
    
    string            imb_file;
    string            error_file;

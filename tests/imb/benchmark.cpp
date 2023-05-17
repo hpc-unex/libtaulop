@@ -129,6 +129,8 @@ int Benchmark::parseArgs (int argc, char *argv[]) {
       {"num_nodes",      required_argument,  nullptr,  'M'},
       {"procs_per_node", required_argument,  nullptr,  'Q'},
       {"root",           required_argument,  nullptr,  'r'},
+      
+      {"channel",        required_argument,  nullptr,  'c'},
             
       {"verbose",        no_argument,        &verbose,  0 },
       {"help",           no_argument,        nullptr,  'h'},
@@ -137,7 +139,7 @@ int Benchmark::parseArgs (int argc, char *argv[]) {
    
    int c;
    int option_index = 0;
-   while ((c = getopt_long(argc, argv, "-m:a:o:d:x:P:M:Q:r:w:vh", long_options, &option_index)) != -1) {
+   while ((c = getopt_long(argc, argv, "-m:a:o:d:x:P:M:Q:r:w:c:vh", long_options, &option_index)) != -1) {
       
       switch (c) {
             
@@ -207,7 +209,19 @@ int Benchmark::parseArgs (int argc, char *argv[]) {
                this->mapping = (Map) i;
             }
             break;
-            
+
+         case 'c':
+            i = 0;
+            for (const auto &value: channels_s) {
+               if (value == optarg) break;
+               i++;
+            }
+            if (i < 4) {
+               this->network = (Network_t) i;
+               this->channels.push_back(optarg);
+            }
+            break;
+
          case 'x':
             this->map_file = optarg;
             break;
@@ -312,6 +326,9 @@ Benchmark::Benchmark (int argc, char *argv[]) {
    this->mapping = Map::Sequential;
    //vector<int>  map_user;
    
+   this->network = Network_t::NONET;
+   this->channels.push_back("SHM");
+   
    this->verbose = false;
    this->help    = false;
    
@@ -341,6 +358,8 @@ Benchmark::Benchmark (int argc, char *argv[]) {
       cout << "\t--procs_per_node, -Q:  Number of processes per node. Default: " << this->Q << endl;
       cout << "\t--root,           -r:  Root process rank in case of rooted collective. Default: " << this->root << endl;
       
+      cout << "\t--channel,        -c:  Network channel to use in addition to Shared Memory (SHM) [NONET, TCP, IB, ARIES]. Default: NONET." << endl;
+      
       cout << "\t--mapping,        -d:  Predefined mapping of processes [Default, Sequential, RoundRobin, Random, User]." << endl;
       cout << "\t--map_file,       -x:  Map file of ranks to nodes (one rank-node per line).  Overrides mapping option." << endl;
       
@@ -361,6 +380,10 @@ Benchmark::Benchmark (int argc, char *argv[]) {
       cout << "Mapping:        " << mapping_s[(int)this->mapping]      << endl;
       cout << "Map file:       " << this->map_file                     << endl;
       
+      cout << "Channel:        ";
+      for (auto const &c: this->channels) {cout << c << " ";}
+      cout << endl;
+      
       cout << "Write to file:  " << this->write_file                   << endl;
       cout << "Msglen file:    " << this->msglen_file                  << endl;
       
@@ -380,7 +403,7 @@ Benchmark::Benchmark (int argc, char *argv[]) {
 
 void Benchmark::run () {
    
-   TauLopParam::setInstance({"SHM","IB"});
+   TauLopParam::setInstance(this->channels);
    
    if (this->verbose) {
       printHeader(cout);
