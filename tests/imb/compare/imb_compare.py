@@ -26,9 +26,7 @@ def getIMBTimes (imb_filename):
     except IOError as e:
         print ("ERROR: IMB file not found: ", imb_filename)
         return {}
-
-
-    cols = ["m", "latency", "bandwidth"]
+    
 
     num_line = 0
     for line in imb_lines: 
@@ -51,15 +49,25 @@ def getIMBTimes (imb_filename):
         
         if (len(v) < 5):
             continue
-                    
-        # Avoid first element (it is a trailing \t introduced by IMB)
-        m   = int(v[1])
-        lat = float(v[3]) / 1000000. # IMB returns usec, hence, to secs.
-        bw  = float(v[4])
+
+        
+        if (len(v) == 5):  # PingPong measurement  [size, reps, lat, bw]
+            # Avoid first element (it is a trailing \t introduced by IMB)
+            m   = int(v[1])
+            lat = float(v[3]) / 1000000. # IMB returns usec, hence, to secs.
+            bw  = float(v[4])
+
+        else:              # Collective measurement [size, reps, t_min, t_max, t_avg]
+            # We use the t_min time
+            # Avoid first element (it is a trailing \t introduced by IMB)
+            m   = int(v[1])
+            lat = float(v[3]) / 1000000. # IMB returns usec, hence, to secs.
+            bw  = (m / lat) / (1024 * 1024)
+
         
         t[m] = [lat, bw]
         
-            
+    cols = ["m", "latency", "bandwidth"]
     times = pd.DataFrame(t.values(), index = t.keys(), columns = ["Latency", "Bandwidth"])
     return times
 
@@ -115,7 +123,7 @@ def getTaulopTimes (taulop_filename):
 
 
 # Plot/Save latency and bandwidth
-def plotLatencyAndBandwidth(imb_times, tlop_times, plot_file=None):
+def plotLatencyAndBandwidth(imb_times, tlop_times, args):
 
     fig, ax = plt.subplots(1, 2, figsize=(16,8))
 
@@ -141,8 +149,9 @@ def plotLatencyAndBandwidth(imb_times, tlop_times, plot_file=None):
 
     fig.suptitle(args.label)
 
-    if plot_file:
-        plt.savefig(plot_file)
+    if args.plot_file:
+        plt.savefig(args.plot_file)
+        plt.close()
     else:
         plt.show()
        
@@ -150,7 +159,7 @@ def plotLatencyAndBandwidth(imb_times, tlop_times, plot_file=None):
 
 
 # Plot/Save proportional and relative errors
-def plotError (imb_times, tlop_times, error_file=None):
+def plotError (imb_times, tlop_times, args):
 
     # Mean proportional error. According to:
     #   Juan-Antonio Rico-Gallego, Juan-Carlos Díaz-Martín, Alexey L. Lastovetsky.
@@ -187,9 +196,10 @@ def plotError (imb_times, tlop_times, error_file=None):
     ax.set_xlabel("Size (bytes)")
     ax.set_ylabel("Error")
     ax.legend()
-
-    if error_file:
-        plt.savefig(error_file)
+    
+    if args.error_file:
+        plt.savefig(args.error_file)
+        plt.close()
     else:
         plt.show()
 
@@ -215,10 +225,10 @@ def compare (args):
         print(tau_times)
 
     # 3. Comparison of times:
-    plotLatencyAndBandwidth(imb_times, tau_times, args.plot_file)
+    plotLatencyAndBandwidth(imb_times, tau_times, args)
 
     # 4. Error
-    mpe, mre = plotError(imb_times, tau_times, args.error_file)
+    mpe, mre = plotError(imb_times, tau_times, args)
 
     return mpe, mre
 	
