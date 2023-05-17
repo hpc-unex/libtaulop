@@ -285,7 +285,7 @@ void Benchmark::printMapping(ostream& outp) {
    //map->show();
    
    for (int p = 0; p < map->getP(); p++) {
-      cout << "# Process\t" << p << "\tto node\t" << map->getNode(p) << endl;
+      outp << "# Process\t" << p << "\tto node\t" << map->getNode(p) << endl;
    }
    
    delete map;
