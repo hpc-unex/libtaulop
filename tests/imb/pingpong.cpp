@@ -64,20 +64,3 @@ Results_t pingpong (const Arguments_t &args) {
 }
 
 
-
-// T^c(m) + T^c(m)
-vector<Results_t> pingpong_m (vector<int> msglen) {
-
-   TauLopParam::setInstance({"SHM","IB"});
-   
-   vector<Results_t> results;
-   
-   for (auto const &m: msglen) {
-      //Results_t res = pingpong_m (m);
-      //results.push_back(res);
-   }
-   
-   return results;
-}
-
-
