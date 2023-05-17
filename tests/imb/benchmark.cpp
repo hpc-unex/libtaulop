@@ -271,22 +271,45 @@ int Benchmark::saveTextFile (string filename, vector<Results_t> results) {
 }
 
 
+void Benchmark::printMapping(ostream& outp) {
+   outp << "# Mapping:        " << mapping_s[(int)this->mapping]      << endl;
+   //outp << "# Map file:          " << this->map_file                     << endl;
+
+   Mapping *map = nullptr;
+   if (this->mapping == Map::User) {
+      int* v = (int *)&this->map_user[0]; // Is this safe?
+      map = new Mapping (this->P, v);
+   } else {
+      map = new Mapping (this->P, this->Q, this->mapping);
+   }
+   //map->show();
+   
+   for (int p = 0; p < map->getP(); p++) {
+      cout << "# Process\t" << p << "\tto node\t" << map->getNode(p) << endl;
+   }
+   
+   delete map;
+}
+
+
 void Benchmark::printHeader (ostream& outp) {
    
    auto time = std::time(nullptr);
    
-   outp << "#---------------------------------------------------" << endl;
-   outp << "#    tauLop estimations (IMB format)                " << endl;
-   outp << "#---------------------------------------------------" << endl;
-   outp << "# Date: " << put_time(std::gmtime(&time), "%F %T%z")  << endl;
-   outp << "#                                                   " << endl;
-   outp << "#---------------------------------------------------" << endl;
-   outp << "# Benchmarking " << this->name                        << endl;
-   outp << "# Algorithm    " << s_algorithm[(int)this->algorithm] << endl;
-   outp << "# Processes    " << this->P                           << endl;
-   outp << "# !!! operation, Q, M, etc.    "                                 << endl;
-   outp << "#---------------------------------------------------" << endl;
-   outp << "#bytes \t #repetitions \t t[usec] \t Mbytes/sec     " << endl;
+   outp << "#------------------------------------------------------" << endl;
+   outp << "#          tauLop estimations (IMB format)             " << endl;
+   outp << "#------------------------------------------------------" << endl;
+   outp << "# Date: " << put_time(std::gmtime(&time), "%F %T%z")     << endl;
+   outp << "#                                                      " << endl;
+   outp << "#------------------------------------------------------" << endl;
+   outp << "# Benchmarking    " << this->name                        << endl;
+   outp << "# Algorithm       " << s_algorithm[(int)this->algorithm] << endl;
+   outp << "# Processes       " << this->P                           << endl;
+   outp << "# Nodes           " << this->M                           << endl;
+   outp << "# Procs. per node " << this->Q                           << endl;
+   printMapping(outp);
+   outp << "#------------------------------------------------------" << endl;
+   outp << "#bytes \t #repetitions \t t[usec] \t Mbytes/sec        " << endl;
    
 }
 

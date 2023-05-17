@@ -225,7 +225,7 @@ private:
    int   saveTextFile   (string filename, vector<Results_t> results);
    void  printHeader    (ostream& outp);
    void  printData      (ostream& outp, Results_t res);
-        
+   void  printMapping   (ostream& outp);
    
 public:
    

@@ -292,35 +292,35 @@ int main (int argc, const char * argv[]) {
    
    // Example 1:  T^c(m)
    t = ex1_p2p ();
-   cout << "T^c(m) - Time:               " << fixed << std::setprecision (9) << t << " usec." << endl << endl;
+   cout << "T^c(m) - Time:               " << fixed << std::setprecision (9) << t << " sec." << endl << endl;
    
    // Example 2:  T^c0(m1) + T^c1(m2)
    t = ex2_p2p ();
-   cout << "T^c0(m1) + T^c1(m2) - Time:  " << fixed << std::setprecision (9) << t << " usec." << endl << endl;
+   cout << "T^c0(m1) + T^c1(m2) - Time:  " << fixed << std::setprecision (9) << t << " sec." << endl << endl;
    
    // Example 3:  T^c(m) || T^c(m)
    t = ex3_p2p ();
-   cout << "T^c(m) || T^c(m) - Time:     " << fixed << std::setprecision (9) << t << " usec." << endl << endl;
+   cout << "T^c(m) || T^c(m) - Time:     " << fixed << std::setprecision (9) << t << " sec." << endl << endl;
    
    // Example 4:  2 || T^c(m)  (same cost as example 3)
    t = ex4_p2p ();
-   cout << "2 || T^c(m) - Time:          " << fixed << std::setprecision (9) << t << " usec." << endl << endl;
+   cout << "2 || T^c(m) - Time:          " << fixed << std::setprecision (9) << t << " sec." << endl << endl;
    
    // Example 5:  T^c(m1) || T^c(m2)
    t = ex5_p2p ();
-   cout << "T^c(m1) || T^c(m2) - Time:   " << fixed << std::setprecision (9) << t << " usec." << endl << endl;
+   cout << "T^c(m1) || T^c(m2) - Time:   " << fixed << std::setprecision (9) << t << " sec." << endl << endl;
    
    // Example 6:  T^c0(m1) || T^c1(m2)
    t = ex6_p2p ();
-   cout << "T^c0(m1) || T^c1(m2) - Time: " << fixed << std::setprecision (9) << t << " usec." << endl << endl;
+   cout << "T^c0(m1) || T^c1(m2) - Time: " << fixed << std::setprecision (9) << t << " sec." << endl << endl;
    
    // Example 7:  [T^c0(m1) + T^c1(m2)] || [T^c0(m3) + T^c1(m4)]
    t = ex7_p2p ();
-   cout << "[T^c0(m1) + T^c1(m2)] || [T^c0(m3) + T^c1(m4)] - Time: " << fixed << std::setprecision (9) << t << " usec." << endl << endl;
+   cout << "[T^c0(m1) + T^c1(m2)] || [T^c0(m3) + T^c1(m4)] - Time: " << fixed << std::setprecision (9) << t << " sec." << endl << endl;
    
    // Example 8:  (T^1(m_a) + T^0(m_b) + T^1(m_b)) || (T^0(m_b) + T^1(m_a) || (T^1(m_a) + T^0(m_b))
    t = ex8_p2p ();
-   cout << "(T^1(m_a) + T^0(m_b) + T^1(m_b)) || (T^0(m_b) + T^1(m_a) || (T^1(m_a) + T^0(m_b)) - Time: " << fixed << std::setprecision (9) << t << " usec." << endl << endl;
+   cout << "(T^1(m_a) + T^0(m_b) + T^1(m_b)) || (T^0(m_b) + T^1(m_a) || (T^1(m_a) + T^0(m_b)) - Time: " << fixed << std::setprecision (9) << t << " sec." << endl << endl;
    
    
    return 0;

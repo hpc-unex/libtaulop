@@ -26,20 +26,20 @@ Results_t pingpong (const Arguments_t &args) {
    Process *src = new Process(0);
    Process *dst = new Process(1);
 
-   // Mapping of processes
-   int srcnode = 0;
-   int dstnode = 0;
+   // Mapping of processes: create a mapping object just for getting nodes
+   //   Nodes assigned depends on Q.
+   Mapping *map = nullptr;
    if (args.mapping == Map::User) {
-      srcnode = args.map_user[0];
-      dstnode = args.map_user[1];
-   } else if ((args.mapping == Map::Default) || (args.mapping == Map::Sequential)) {
-      srcnode = 0 / args.Q;
-      dstnode = 1 / args.Q;
-   } else { // RoundRobin and Random
-      srcnode = 0 % args.M;
-      dstnode = 1 % args.M;
+      int* v = (int *)&args.map_user[0]; // Is this safe?
+      map = new Mapping (args.P, v);
+   } else {
+      map = new Mapping (args.P, args.Q, args.mapping);
    }
+   int srcnode = map->getNode(0);
+   int dstnode = map->getNode(1);
+   delete map;
    
+   // Set nodes
    src->setNode(srcnode);
    dst->setNode(dstnode);
       
@@ -54,7 +54,7 @@ Results_t pingpong (const Arguments_t &args) {
    TauLopCost *tc = new TauLopCost();
    conc->evaluate(tc);
       
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB
    double bw  = args.m / lat;
    
    delete tc;
