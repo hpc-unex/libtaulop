@@ -219,7 +219,7 @@ private:
    // Methods:
    
    int   readTextFile   (string filename, vector<string> &values);
-   void  generateMsglen (string msglen_file, vector<int> &sizes);
+   void  generateMsglen (string msglen_file, vector<int> &sizes, bool reduction);
    int   generateMap    (string filename, vector<int> &map);
    int   parseArgs      (int argc, char *argv[]);
    int   saveTextFile   (string filename, vector<Results_t> results);

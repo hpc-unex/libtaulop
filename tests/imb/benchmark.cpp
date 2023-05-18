@@ -49,7 +49,7 @@ int Benchmark::readTextFile(string filename, vector<string> &values) {
 }
 
 
-void Benchmark::generateMsglen (string msglen_file, vector<int> &sizes) {
+void Benchmark::generateMsglen (string msglen_file, vector<int> &sizes, bool reduction) {
    
    if (msglen_file != "") {
       
@@ -58,13 +58,22 @@ void Benchmark::generateMsglen (string msglen_file, vector<int> &sizes) {
       readTextFile(this->msglen_file, v_str_msglen);
       
       for (auto const &v: v_str_msglen) {
-         this->sizes.push_back(stoi(v));
+         int m = stoi(v);
+         // If operation is reduction, message sie must be greater or equal to the datatype
+         if ((m < sizeof(int)) && reduction) {
+            m = sizeof(int);
+         }
+         this->sizes.push_back(m);
       }
       
    } else { // Default sizes (power of to up to 1MB)
       
-      for (int i = 1; i <= 1024*1024; i*=2) {
-         this->sizes.push_back(i);
+      for (int m = 1; m <= 1024*1024; m*=2) {
+         // If operation is reduction, message sie must be greater or equal to the datatype
+         if ((m < sizeof(int)) && reduction) {
+            continue;
+         }
+         this->sizes.push_back(m);
       }
       
    }
@@ -304,6 +313,8 @@ void Benchmark::printHeader (ostream& outp) {
    outp << "#------------------------------------------------------" << endl;
    outp << "# Benchmarking    " << this->name                        << endl;
    outp << "# Algorithm       " << s_algorithm[(int)this->algorithm] << endl;
+   outp << "# Channel         " ;
+   for (auto const &c: this->channels) {outp << c << " ";}      outp << endl;
    outp << "# Processes       " << this->P                           << endl;
    outp << "# Nodes           " << this->M                           << endl;
    outp << "# Procs. per node " << this->Q                           << endl;
@@ -412,8 +423,15 @@ Benchmark::Benchmark (int argc, char *argv[]) {
       
    }
    
-   /* 2. Read message lengths to estimate (-msglen, -m) */
-   generateMsglen (this->msglen_file, this->sizes);
+   /* 2. Read message lengths to estimate (-msglen, -m).
+         IMB changes the minimum size of a message if lower than the datatype size it is operating on
+         for Reduction operations.
+    */
+   bool reduction = false;
+   if ((this->type == e_benchmark::Reduce) || (this->type == e_benchmark::Allreduce)) {
+      reduction = true;
+   }
+   generateMsglen (this->msglen_file, this->sizes, reduction);
       
    /* 3. Read map file in case */
    if (this->map_file != "") {

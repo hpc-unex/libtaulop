@@ -8,230 +8,559 @@ import sys
 import argparse
 
 import pandas            as pd
-import numpy             as np 
+import numpy             as np
 import matplotlib        as mpl
 import matplotlib.pyplot as plt
 
 from imb_compare  import compare
 
 
+#collectives = ["PingPong", "Broadcast", "Reduce", "Allreduce"]
+collectives = ["Allreduce"]  # Operations to compare (Should it be an argument to main?)
+
 
 # Write here all benchmarks to compare (by hand)
-def getBenchmarkList ():
+def getBenchmarkList (collective):
 
     bench_list = list()
 
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "pt2pt",
-         "benchmark":  "PingPong",
-         "algorithm":  "Lineal",
-         "channel":    "SHM",
-         "P":          "2", 
-         "M":          "1", 
-         "Q":          "2",
-         "mapping":    "Sequential",
-         "label":      "Metropolis PingPong P=2 M=1 Q=2 Shared Memory"
-        }
-    )
+    # PingPong
+    if collective == "PintPong":
 
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "pt2pt",
-         "benchmark":  "PingPong",
-         "algorithm":  "Lineal",
-         "channel":    "TCP",
-         "P":          "2", 
-         "M":          "2", 
-         "Q":          "1",
-         "mapping":    "Sequential",
-         "label":      "Metropolis PingPong P=2 M=2 Q=1 Ethernet/TCP"
-        }
-    )
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "pt2pt",
+             "benchmark":  "PingPong",
+             "algorithm":  "Lineal",
+             "channel":    "SHM",
+             "P":          "2",
+             "M":          "1",
+             "Q":          "2",
+             "mapping":    "Sequential",
+             "label":      "Metropolis PingPong P=2 M=1 Q=2 Shared Memory"
+            }
+        )
 
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "pt2pt",
-         "benchmark":  "PingPong",
-         "algorithm":  "Lineal",
-         "channel":    "IB",
-         "P":          "2", 
-         "M":          "2", 
-         "Q":          "1",
-         "mapping":    "Sequential",
-         "label":      "Metropolis PingPong P=2 M=2 Q=1 Infiniband"
-        }
-    )
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "pt2pt",
+             "benchmark":  "PingPong",
+             "algorithm":  "Lineal",
+             "channel":    "TCP",
+             "P":          "2",
+             "M":          "2",
+             "Q":          "1",
+             "mapping":    "Sequential",
+             "label":      "Metropolis PingPong P=2 M=2 Q=1 Ethernet/TCP"
+            }
+        )
 
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "IB",
-         "P":          "8", 
-         "M":          "4", 
-         "Q":          "2",
-         "mapping":    "RoundRobin",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
-        }
-    )
-
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "IB",
-         "P":          "16", 
-         "M":          "4", 
-         "Q":          "4",
-         "mapping":    "RoundRobin",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
-        }
-    )
-
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "IB",
-         "P":          "16", 
-         "M":          "2", 
-         "Q":          "8",
-         "mapping":    "Sequential",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=16 M=2 Q=8 Infiniband Sequential"
-        }
-    )
-
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "IB",
-         "P":          "32", 
-         "M":          "4", 
-         "Q":          "8",
-         "mapping":    "RoundRobin",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
-        }
-    )
-
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "IB",
-         "P":          "32", 
-         "M":          "4", 
-         "Q":          "8",
-         "mapping":    "Sequential",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=32 M=4 Q=8 Infiniband Sequential"
-        }
-    )
-
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "SHM",
-         "P":          "8", 
-         "M":          "1", 
-         "Q":          "8",
-         "mapping":    "Sequential",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=8 M=1 Q=8 Shared Memory"
-        }
-    )
-
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "TCP",
-         "P":          "8", 
-         "M":          "4", 
-         "Q":          "2",
-         "mapping":    "RoundRobin",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
-        }
-    )
-
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "TCP",
-         "P":          "16", 
-         "M":          "4", 
-         "Q":          "4",
-         "mapping":    "RoundRobin",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
-        }
-    )
-
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "TCP",
-         "P":          "16", 
-         "M":          "2", 
-         "Q":          "8",
-         "mapping":    "Sequential",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
-        }
-    )
-
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "TCP",
-         "P":          "32", 
-         "M":          "4", 
-         "Q":          "8",
-         "mapping":    "RoundRobin",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
-        }
-    )
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "pt2pt",
+             "benchmark":  "PingPong",
+             "algorithm":  "Lineal",
+             "channel":    "IB",
+             "P":          "2",
+             "M":          "2",
+             "Q":          "1",
+             "mapping":    "Sequential",
+             "label":      "Metropolis PingPong P=2 M=2 Q=1 Infiniband"
+            }
+        )
 
 
-    bench_list.append(
-        {"machine":    "metropolis",   
-         "type":       "collective",
-         "benchmark":  "Broadcast",
-         "algorithm":  "BinomialOMPI",
-         "channel":    "TCP",
-         "P":          "32", 
-         "M":          "4", 
-         "Q":          "8",
-         "mapping":    "Sequential",
-         "label":      "Metropolis Broadcast Binomial Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
-        }
-    )
+    # Broadcast
+    if collective == "Broadcast":
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "IB",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=16 M=2 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=32 M=4 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "SHM",
+             "P":          "8",
+             "M":          "1",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=8 M=1 Q=8 Shared Memory"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "TCP",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
+            }
+        )
+
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Broadcast Binomial Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+
+    # Reduce
+    if collective == "Reduce":
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "IB",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Binomial Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Binomial Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Reduce Binomial Open MPI P=16 M=2 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Binomial Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Reduce Binomial Open MPI P=32 M=4 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "SHM",
+             "P":          "8",
+             "M":          "1",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Reduce Binomial Open MPI P=8 M=1 Q=8 Shared Memory"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "TCP",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Binomial Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Binomial Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Reduce Binomial Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Binomial Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
+            }
+        )
+
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "BinomialOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Reduce Binomial Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+
+    # AllReduce
+    if collective == "Allreduce":
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "IB",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Linear Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Linear Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Linear Open MPI P=16 M=2 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Linear Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Linear Open MPI P=32 M=4 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "SHM",
+             "P":          "8",
+             "M":          "1",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Linear Open MPI P=8 M=1 Q=8 Shared Memory"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "TCP",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Linear Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Linear Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Linear Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Linear Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
+            }
+        )
+
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "LinearOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Linear Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
 
     return bench_list
 
 
 
 def plotErrors (errors, filename = None):
-    
+
     fig, ax = plt.subplots(1, 2, figsize=(16,8), sharey=True)
 
     # errors = errors.sort_values(by=['Tiempo minimo'])
-    errors = errors.sort_index()    
+    errors = errors.sort_index()
 
-    x = errors.index 
-    mpe_v = errors["Proportional Error"] 
-    mre_v = errors["Relative Error"] 
+    x = errors.index
+    mpe_v = errors["Proportional Error"]
+    mre_v = errors["Relative Error"]
 
     y_pos = np.arange(len(x))
 
@@ -257,7 +586,7 @@ def plotErrors (errors, filename = None):
         plt.close()
     else:
         plt.show()
-       
+
     return
 
 
@@ -275,15 +604,18 @@ if __name__ == "__main__":
 
     parser.add_argument('-v', '--verbose',
                         action = 'store_true', help = "Verbose mode.")                 # on/off verbose mode
-    
+
     parser.add_argument('-i', '--input_imb_path', default=".",
                         help = "Input path for IMB measurement files (default <.>).")
-                        
+
     parser.add_argument('-t', '--input_taulop_path', default=".",
                         help = "Input path for Taulop estimation files (default <.>).")
-                        
+
     parser.add_argument('-o', '--output_path', default=".",
                         help = "Output path for resulting PNG files (default <.>)")
+
+    parser.add_argument('-c', '--collective', default=None,
+                        help = "Collective operation measurement/estiations to compare (default None)")
 
     parser.add_argument('-w', '--write_file', default=None,
                         help = "Output summary of errors in a PNG file (default: None)")
@@ -297,27 +629,27 @@ if __name__ == "__main__":
     o_prefix      = args.output_path + "/"         # Error and plot output files
 
     # 2. Benchmarks to compare
-    bench_list = getBenchmarkList ()
+    bench_list = getBenchmarkList (args.collective)
 
 
     error_list = list()
     labels = list()
 
     for bench in bench_list:
-            
+
         # 2a. Files composed from benchmarks properties. Format: machine_[taulop]_coll_alg_channel_P_M_Q_mapping.txt
         imb_file     = imb_prefix    + bench["machine"] + "_"        + bench["benchmark"] + "_" + bench["algorithm"] + "_" + bench["channel"] + "_" + bench["P"] + "_" + bench["M"] + "_" + bench["Q"] + "_" + bench["mapping"] + ".txt"
         taulop_file  = taulop_prefix + bench["machine"] + "_taulop_" + bench["benchmark"] + "_" + bench["algorithm"] + "_" + bench["channel"] + "_" + bench["P"] + "_" + bench["M"] + "_" + bench["Q"] + "_" + bench["mapping"] + ".txt"
         results_file = o_prefix      + bench["machine"] + "_"        + bench["benchmark"] + "_" + bench["algorithm"] + "_" + bench["channel"] + "_" + bench["P"] + "_" + bench["M"] + "_" + bench["Q"] + "_" + bench["mapping"] + ".png"
         error_file   = o_prefix      + bench["machine"] + "_"        + bench["benchmark"] + "_" + bench["algorithm"] + "_" + bench["channel"] + "_" + bench["P"] + "_" + bench["M"] + "_" + bench["Q"] + "_" + bench["mapping"] + "_error.png"
 
-        main_args = {"verbose":      False, 
+        main_args = {"verbose":      False,
                      "imb_file":     imb_file,
                      "taulop_file":  taulop_file,
                      "error_file":   error_file,
                      "plot_file":    results_file,
                      "label":        bench["label"]
-                    }  
+                    }
 
         # 2b. Convert to Namespace in ArgParse:
         main_args = argparse.Namespace(**main_args)
@@ -336,7 +668,3 @@ if __name__ == "__main__":
     # 3. Plot errors
     errors = pd.DataFrame(error_list, index = labels, columns = ["Proportional Error", "Relative Error"])
     plotErrors(errors, args.write_file)
-
-
-
-
