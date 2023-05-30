@@ -59,7 +59,6 @@ TauLopParam::TauLopParam() {
    // Load Gamma values
    this->loadGamma();
    
-   
 #if TLOP_DEBUG == 1
    this->show();
 #endif
@@ -179,7 +178,7 @@ void TauLopParam::loadGamma () {
          
          if (op == 0) { // Check size
             
-            if (stof(token) != this->sizes[idx]) {
+            if ((stoi(token) != this->sizes[idx]) && (this->sizes[idx] >= sizeof(int))) {
                cerr << "ERROR: Sizes in p2p and gamma does not match." << endl;
                return;
             }
@@ -547,7 +546,7 @@ void TauLopParam::show () const {
       cout << this->sizes[i] << ")  ";
       
       for (int j = 0; j < this->max_ops; j++) {
-         cout << fixed << setprecision(9) << this->gamma[j][i] << " \t ";
+         cout << fixed << setprecision(12) << this->gamma[j][i] << " \t ";
       }
       cout << endl;
    }
