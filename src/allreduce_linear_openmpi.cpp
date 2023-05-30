@@ -38,9 +38,6 @@ AllreduceLinearOpenMPI::~AllreduceLinearOpenMPI () {
 
 TauLopCost * AllreduceLinearOpenMPI::evaluate (Communicator *comm, const CollParams &cparams) {
       
-   int P  = comm->getSize();
-   
-   Communicator *world = new Communicator (P);
    int    root = 0;
    int    m    = cparams.getM();
    OpType op   = cparams.getOp();
@@ -49,17 +46,15 @@ TauLopCost * AllreduceLinearOpenMPI::evaluate (Communicator *comm, const CollPar
    
    // 1. Reduce to root = 0
    Collective *reduce = new ReduceLinearOpenMPI();
-   TauLopCost *cost_red = reduce->evaluate(world, cp);
+   TauLopCost *cost_red = reduce->evaluate(comm, cp);
    
    // 2. Broadcast from 0 to P processes
    Collective *bcast = new BcastLinear();
-   TauLopCost *cost_cast = bcast->evaluate(world, cp);
+   TauLopCost *cost_cast = bcast->evaluate(comm, cp);
    
    // Sum models
    cost_cast->add(cost_red);
-   
-   delete world;
-   
+      
    return cost_cast;
 }
 

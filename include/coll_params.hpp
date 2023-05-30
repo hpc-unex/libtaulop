@@ -24,7 +24,7 @@ using namespace std;
 
 // MPI operation types
 // DEFAULT = SUM, arbitrary.
-enum class OpType {DEFAULT, MAX, MIN, SUM, PROD, LAND, BAND, LOR, BOR, LXOR, BXOR, MAXLOC, MINLOC};
+enum class OpType {DEFAULT, MAX, MIN, SUM, PROD, LAND, LOR, LXOR, BAND, BOR, BXOR, MAXLOC, MINLOC};
 
 
 class CollParams {
