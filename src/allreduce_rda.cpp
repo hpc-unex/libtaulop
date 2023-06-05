@@ -50,15 +50,17 @@ TauLopCost * AllreduceRDA::evaluate (Communicator *comm, const CollParams &cpara
    for (int stage = 0; pow(2, stage) < P; stage++) {
       
       conc = new TauLopConcurrent ();
-      
+                  
       for (int p = 0; p < P; p++) {
-         
-         seq = new TauLopSequence ();
          
          /* Does not mind the process rank */
          int src = p;
          int b = pow(2, stage);
          int dst = p ^ b;
+         
+         if (dst < src) continue;
+         
+         seq = new TauLopSequence ();
          
          int node_src = comm->getNode(src);
          int node_dst = comm->getNode(dst);
@@ -69,12 +71,12 @@ TauLopCost * AllreduceRDA::evaluate (Communicator *comm, const CollParams &cpara
          int channel = (node_src == node_dst) ? 0 : 1;
          
          int n   = 1;
-         int tau = 1;
+         int tau = 2; // Sendrecv
          
-         T = new Transmission(p_src, p_dst, channel, n, b * m, tau);
+         T = new Transmission(p_src, p_dst, channel, n, m, tau);
          seq->add(T);
-         
-         g = new Computation(p_src, b * m, op);
+                           
+         g = new Computation(p_src, m, op);
          seq->add(g);
          
          conc->add(seq);
