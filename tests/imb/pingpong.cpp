@@ -54,9 +54,9 @@ Results_t pingpong (const Arguments_t &args) {
    TauLopCost *tc = new TauLopCost();
    conc->evaluate(tc);
       
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete conc;
 

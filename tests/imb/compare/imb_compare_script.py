@@ -15,9 +15,6 @@ import matplotlib.pyplot as plt
 from imb_compare  import compare
 
 
-#collectives = ["PingPong", "Broadcast", "Reduce", "Allreduce"]
-collectives = ["Allreduce"]  # Operations to compare (Should it be an argument to main?)
-
 
 # Write here all benchmarks to compare (by hand)
 def getBenchmarkList (collective):
@@ -70,8 +67,167 @@ def getBenchmarkList (collective):
         )
 
 
-    # Broadcast
-    if collective == "Broadcast":
+    # Broadcast Linear
+    if collective == "BroadcastLinear":
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "IB",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Linear Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Linear Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Broadcast Linear Open MPI P=16 M=2 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Linear Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Broadcast Linear Open MPI P=32 M=4 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "SHM",
+             "P":          "8",
+             "M":          "1",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Broadcast Linear Open MPI P=8 M=1 Q=8 Shared Memory"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "TCP",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Linear Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Linear Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Broadcast Linear Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Broadcast Linear Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
+            }
+        )
+
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Broadcast",
+             "algorithm":  "Linear",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Broadcast Linear Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+
+    # Broadcast  Binomial
+    if collective == "BroadcastBinomial":
 
         bench_list.append(
             {"machine":    "metropolis",
@@ -229,8 +385,169 @@ def getBenchmarkList (collective):
         )
 
 
-    # Reduce
-    if collective == "Reduce":
+
+    # Reduce Linear
+    if collective == "ReduceLinear":
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "IB",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Linear Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Linear Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Reduce Linear Open MPI P=16 M=2 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Linear Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Reduce Linear Open MPI P=32 M=4 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "SHM",
+             "P":          "8",
+             "M":          "1",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Reduce Linear Open MPI P=8 M=1 Q=8 Shared Memory"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "TCP",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Linear Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Linear Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Reduce Linear Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Reduce Linear Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
+            }
+        )
+
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Reduce",
+             "algorithm":  "Linear",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Reduce Linear Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+
+
+    # Reduce Binomial
+    if collective == "ReduceBinomial":
 
         bench_list.append(
             {"machine":    "metropolis",
@@ -388,8 +705,8 @@ def getBenchmarkList (collective):
         )
 
 
-    # AllReduce
-    if collective == "Allreduce":
+    # AllReduce -> LinearOMPI
+    if collective == "AllreduceLinear":
 
         bench_list.append(
             {"machine":    "metropolis",
@@ -545,6 +862,802 @@ def getBenchmarkList (collective):
              "label":      "Metropolis Allreduce Linear Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
             }
         )
+
+
+    # AllReduce -> NonoverlappingOMPI
+    if collective == "AllreduceNonoverlap":
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "IB",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=16 M=2 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=32 M=4 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "SHM",
+             "P":          "8",
+             "M":          "1",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=8 M=1 Q=8 Shared Memory"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "TCP",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
+            }
+        )
+
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "NonoverlapOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce NonOverlapping Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+
+    # AllReduce -> RecDoublingOMPI
+    if collective == "AllreduceRDA":
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "IB",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=16 M=2 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=32 M=4 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "SHM",
+             "P":          "8",
+             "M":          "1",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=8 M=1 Q=8 Shared Memory"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "TCP",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
+            }
+        )
+
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RecDoublingOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Rec. Doubling Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+
+    # AllReduce -> RingOMPI
+    if collective == "AllreduceRing":
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "IB",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Ring Open MPI P=16 M=2 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Ring Open MPI P=32 M=4 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "SHM",
+             "P":          "8",
+             "M":          "1",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Ring Open MPI P=8 M=1 Q=8 Shared Memory"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "TCP",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Ring Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
+            }
+        )
+
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Ring Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+
+    # AllReduce -> RingSegmOMPI
+    if collective == "AllreduceRingSegm":
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "IB",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=16 M=2 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=32 M=4 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "SHM",
+             "P":          "8",
+             "M":          "1",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=8 M=1 Q=8 Shared Memory"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "TCP",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
+            }
+        )
+
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RingSegmOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Ring Segm. Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+
+    # AllReduce -> Rabenseifner
+    if collective == "AllreduceRabenseifner":
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "IB",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=8 M=4 Q=2 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=16 M=4 Q=4 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "IB",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=16 M=2 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=32 M=4 Q=8 Infiniband RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "IB",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=32 M=4 Q=8 Infiniband Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "SHM",
+             "P":          "8",
+             "M":          "1",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=8 M=1 Q=8 Shared Memory"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "TCP",
+             "P":          "8",
+             "M":          "4",
+             "Q":          "2",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=8 M=4 Q=2 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "4",
+             "Q":          "4",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=16 M=4 Q=4 Ethernet/TCP RoundRobin"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "TCP",
+             "P":          "16",
+             "M":          "2",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=16 M=2 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "RoundRobin",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=32 M=4 Q=8 Ethernet/TCP RoundRobin"
+            }
+        )
+
+
+        bench_list.append(
+            {"machine":    "metropolis",
+             "type":       "collective",
+             "benchmark":  "Allreduce",
+             "algorithm":  "RabenseifnerOMPI",
+             "channel":    "TCP",
+             "P":          "32",
+             "M":          "4",
+             "Q":          "8",
+             "mapping":    "Sequential",
+             "label":      "Metropolis Allreduce Rabenseifner Open MPI P=32 M=4 Q=8 Ethernet/TCP Sequential"
+            }
+        )
+
 
 
     return bench_list

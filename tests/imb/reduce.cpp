@@ -37,9 +37,9 @@ Results_t reduce_linear (const Arguments_t &args) {
    
    TauLopCost *tc = reduce->evaluate(world, cp);
    
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete world;
 
@@ -66,9 +66,9 @@ Results_t reduce_binomial_ompi (const Arguments_t &args) {
    
    TauLopCost *tc = reduce->evaluate(world, cp);
    
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete world;
 

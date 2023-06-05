@@ -38,7 +38,7 @@ Results_t allreduce_linear_ompi (const Arguments_t &args) {
    
    TauLopCost *tc = allred->evaluate(world, cp);
    
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
    
    delete tc;
@@ -67,9 +67,9 @@ Results_t allreduce_nonoverlap_ompi (const Arguments_t &args) {
    
    TauLopCost *tc = allred->evaluate(world, cp);
    
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete world;
 
@@ -96,9 +96,9 @@ Results_t allreduce_rda_ompi (const Arguments_t &args) {
    
    TauLopCost *tc = allred->evaluate(world, cp);
    
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete world;
 
@@ -125,9 +125,9 @@ Results_t allreduce_ring_ompi (const Arguments_t &args) {
    
    TauLopCost *tc = allred->evaluate(world, cp);
    
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete world;
 
@@ -154,9 +154,9 @@ Results_t allreduce_ringsegm_ompi (const Arguments_t &args) {
    
    TauLopCost *tc = allred->evaluate(world, cp);
    
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete world;
 
@@ -183,9 +183,9 @@ Results_t allreduce_rabenseifner_ompi (const Arguments_t &args) {
    
    TauLopCost *tc = allred->evaluate(world, cp);
    
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete world;
 

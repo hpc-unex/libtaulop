@@ -34,9 +34,9 @@ Results_t bcast_linear (const Arguments_t &args) {
    
    TauLopCost *tc = bcast->evaluate(world, cp);
       
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete world;
 
@@ -63,9 +63,9 @@ Results_t bcast_binomial (const Arguments_t &args) {
    
    TauLopCost *tc = bcast->evaluate(world, cp);
       
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete world;
 
@@ -91,9 +91,9 @@ Results_t bcast_binomial_ompi (const Arguments_t &args) {
    
    TauLopCost *tc = bcast->evaluate(world, cp);
       
-   double lat = (tc->getTime() * 1000000); // Latency in usec, as in IMB (divided by 2.0 ???)
+   double lat = tc->getTime();
    double bw  = args.m / lat;
-   
+
    delete tc;
    delete world;
 

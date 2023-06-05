@@ -463,6 +463,13 @@ void Benchmark::run () {
       }
       
       Results_t res = this->benchmark (args);
+      
+      res.latency   = res.latency   * 1000000.0;  // Latency in usec, as in IMB
+      if (res.latency == 0.0) { // Some benchmarks are not execute in the whole range of messages
+         res.bandwidth = 0.0;
+      } else {
+         res.bandwidth = res.bandwidth / 1048576.0;  // Bandwidth in MB/secs, as in IMB
+      }
 
       if (this->verbose) {
          printData(cout, res);
