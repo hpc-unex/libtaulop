@@ -41,19 +41,24 @@ TauLopCost * AllreduceRing::evaluate (Communicator *comm, const CollParams &cpar
    Computation      *g    = nullptr;
       
    int    P  = comm->getSize();
-   int    m  = cparams.getM();
+   int    m  = cparams.getM() / P; // We assume m a multiple of P
    OpType op = cparams.getOp();
    
+   TauLopCost *cost = new TauLopCost();
+      
    conc = new TauLopConcurrent ();
    
-   /*  Allreduce Ring  */
+   /*  Allreduce Ring: put in a concurrent structure a sequence of P-1 send+operation
+                       (computation phase), evaluate it and then put a sequence of
+                       P-1 send-recv in a ring (distribution phase) and evaluate. */
+   
+   /* Computation phase */
    for (int p = 0; p < P; p++) {
       
       seq = new TauLopSequence ();
-      
+            
       for (int stage = 0; stage < P-1; stage++) {
          
-         /* Does not mind the process rank */
          int src = p;
          int dst = (p + 1) % P;
          
@@ -78,15 +83,46 @@ TauLopCost * AllreduceRing::evaluate (Communicator *comm, const CollParams &cpar
       conc->add(seq);
    }
    
+   conc->evaluate(cost);
+   delete conc;
+
+   /* Distribution phase */
+   conc = new TauLopConcurrent ();
+   
+   for (int p = 0; p < P; p++) {
+      
+      seq = new TauLopSequence ();
+
+      for (int stage = 0; stage < P-1; stage++) {
+                  
+         int src = p;
+         int dst = (p + 1) % P;
+         
+         int node_src = comm->getNode(src);
+         int node_dst = comm->getNode(dst);
+         
+         Process p_src {src, node_src};
+         Process p_dst {dst, node_dst};
+         
+         int channel = (node_src == node_dst) ? 0 : 1;
+         
+         int n   = 1;
+         int tau = 1;
+         
+         T = new Transmission(p_src, p_dst, channel, n, m, tau);
+         seq->add(T);
+         
+      }
+      conc->add(seq);
+   }
+   
+   conc->evaluate(cost);
+   
 #if TLOP_DEBUG == 1
    cout << "P = " << P << endl;
    conc->show();
 #endif
-   
-   TauLopCost *cost = new TauLopCost();
-   
-   conc->evaluate(cost);
-   
+         
 #if TLOP_DEBUG == 1
    cout << " -- Cost: " << endl;
    cost->show();
