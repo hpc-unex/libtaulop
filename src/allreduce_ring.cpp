@@ -84,10 +84,10 @@ TauLopCost * AllreduceRing::evaluate (Communicator *comm, const CollParams &cpar
    }
    
    conc->evaluate(cost);
-   delete conc;
+   //delete conc;
 
    /* Distribution phase */
-   conc = new TauLopConcurrent ();
+   //conc = new TauLopConcurrent ();
    
    for (int p = 0; p < P; p++) {
       

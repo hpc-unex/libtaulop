@@ -54,7 +54,7 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, const CollParams &
    }
       
    int steps   = ceil(m / (ms * P));
-   int last_ms = m % ms; // Las segment could be not complete
+   int last_ms = m % ms; // Last segment could be not complete
    if (last_ms == 0)  last_ms = ms;
       
    conc = new TauLopConcurrent ();
@@ -106,7 +106,7 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, const CollParams &
       
       seq = new TauLopSequence ();
       
-      for (int d = 0; d < P-1; d++) {
+      for (int stage = 0; stage < P-1; stage++) {
          
          /* Does not mind the process rank */
          int src = p;
