@@ -46,16 +46,18 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, const CollParams &
    int    m  = cparams.getM();
    OpType op = cparams.getOp();
    
-   int ms = 128; // Size of a message in bytes (TO BE TESTED ???)
+   int ms = 4096; // Size of a message in bytes (TO BE TESTED ???)
 
-   if (m < (ms * P)) { // REQUIRES m multple of ms and P and *size > ms * P
+   if (m < (ms * P)) { // REQUIRES m multple of ms and P and m >= ms * P
       cerr << "[allreduce_ring_segm] AllReduce Ring Segmented requires m >= (ms x P)." << endl;
       return cost;
    }
       
-   int steps   = ceil(m / (ms * P));
-   int last_ms = m % ms; // Last segment could be not complete
+   int steps   = ceil((float)m / (float)(ms * P));
+   int last_ms = (m/P) % ms; // Last segment could be not complete
    if (last_ms == 0)  last_ms = ms;
+   
+   //cout << "steps: " << steps << "  m: " << m << "  P: " << P << "  m_s: " << ms << "  last_ms:" << last_ms << endl;
       
    conc = new TauLopConcurrent ();
    
@@ -66,11 +68,11 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, const CollParams &
       
       for (int s = 0; s < steps; s++) {
          
-         if (s == steps - 1)  ms = last_ms;
+         int send_ms = ms;
+         if (s == steps - 1)  send_ms = last_ms;
    
-         for (int d = 2; d < P; d++) {
+         for (int stage = 0; stage < P-1; stage++) {
             
-            /* Does not mind the process rank */
             int src = p;
             int dst = (p + 1) % P;
             
@@ -85,10 +87,12 @@ TauLopCost * AllreduceRingSegm::evaluate (Communicator *comm, const CollParams &
             int n   = 1;
             int tau = 1;
             
-            T = new Transmission(p_src, p_dst, channel, n, ms, tau);
+            //cout << "   T: " << ms << "   " << src << " -> " << dst << "  (" << s << endl;
+            
+            T = new Transmission(p_src, p_dst, channel, n, send_ms, tau);
             seq->add(T);
             
-            g = new Computation(p_src, ms, op);
+            g = new Computation(p_src, send_ms, op);
             seq->add(g);
          }
          
