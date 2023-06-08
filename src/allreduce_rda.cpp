@@ -46,17 +46,24 @@ TauLopCost * AllreduceRDA::evaluate (Communicator *comm, const CollParams &cpara
    int    m  = cparams.getM();
    OpType op = cparams.getOp();
    
-   /* Allreduce RDA  (P^2 processes) */
-   for (int stage = 0; pow(2, stage) < P; stage++) {
+   if (m / sizeof(int) < P) { // REQUIRES count >= P
+      cerr << "[allreduce_recdoubling] AllReduce Rabenseifner requires count >= P." << endl;
+      cerr << "[allreduce_recdoubling] Furthermore, by now, it requires P power of 2." << endl;
+      return cost;
+   }
+   
+   /* Allreduce RDA */
+   /* We assume P power of 2 by now. Open MPI executes for any P */
+   
+   for (int stage = 1; stage < P; stage <<= 1) {
       
       conc = new TauLopConcurrent ();
-                  
+                        
       for (int p = 0; p < P; p++) {
          
          /* Does not mind the process rank */
          int src = p;
-         int b = pow(2, stage);
-         int dst = p ^ b;
+         int dst = p ^ stage;
          
          if (dst < src) continue;
          
@@ -88,6 +95,7 @@ TauLopCost * AllreduceRDA::evaluate (Communicator *comm, const CollParams &cpara
 #endif
       
       conc->evaluate(cost);
+      
 #if TLOP_DEBUG == 1
       cout << " -- Cost: " << endl;
       cost->show();
