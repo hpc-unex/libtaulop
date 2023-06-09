@@ -1024,7 +1024,7 @@ def getBenchmarkList (collective):
 
 
     # AllReduce -> RecDoublingOMPI
-    if collective == "AllreduceRDA":
+    if collective == "AllreduceRecDoubling":
 
         bench_list.append(
             {"machine":    "metropolis",
