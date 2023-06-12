@@ -24,7 +24,7 @@ def processTransferTimeTCP (transfert, overhead, L0):
     tt = transfert / 2.0
     tt.subtract(overhead, axis=0)
     tt.subtract(2 * L0, axis=0)
-    return tt / 2.0
+    return tt
 
 
 
