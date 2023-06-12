@@ -9,8 +9,8 @@ from transform_params  import execute_transform
 
 # configuration
 
-i_path = "/Users/jarico/Documents/Investigacion/Software/taulop-tool/taulop_develop/parameters/Metropolis/08"
-o_path = "/Users/jarico/Documents/Investigacion/Software/taulop-tool/taulop_develop/parameters/Metropolis/08"
+i_path = "/Users/jarico/Documents/Investigacion/Software/taulop-tool/taulop_develop/parameters/Metropolis/09"
+o_path = "/Users/jarico/Documents/Investigacion/Software/taulop-tool/taulop_develop/parameters/Metropolis/09/results"
 
 channels = ["SHM", "TCP", "IB"]
 machines = ["Metropolis"]

@@ -32,7 +32,7 @@ def processTransferTimeRDMA (transfert, overhead):
 def processChannelARIES (config, mpiblib_times):
 
     H   = config['H']
-    S   = config['S']
+    S   = config['k']
     tau = config["tau"]
 
     # 1. Create Pandas in order to manipulate data

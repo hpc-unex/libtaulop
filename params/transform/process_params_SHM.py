@@ -55,7 +55,7 @@ def processTransferTimeSHM_seg (transfert, overhead, S):
 def processChannelSHM (config, mpiblib_times):
 
     H   = config['H']
-    S   = config['S']
+    S   = config['k']
     tau = config["tau"]
 
     # 1. Create Pandas in order to manipulate data
