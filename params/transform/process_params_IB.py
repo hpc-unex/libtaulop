@@ -9,7 +9,7 @@ from params_operations   import *
 
 
 # TODO: DOCUMENTACION
-# 
+#
 
 
 def processOverheadNET_eager (overhead):
@@ -56,7 +56,7 @@ def processChannelIB (config, mpiblib_times):
     #   MAX    -       -        -              -
     #
     #   Values are those from MPIBLib measurement. We have to transform into
-    #    taulop parameters, using different methods that depends on the 
+    #    taulop parameters, using different methods that depends on the
     #    communication channel. The output wwill be a DataFrame (taulop_times):
     #
     #         o(m)   L(m,1)   L(m,2)   ...   L(m,tau)
@@ -70,10 +70,14 @@ def processChannelIB (config, mpiblib_times):
     # 2. Overhead: same as SHM and standard for all channels.
     overhead = mpiblib_times['o(m)']
 
-    # 2a. overhead with eager protocol (m < H)
-    overhead.loc[:H-1] = processOverheadNET_eager(overhead.loc[:H-1])
-    # 2b. OVerhead with rendezvous protocol (m >= H)
-    overhead.loc[H:]   = processOverheadNET_rndv(overhead.loc[H:])
+    if H == 0:
+        # 2a. Consider ONLY eager messages
+        overhead.loc[:] = processOverheadNET_eager(overhead.loc[:])
+    else:
+        # 2a. overhead with eager protocol (m < H)
+        overhead.loc[:H-1] = processOverheadNET_eager(overhead.loc[:H-1])
+        # 2b. OVerhead with rendezvous protocol (m >= H)
+        overhead.loc[H:]   = processOverheadNET_rndv(overhead.loc[H:])
 
     taulop_times['o(m)'] = overhead
 

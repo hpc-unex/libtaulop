@@ -79,8 +79,8 @@ def processChannelSHM (config, mpiblib_times):
     #   MAX    -       -        -              -
     #
     #   Values are those from MPIBLib measurement. We have to transform into
-    #    taulop parameters, using different methods that depends on the 
-    #    communication channel. The output wwill be a DataFrame (taulop_times):
+    #    taulop parameters, using different methods that depends on the
+    #    communication channel. The output will be a DataFrame (taulop_times):
     #
     #         o(m)   L(m,1)   L(m,2)   ...   L(m,tau)
     #     1    -       -        -              -
@@ -91,37 +91,56 @@ def processChannelSHM (config, mpiblib_times):
     #
 
     # 2. Overhead
-    # 2a. overhead with eager protocol (m < H)
-    taulop_times.loc[ :H-1, 'o(m)'] = processOverheadSHM_eager(mpiblib_times.loc[ :H-1, 'o(m)'])
-    # 2b. OVerhead with rendezvous protocol (m >= H)
-    taulop_times.loc[H:   , 'o(m)'] = processOverheadSHM_rndv (mpiblib_times.loc[H:   , 'o(m)'])
+    if H == 0:
+        # 2a. Consider ONLY eager messages
+        taulop_times.loc[:, 'o(m)'] = processOverheadSHM_eager(mpiblib_times.loc[:, 'o(m)'])
+    else:
+        # 2a. overhead with eager protocol (m < H)
+        taulop_times.loc[ :H-1, 'o(m)'] = processOverheadSHM_eager(mpiblib_times.loc[ :H-1, 'o(m)'])
+        # 2b. OVerhead with rendezvous protocol (m >= H)
+        taulop_times.loc[H:   , 'o(m)'] = processOverheadSHM_rndv (mpiblib_times.loc[H:   , 'o(m)'])
 
 
     # 3. Transfer time:  T(m,1), tau=1 needs P=2 in a PingPong
-    # 3a. No segmented messages: m < S
-    transfert_noseg = mpiblib_times.loc[0:S-1, mpiblib_times.columns[1]]
-    o_noseg  = taulop_times.loc[ :S-1, 'o(m)']  # taulop overhead
-    # Usage of .values because columns names are not the same in mpiblib and taulop times DataFrames:
-    taulop_times.loc[0:S-1, taulop_times.columns[1]] = processTm1_SHM_noseg(transfert_noseg, o_noseg).values
+    if S == 0:
+        # 3a. Consider ONLY no segmented messages
+        transfert_noseg = mpiblib_times.loc[:, mpiblib_times.columns[1]]
+        o_noseg  = taulop_times.loc[:, 'o(m)']  # taulop overhead
+        # Usage of .values because columns names are not the same in mpiblib and taulop times DataFrames:
+        taulop_times.loc[:, taulop_times.columns[1]] = processTm1_SHM_noseg(transfert_noseg, o_noseg).values
+    else:
+        # 3a. No segmented messages: m < S
+        transfert_noseg = mpiblib_times.loc[0:S-1, mpiblib_times.columns[1]]
+        o_noseg  = taulop_times.loc[ :S-1, 'o(m)']  # taulop overhead
+        # Usage of .values because columns names are not the same in mpiblib and taulop times DataFrames:
+        taulop_times.loc[0:S-1, taulop_times.columns[1]] = processTm1_SHM_noseg(transfert_noseg, o_noseg).values
 
-    # 3b. Segmented messages: m >= S
-    transfert_seg   = mpiblib_times.loc[S: , mpiblib_times.columns[1]]
-    o_seg           = taulop_times.loc[S: , 'o(m)']    # taulop overhead
-    taulop_times.loc[S: , taulop_times.columns[1]]   = processTm1_SHM_seg(transfert_seg, o_seg, S).values
+        # 3b. Segmented messages: m >= S
+        transfert_seg   = mpiblib_times.loc[S: , mpiblib_times.columns[1]]
+        o_seg           = taulop_times.loc[S: , 'o(m)']    # taulop overhead
+        taulop_times.loc[S: , taulop_times.columns[1]]   = processTm1_SHM_seg(transfert_seg, o_seg, S).values
 
 
     # 4. Transfer time:  T(m,2) ... T(m, P), tau=2..P needs P=tau in a Ring
     #transfert = mpiblib_times.loc[:, mpiblib_times.columns[2:]] # T(m,2) ... T(m,tau)
-    # 4a. No segmented messages: m < S
-    transfert_noseg = mpiblib_times.loc[0:S-1, mpiblib_times.columns[2:]]
-    o_noseg  = taulop_times.loc[ :S-1, 'o(m)']  # taulop overhead
-    # Usage of .values because columns names are not the same in mpiblib and taulop times DataFrames:
-    taulop_times.loc[0:S-1, taulop_times.columns[2:]] = processTransferTimeSHM_noseg(transfert_noseg, o_noseg).values
+    if S == 0:
+        # 4a. Consider ONLY non segmented messages
+        transfert_noseg = mpiblib_times.loc[:, mpiblib_times.columns[2:]]
+        o_noseg  = taulop_times.loc[:, 'o(m)']  # taulop overhead
+        # Usage of .values because columns names are not the same in mpiblib and taulop times DataFrames:
+        taulop_times.loc[:, taulop_times.columns[2:]] = processTransferTimeSHM_noseg(transfert_noseg, o_noseg).values
 
-    # 4b. Segmented messages: m >= S
-    transfert_seg   = mpiblib_times.loc[S: , mpiblib_times.columns[2:]]
-    o_seg           = taulop_times.loc[S: , 'o(m)']    # taulop overhead
-    taulop_times.loc[S: , taulop_times.columns[2:]]   = processTransferTimeSHM_seg(transfert_seg, o_seg, S).values
+    else:
+        # 4a. No segmented messages: m < S
+        transfert_noseg = mpiblib_times.loc[0:S-1, mpiblib_times.columns[2:]]
+        o_noseg  = taulop_times.loc[ :S-1, 'o(m)']  # taulop overhead
+        # Usage of .values because columns names are not the same in mpiblib and taulop times DataFrames:
+        taulop_times.loc[0:S-1, taulop_times.columns[2:]] = processTransferTimeSHM_noseg(transfert_noseg, o_noseg).values
+
+        # 4b. Segmented messages: m >= S
+        transfert_seg   = mpiblib_times.loc[S: , mpiblib_times.columns[2:]]
+        o_seg           = taulop_times.loc[S: , 'o(m)']    # taulop overhead
+        taulop_times.loc[S: , taulop_times.columns[2:]]   = processTransferTimeSHM_seg(transfert_seg, o_seg, S).values
 
 
     # 5. Return a new DataFrame with taulop times processed.

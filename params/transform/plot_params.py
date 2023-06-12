@@ -24,6 +24,7 @@ def plot_params(times, args):
     ax[0].set_xticklabels(times.index, rotation=45)
     ax[0].set_xlabel("m (bytes)")
     ax[0].set_ylabel("time (secs)")
+    ax[0].set_ylim(0)
 
     for p in range(1, P+1):
         y = times.iloc[:, p] # BANDWIDTH??: / times.index
@@ -31,9 +32,10 @@ def plot_params(times, args):
     ax[1].set_title("Transfer time - L(m,t)")
     ax[1].set_xticklabels(times.index, rotation=45)
     ax[1].set_ylabel("time (secs)")
+    ax[1].set_ylim(0)
 
     fig.suptitle("Times of " + args.channel)
-    
+
     #plt.show()
     plt.savefig(args.plot)
 

@@ -35,7 +35,7 @@ if __name__ == "__main__":
             i_prefix = i_path + "/" # + machine + "_"
             i_suffix = "_" + channel + ".txt"
 
-            o_prefix = o_path + "/" 
+            o_prefix = o_path + "/"
 
             args["verbose"]   = False
             args["channel"]   = channel

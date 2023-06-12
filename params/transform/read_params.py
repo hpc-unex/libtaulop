@@ -133,7 +133,7 @@ def getOverheadTimes(lines):
 
 
 
-def getTransferTimes(lines, P):
+def getTransferTimes(lines, max_tau):
 
     times = dict()
 
@@ -160,8 +160,8 @@ def getTransferTimes(lines, P):
 
         # Read values
         values = []
-        for p in range (0, P):
-            values.append(float(v[p+1]))
+        for t in range (0, max_tau):
+            values.append(float(v[t+1]))
 
         # Set entry
         times[key] = values
@@ -240,7 +240,7 @@ def generateChannel(args):
     #   ...
     #   MAX    -       -        -              -
     #
-    #   Values are those read from MPIBLib output files. Next step is to transform 
+    #   Values are those read from MPIBLib output files. Next step is to transform
     #    values into actual taulop parameters.
 
     cols = ['o(m)'] + ['T(m, {})'.format(i) for i in range(1, tau+1)]
