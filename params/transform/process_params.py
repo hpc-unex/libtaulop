@@ -12,18 +12,18 @@ from process_params_ARIES  import processChannelARIES
 
 
 
-def processChannel (channel, config, mpiblib_times):
+def processChannel (channel, config, overhead_times, transfert_times):
 
     if channel == "SHM":
-        taulop_times = processChannelSHM   (config, mpiblib_times)
+        taulop_times = processChannelSHM   (config, overhead_times, transfert_times)
 
     if channel == "TCP":
-        taulop_times = processChannelTCP   (config, mpiblib_times)
+        taulop_times = processChannelTCP   (config, overhead_times, transfert_times)
 
     if channel == "IB":
-        taulop_times = processChannelIB    (config, mpiblib_times)
+        taulop_times = processChannelIB    (config, overhead_times, transfert_times)
 
     if channel == "ARIES":
-        taulop_times = processChannelARIES (config, mpiblib_times)
+        taulop_times = processChannelARIES (config, overhead_times, transfert_times)
 
     return taulop_times

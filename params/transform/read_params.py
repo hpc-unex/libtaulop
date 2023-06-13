@@ -123,10 +123,13 @@ def getOverheadTimes(lines):
 
         # Read key and value:
         key   = int(v[0])
-        value = float(v[1])            # Depends on the type of the value
+
+        values = []
+        for t in range (0, 2):         # eager and rendezvous
+            values.append(float(v[t+1]))
 
         # Set entry
-        times[key] = value
+        times[key] = values
 
     return times
 
@@ -231,27 +234,47 @@ def generateChannel(args):
     tt_times = getTransferTimes(tt_lines, tau)
 
 
-    # 4. Create a Pandas DataFrame with all the data read from MPIBLib output files
+    # 4. Create 2 Pandas DataFrames for overhead and transfer times
+    #    with all the data read from MPIBLib output files
     #
-    #         o(m)   T(m,1)   T(m,2)   ...   T(m,tau)
-    #     1    -       -        -              -
-    #    64    -       -        -              -
-    #   128    -       -        -              -
+    #  Overhead:
+    #
+    #         o(m)_eager    o(m)_rndv
+    #     1       -             -
+    #    64       -             -
+    #   128       -             -
     #   ...
-    #   MAX    -       -        -              -
+    #   MAX       -             -
+    #
+    #  Transfer times:
+    #
+    #         T(m,1)   T(m,2)   ...   T(m,tau)
+    #     1    -        -              -
+    #    64    -        -              -
+    #   128    -        -              -
+    #   ...
+    #   MAX    -        -              -
     #
     #   Values are those read from MPIBLib output files. Next step is to transform
     #    values into actual taulop parameters.
 
-    cols = ['o(m)'] + ['T(m, {})'.format(i) for i in range(1, tau+1)]
+    # 4.a. Create overhead dataframe
+    cols = ['o(m)_eager', 'o(m)_rndv']
 
-    o_array = np.array([list(o_times.values())]).T  # Rows = m, Cols = o(m)
+    o_array = np.array(list(o_times.values()))     # Rows = m, Cols = o(m)_eager o(m)_rndv
+
+    overhead_times = pd.DataFrame(o_array,
+                                  columns = cols,
+                                  index   = o_times.keys())
+
+    # 4.b. Create transfer times dataframe
+    cols = ['T(m, {})'.format(i) for i in range(1, tau+1)]
+
     t_array = np.array(list(tt_times.values()))     # Rows = m, Cols = T(m,1) ... T(m, tau)
 
-    mpiblib_times = pd.DataFrame(np.concatenate((o_array, t_array), axis=1),
-                                 columns = cols,
-                                 index   = o_times.keys())
+    transfert_times = pd.DataFrame(t_array,
+                                   columns = cols,
+                                   index   = tt_times.keys())
 
-    #num_m = o_array.shape[0]
 
-    return mapping, config, mpiblib_times #o_times, tt_times
+    return mapping, config, overhead_times, transfert_times

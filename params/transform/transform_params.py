@@ -27,19 +27,19 @@ def print_data(msg, data):
 def execute_transform (args):
 
     # 1. Generate dictionaries with the information from the MPIBLib file outputs.
-    mapping, config, mpiblib_times = generateChannel(args)
+    mapping, config, overhead_times, transfert_times = generateChannel(args)
 
     # 2. Process previous data to get a Pandas dataframe with the times (taulop parameter values)
     #     The times from MPIBLib are processed according to their communication channel.
-    taulop_times = processChannel(args.channel, config, mpiblib_times)
+    taulop_times = processChannel(args.channel, config, overhead_times, transfert_times)
 
     # 3. Print values
     if args.verbose:
         print_data("Configuration data: ", config)
         print_data("Mapping data: ", mapping)
-        print_data("MPIBLib times: ", mpiblib_times)
+        print_data("Overhead times: ", overhead_times)
+        print_data("Transfer times: ", transfert_times)
         print_data("Taulop times: ", taulop_times)
-        #print_data("Transfer Times data: ", tt_times)
 
     # 4. Generate plot (png) file
     if args.plot:
@@ -82,4 +82,3 @@ if __name__ == "__main__":
 
     # 2. Execute transform
     execute_transform(args)
-

@@ -29,7 +29,7 @@ def processTransferTimeRDMA (transfert, overhead):
 
 
 
-def processChannelIB (config, mpiblib_times):
+def processChannelIB (config, overhead_times, transfert_times):
 
     H   = config['H']
     S   = config['k']
@@ -38,26 +38,35 @@ def processChannelIB (config, mpiblib_times):
     # 1. Create Pandas in order to manipulate data
     cols = ['o(m)'] + ['L(m, {})'.format(i) for i in range(1, tau+1)]
 
-    t_array = np.zeros((mpiblib_times.shape[0], tau+1))
+    t_array = np.zeros((overhead_times.shape[0], tau+1))
 
     taulop_times = pd.DataFrame(t_array,
                                 columns = cols,
-                                index   = mpiblib_times.index)
+                                index   = overhead_times.index)
 
-    #num_m = o_array.shape[0]
-
-    # Now, we have a DataFram with the following shape (mpiblib_times):
+    # Inputs are 2 dataframes with the following shapes:
     #
-    #         o(m)   T(m,1)   T(m,2)   ...   T(m,tau)
-    #     1    -       -        -              -
-    #    64    -       -        -              -
-    #   128    -       -        -              -
+    #  Overhead (overhead_times):
+    #
+    #         o(m)_eager    o(m)_rndv
+    #     1       -             -
+    #    64       -             -
+    #   128       -             -
     #   ...
-    #   MAX    -       -        -              -
+    #   MAX       -             -
     #
-    #   Values are those from MPIBLib measurement. We have to transform into
+    #  Transfer times (transfert_times):
+    #
+    #         T(m,1)   T(m,2)   ...   T(m,tau)
+    #     1    -        -              -
+    #    64    -        -              -
+    #   128    -        -              -
+    #   ...
+    #   MAX    -        -              -
+    #
+    #   The goal is to transform previous data read from MPIBlib into
     #    taulop parameters, using different methods that depends on the
-    #    communication channel. The output wwill be a DataFrame (taulop_times):
+    #    communication channel. The output will be a DataFrame (taulop_times):
     #
     #         o(m)   L(m,1)   L(m,2)   ...   L(m,tau)
     #     1    -       -        -              -
@@ -68,28 +77,23 @@ def processChannelIB (config, mpiblib_times):
     #
 
     # 2. Overhead: same as SHM and standard for all channels.
-    overhead = mpiblib_times['o(m)']
-
     if H == 0:
-        # 2a. Consider ONLY eager messages
-        overhead.loc[:] = processOverheadNET_eager(overhead.loc[:])
-    else:
-        # 2a. overhead with eager protocol (m < H)
-        overhead.loc[:H-1] = processOverheadNET_eager(overhead.loc[:H-1])
-        # 2b. OVerhead with rendezvous protocol (m >= H)
-        overhead.loc[H:]   = processOverheadNET_rndv(overhead.loc[H:])
+        H = overhead_times.index[-1] + 1 # Last value (included)
 
-    taulop_times['o(m)'] = overhead
+    # 2a. overhead with eager protocol (m < H)
+    taulop_times.loc[ :H-1, 'o(m)'] = processOverheadNET_eager(overhead_times.loc[ :H-1, 'o(m)_eager'])
+    # 2b. OVerhead with rendezvous protocol (m >= H)
+    taulop_times.loc[H:   , 'o(m)'] = processOverheadNET_rndv (overhead_times.loc[H:   , 'o(m)_rndv'])
 
 
-    # 3. Transfer time
-    transfert = mpiblib_times.loc[:, mpiblib_times.columns[1:]] # T(m,1) ... T(m,tau)
+    # 3. Transfer time: No segmented messages across all sizes. Not using S.
+    #                   (segmentation is in TCP/IP protocol)
+    transfert = transfert_times.loc[:, transfert_times.columns[0:]] # T(m,1) ... T(m,tau)
+    overhead  = taulop_times.loc[:, 'o(m)']                         # Overhead already computed
 
-    # 3a. No segmented messages along all sizes
-    transfert = mpiblib_times.loc[:, mpiblib_times.columns[1:]]
-    overhead  = taulop_times.loc[:, 'o(m)']  # Already computed overhead
     transfert = processTransferTimeRDMA (transfert, overhead)
     taulop_times.loc[:, taulop_times.columns[1:]] = transfert.values
+
 
     # 4. Return transfer times (L) dataframe.
     return taulop_times
