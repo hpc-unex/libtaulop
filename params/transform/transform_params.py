@@ -33,8 +33,8 @@ def execute_transform (args):
     #     The times from MPIBLib are processed according to their communication channel.
     taulop_times = processChannel(args.channel, config, overhead_times, transfert_times)
 
-    negative_values = (taulop_times < 0).sum().sum()
-    if negative_values > 0:
+    negative_values = (taulop_times < 0.0).sum().sum()
+    if negative_values > 0.0:
          print("In transformation, detected a number of negative times (", negative_values, ") in ", args.channel)
 
     # 3. Print values
