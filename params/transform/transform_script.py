@@ -24,6 +24,8 @@ if __name__ == "__main__":
 
     parser.add_argument('-v', '--verbose',
                         action = 'store_true', help = "Verbose mode.")                 # on/off verbose mode
+    parser.add_argument('-vv', '--vverbose',
+                        action = 'store_true', help = "Show parameter values.")        # on/off verbose mode
     parser.add_argument('-i', '--input_path', default=".",
                         help = "Input path for mpiblib files (default <.>).")          # input path files
     parser.add_argument('-o', '--output_path', default=".",
@@ -50,7 +52,7 @@ if __name__ == "__main__":
 
             o_prefix = margs.output_path + "/"
 
-            args["verbose"]   = margs.verbose
+            args["verbose"]   = margs.vverbose
             args["channel"]   = channel
             args["overhead"]  = i_prefix + "overhead" + i_suffix
             args["transfert"] = i_prefix + "transfertime" + i_suffix
