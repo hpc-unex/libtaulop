@@ -331,10 +331,12 @@ void Benchmark::printData (ostream& outp, Results_t res) {
    outp << fixed << setprecision(6);  // Same precision as default IMB
    
    // IMB outputs: latency is in usec, bw in MBytes/s
-   outp << res.m           << " \t "
-        << res.repetitions << " \t "
-        << res.latency     << " \t "
-        << res.bandwidth   << endl;
+   outp << setw(12) << res.m
+        << setw(4)  << res.repetitions
+        << setw(16) << res.latency
+        << setw(16) << res.bandwidth
+        << endl;
+       
    
 }
 
