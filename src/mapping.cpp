@@ -39,13 +39,10 @@ Mapping::Mapping  (int P, int *nodes) {
 
 
 
-Mapping::Mapping (int P, int Q, Map map) {
+Mapping::Mapping (int P, int M, int Q, Map map) {
    
    this->P = P;
    this->nodes = new int [P];
-   
-   int M = P / Q;
-   if (M == 0) M = 1;
    
    int num[M]; // Only for Random mapping: control the number of processes per node.
    

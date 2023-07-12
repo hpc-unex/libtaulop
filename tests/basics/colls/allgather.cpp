@@ -21,7 +21,7 @@ using namespace std;
 double rda_allgather (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *rda  = new AllgatherRDA();
@@ -45,7 +45,7 @@ double rda_allgather (const TaulopArgs &args) {
 double ring_allgather (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *ring  = new AllgatherRing();

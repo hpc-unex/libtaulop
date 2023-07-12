@@ -22,7 +22,7 @@ using namespace std;
 double reduce_linear (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
       
    Collective *reduce  = new ReduceLinearOpenMPI();
@@ -48,7 +48,7 @@ double reduce_linear (const TaulopArgs &args) {
 double reduce_binomial (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *reduce  = new ReduceBinomialOpenMPI();

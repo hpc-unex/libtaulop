@@ -21,7 +21,7 @@ using namespace std;
 double basic_alltoall (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *alltoall  = new AlltoallBasic();
@@ -45,7 +45,7 @@ double basic_alltoall (const TaulopArgs &args) {
 double linear_alltoall (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *alltoall  = new AlltoallLinear();
@@ -69,7 +69,7 @@ double linear_alltoall (const TaulopArgs &args) {
 double pairwise_alltoall (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *alltoall  = new AlltoallPairwise();

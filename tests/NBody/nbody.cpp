@@ -162,6 +162,7 @@ int main (int argc, const char * argv[]) {
    
    int P = 32;
    int Q = 4;
+   int M = P / Q;
    double t = 0.0;
    
    
@@ -181,7 +182,7 @@ int main (int argc, const char * argv[]) {
    //      ranks Q .. 2Q-1 to node 1
    //       ...
    Communicator *world = new Communicator (P);
-   Mapping *map = new Mapping(P, Q, Map::Sequential);
+   Mapping *map = new Mapping(P, M, Q, Map::Sequential);
    world->map(map);
    
    cout << endl << "Sequential Mapping: " << endl;
@@ -211,7 +212,7 @@ int main (int argc, const char * argv[]) {
    //   Map::RoundRobin : processes
    //      ranks 0  Q    2Q   .. Q(Q-1)   to node 0
    //      ranks 1  Q+1  2Q+1 .. Q(Q-1)+1 to node
-   map = new Mapping(P, Q, Map::RoundRobin);
+   map = new Mapping(P, M, Q, Map::RoundRobin);
    world->map(map);
    
    cout << endl << "Round Robin Mapping: " << endl;
@@ -244,7 +245,6 @@ int main (int argc, const char * argv[]) {
    //   M : number of nodes
    Communicator *irr_comm = new Communicator (P);
    int nodes[P];
-   int M = 4; // number of nodes
    srand(123);
    for (int i = 0; i < P; i++) {
       nodes[i] = rand() % M; // Random node for testing

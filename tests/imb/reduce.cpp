@@ -28,7 +28,7 @@ Results_t reduce_linear (const Arguments_t &args) {
       int* v = (int *)&args.map_user[0]; // Is this safe?
       map = new Mapping (args.P, v);
    } else {
-      map = new Mapping (args.P, args.Q, args.mapping);
+      map = new Mapping (args.P, args.M, args.Q, args.mapping);
    }
    world->map(map);
       
@@ -57,7 +57,7 @@ Results_t reduce_binomial_ompi (const Arguments_t &args) {
       int* v = (int *)&args.map_user[0]; // Is this safe?
       map = new Mapping (args.P, v);
    } else {
-      map = new Mapping (args.P, args.Q, args.mapping);
+      map = new Mapping (args.P, args.M, args.Q, args.mapping);
    }
    world->map(map);
       

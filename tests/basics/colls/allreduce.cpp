@@ -23,7 +23,7 @@ using namespace std;
 double allreduce_linear (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *allred  = new AllreduceLinearOpenMPI();
@@ -47,7 +47,7 @@ double allreduce_linear (const TaulopArgs &args) {
 double allreduce_nono (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *allred  = new AllreduceNonOverlapOpenMPI();
@@ -71,7 +71,7 @@ double allreduce_nono (const TaulopArgs &args) {
 double allreduce_rda (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *allred  = new AllreduceRDA();
@@ -95,7 +95,7 @@ double allreduce_rda (const TaulopArgs &args) {
 double allreduce_ring (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *allred  = new AllreduceRing();
@@ -119,7 +119,7 @@ double allreduce_ring (const TaulopArgs &args) {
 double allreduce_ring_segm (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *allred  = new AllreduceRingSegm();
@@ -143,7 +143,7 @@ double allreduce_ring_segm (const TaulopArgs &args) {
 double allreduce_rabenseifner (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *allred  = new AllreduceRabenseifner();

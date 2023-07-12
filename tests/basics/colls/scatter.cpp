@@ -20,7 +20,7 @@ using namespace std;
 double scatter (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *scatter = new ScatterBinomial();
@@ -43,7 +43,7 @@ double scatter (const TaulopArgs &args) {
 double scatter_v (const TaulopArgs &args, int *m) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *scatter = new ScatterBinomial();

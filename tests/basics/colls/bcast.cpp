@@ -19,7 +19,7 @@ using namespace std;
 double linear_bcast (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
    
    Collective *bcast  = new BcastLinear();
@@ -44,7 +44,7 @@ double linear_bcast (const TaulopArgs &args) {
 double binomial_bcast (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
    
    Collective *bcast  = new BcastBinomial();
@@ -70,7 +70,7 @@ double binomial_bcast (const TaulopArgs &args) {
 double binomial_ompi_bcast (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
    
    Collective *bcast  = new BcastBinomialOpenMPI();

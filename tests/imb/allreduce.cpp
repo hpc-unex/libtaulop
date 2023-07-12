@@ -29,7 +29,7 @@ Results_t allreduce_linear_ompi (const Arguments_t &args) {
       int* v = (int *)&args.map_user[0]; // Is this safe?
       map = new Mapping (args.P, v);
    } else {
-      map = new Mapping (args.P, args.Q, args.mapping);
+      map = new Mapping (args.P, args.M, args.Q, args.mapping);
    }
    world->map(map);
       
@@ -58,7 +58,7 @@ Results_t allreduce_nonoverlap_ompi (const Arguments_t &args) {
       int* v = (int *)&args.map_user[0]; // Is this safe?
       map = new Mapping (args.P, v);
    } else {
-      map = new Mapping (args.P, args.Q, args.mapping);
+      map = new Mapping (args.P, args.M, args.Q, args.mapping);
    }
    world->map(map);
       
@@ -87,7 +87,7 @@ Results_t allreduce_rda_ompi (const Arguments_t &args) {
       int* v = (int *)&args.map_user[0]; // Is this safe?
       map = new Mapping (args.P, v);
    } else {
-      map = new Mapping (args.P, args.Q, args.mapping);
+      map = new Mapping (args.P, args.M, args.Q, args.mapping);
    }
    world->map(map);
       
@@ -116,7 +116,7 @@ Results_t allreduce_ring_ompi (const Arguments_t &args) {
       int* v = (int *)&args.map_user[0]; // Is this safe?
       map = new Mapping (args.P, v);
    } else {
-      map = new Mapping (args.P, args.Q, args.mapping);
+      map = new Mapping (args.P, args.M, args.Q, args.mapping);
    }
    world->map(map);
       
@@ -145,7 +145,7 @@ Results_t allreduce_ringsegm_ompi (const Arguments_t &args) {
       int* v = (int *)&args.map_user[0]; // Is this safe?
       map = new Mapping (args.P, v);
    } else {
-      map = new Mapping (args.P, args.Q, args.mapping);
+      map = new Mapping (args.P, args.M, args.Q, args.mapping);
    }
    world->map(map);
       
@@ -174,7 +174,7 @@ Results_t allreduce_rabenseifner_ompi (const Arguments_t &args) {
       int* v = (int *)&args.map_user[0]; // Is this safe?
       map = new Mapping (args.P, v);
    } else {
-      map = new Mapping (args.P, args.Q, args.mapping);
+      map = new Mapping (args.P, args.M, args.Q, args.mapping);
    }
    world->map(map);
       

@@ -145,7 +145,7 @@ int main (int argc, const char * argv[]) {
    //      ranks Q .. 2Q-1 to node 1
    //       ...
    Communicator *world = new Communicator (P);
-   Mapping *map = new Mapping(P, Q, Map::Sequential);
+   Mapping *map = new Mapping(P, M, Q, Map::Sequential);
    world->map(map);
    
    cout << endl << "Homogeneous Sequential Mapping: " << endl;
@@ -178,7 +178,7 @@ int main (int argc, const char * argv[]) {
    //   Map::RoundRobin : processes
    //      ranks 0  Q    2Q   .. Q(Q-1)   to node 0
    //      ranks 1  Q+1  2Q+1 .. Q(Q-1)+1 to node
-   map = new Mapping(P, Q, Map::RoundRobin);
+   map = new Mapping(P, M, Q, Map::RoundRobin);
    world->map(map);
    
    cout << endl << "Homogeneous Round Robin Mapping: " << endl;

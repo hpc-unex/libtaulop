@@ -21,7 +21,7 @@ using namespace std;
 double binomial_gather (const TaulopArgs &args) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *gather  = new GatherBinomial();
@@ -45,7 +45,7 @@ double binomial_gather (const TaulopArgs &args) {
 double binomial_v_gather (const TaulopArgs &args, int *m) {
    
    Communicator *world = new Communicator (args.P);
-   Mapping *map = new Mapping (args.P, args.Q, args.mapping);
+   Mapping *map = new Mapping (args.P, args.M, args.Q, args.mapping);
    world->map(map);
 
    Collective *gatherv = new GatherVBinomial();

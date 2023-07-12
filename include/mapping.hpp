@@ -39,7 +39,7 @@ public:
    
    Mapping  (int P);
    Mapping  (int P, int *nodes);
-   Mapping  (int P, int Q, Map map);
+   Mapping  (int P, int M, int Q, Map map);
    ~Mapping  ();
    
    Mapping& operator = (const Mapping &m);

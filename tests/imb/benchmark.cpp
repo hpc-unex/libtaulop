@@ -289,7 +289,7 @@ void Benchmark::printMapping(ostream& outp) {
       int* v = (int *)&this->map_user[0]; // Is this safe?
       map = new Mapping (this->P, v);
    } else {
-      map = new Mapping (this->P, this->Q, this->mapping);
+      map = new Mapping (this->P, this->M, this->Q, this->mapping);
    }
    //map->show();
    

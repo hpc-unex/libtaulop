@@ -33,7 +33,7 @@ Results_t pingpong (const Arguments_t &args) {
       int* v = (int *)&args.map_user[0]; // Is this safe?
       map = new Mapping (args.P, v);
    } else {
-      map = new Mapping (args.P, args.Q, args.mapping);
+      map = new Mapping (args.P, args.M, args.Q, args.mapping);
    }
    int srcnode = map->getNode(0);
    int dstnode = map->getNode(1);
