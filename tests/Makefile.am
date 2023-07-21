@@ -1,6 +1,6 @@
 AM_CXXFLAGS = -I$(includedir) -I$(top_srcdir)/tests/utils
 
-noinst_PROGRAMS =  test_p2p test_computation test_gather test_bcast test_allgather test_alltoall test_reduce test_allreduce test_scatter test_comm_creation test_comm_simple test_axbt test_wave2d test_nbody imb_taulop
+noinst_PROGRAMS =  test_p2p test_computation test_gather test_bcast test_allgather test_alltoall test_reduce test_allreduce test_scatter test_comm_creation test_comm_simple test_axbt test_wave2d test_nbody imb_taulop suara2d_taulop suara3d_taulop
 
 
 test_p2p_SOURCES = basics/p2p/p2p.cpp
@@ -62,5 +62,13 @@ test_wave2d_LDADD = -L$(libdir) -ltaulop
 imb_taulop_SOURCES = imb/imb_taulop.cpp imb/pingpong.cpp imb/broadcast.cpp imb/reduce.cpp imb/allreduce.cpp imb/benchmark.cpp
 imb_taulop_CXXFLAGS = $(AM_CXXFLAGS)
 imb_taulop_LDADD = -L$(libdir) -ltaulop
+
+suara2d_taulop_SOURCES = Suara/suara2d_grid.cpp Suara/allreduce.cpp
+suara2d_taulop_CXXFLAGS = $(AM_CXXFLAGS)
+suara2d_taulop_LDADD = -L$(libdir) -ltaulop
+
+suara3d_taulop_SOURCES = Suara/suara3d_grid.cpp Suara/allreduce.cpp
+suara3d_taulop_CXXFLAGS = $(AM_CXXFLAGS)
+suara3d_taulop_LDADD = -L$(libdir) -ltaulop
 
 

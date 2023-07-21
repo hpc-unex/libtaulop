@@ -151,11 +151,11 @@ taulop library provides with an utility to compare outputs from Intel MPI benchm
 
 Parameters: 
 
-*--msglen:* allos to specify a file containing messages lengths (one per line).
+*--msglen:* allows to specify a file containing messages lengths (one per line).
 *--write_file* writes output to a specified file.
 *--mapping* specifies a default-type mapping [Default, Sequential, RoundRobin, Random, User]. In case of Map::User, option *--map_file* is needed to specify the text file to read the mapping (node for each rank, one per line).
 
-**Note: more parameters and options by typing:**
+**Note: For more parameters and options, type:**
 
 **``$ ~/imb_taulop --help``**.
 
@@ -175,4 +175,26 @@ to obtain descriptions of additional arguments.
 
 
 
+
+--------------------------------------------------------------------------
+
+## Suara2D and Suara3D algorithms for Allreduce Collective
+
+Suara2D and Suara3D are meta-algorithms designed to optimize the execution time of the MPI allreduce collective operation. The algorithms operate in three stages:
+
+1) The algorithm determines the optimal 2D process grid arrangement and selects the algorithms to execute in rows and columns. This stage returns (P_r, P_c) as the number of process rows and process columns in the optimal grid, and (a_r, a_c) as the algorithms for the allreduce to be executed in rows and columns.
+2) Execute the algorithm a_r on P_c processes.
+3) Execute the algorithm a_c on P_r processes.
+
+The implementation of Stage 1 is available as tests in the taulop library. To install it, simply follow the standard installation process (``make tests``), and the algorithm will be accessible for both 2D and 3D grids.
+
+To run the test, for example, with P=12 processes in a 2D grid, use the following command:
+
+``$ ./suara2d_grid -P 12 -Q 8 -M 4 -m 512072 -s 4096 -c IB --mapping RoundRobin -v``
+
+A similar command is available for 3D tests and a couple of scripts for running the algorithm (stage 1) with several messages sizes.
+
+**Note: For more parameters and options, type:**
+
+**``$ ~/suara2d_grid --help``**.
 

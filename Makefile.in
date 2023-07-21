@@ -1094,6 +1094,8 @@ tests : all
 	@mv -f tests/test_nbody $(exec_prefix)/bin/nbody ;
 	@mv -f tests/test_wave2d $(exec_prefix)/bin/wave2d ;
 	@mv -f tests/imb_taulop $(exec_prefix)/bin/imb_taulop ;
+	@mv -f tests/suara2d_taulop $(exec_prefix)/bin/suara2d_taulop ;
+	@mv -f tests/suara3d_taulop $(exec_prefix)/bin/suara3d_taulop ;
 	@mkdir -p $(exec_prefix)/scripts ;
 	@mkdir -p $(exec_prefix)/scripts/compare ;
 	@mkdir -p $(exec_prefix)/scripts/transform ;

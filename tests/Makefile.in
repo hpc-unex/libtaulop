@@ -92,7 +92,8 @@ noinst_PROGRAMS = test_p2p$(EXEEXT) test_computation$(EXEEXT) \
 	test_reduce$(EXEEXT) test_allreduce$(EXEEXT) \
 	test_scatter$(EXEEXT) test_comm_creation$(EXEEXT) \
 	test_comm_simple$(EXEEXT) test_axbt$(EXEEXT) \
-	test_wave2d$(EXEEXT) test_nbody$(EXEEXT) imb_taulop$(EXEEXT)
+	test_wave2d$(EXEEXT) test_nbody$(EXEEXT) imb_taulop$(EXEEXT) \
+	suara2d_taulop$(EXEEXT) suara3d_taulop$(EXEEXT)
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -112,6 +113,20 @@ am_imb_taulop_OBJECTS = imb/taulop-imb_taulop.$(OBJEXT) \
 imb_taulop_OBJECTS = $(am_imb_taulop_OBJECTS)
 imb_taulop_DEPENDENCIES =
 imb_taulop_LINK = $(CXXLD) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_suara2d_taulop_OBJECTS =  \
+	Suara/suara2d_taulop-suara2d_grid.$(OBJEXT) \
+	Suara/suara2d_taulop-allreduce.$(OBJEXT)
+suara2d_taulop_OBJECTS = $(am_suara2d_taulop_OBJECTS)
+suara2d_taulop_DEPENDENCIES =
+suara2d_taulop_LINK = $(CXXLD) $(suara2d_taulop_CXXFLAGS) $(CXXFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_suara3d_taulop_OBJECTS =  \
+	Suara/suara3d_taulop-suara3d_grid.$(OBJEXT) \
+	Suara/suara3d_taulop-allreduce.$(OBJEXT)
+suara3d_taulop_OBJECTS = $(am_suara3d_taulop_OBJECTS)
+suara3d_taulop_DEPENDENCIES =
+suara3d_taulop_LINK = $(CXXLD) $(suara3d_taulop_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_test_allgather_OBJECTS =  \
 	basics/colls/test_allgather-allgather.$(OBJEXT) \
@@ -214,6 +229,10 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = NBody/$(DEPDIR)/test_nbody-nbody.Po \
 	ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po \
+	Suara/$(DEPDIR)/suara2d_taulop-allreduce.Po \
+	Suara/$(DEPDIR)/suara2d_taulop-suara2d_grid.Po \
+	Suara/$(DEPDIR)/suara3d_taulop-allreduce.Po \
+	Suara/$(DEPDIR)/suara3d_taulop-suara3d_grid.Po \
 	Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po \
 	basics/colls/$(DEPDIR)/test_allgather-allgather.Po \
 	basics/colls/$(DEPDIR)/test_allreduce-allreduce.Po \
@@ -258,7 +277,8 @@ AM_V_CXXLD = $(am__v_CXXLD_@AM_V@)
 am__v_CXXLD_ = $(am__v_CXXLD_@AM_DEFAULT_V@)
 am__v_CXXLD_0 = @echo "  CXXLD   " $@;
 am__v_CXXLD_1 = 
-SOURCES = $(imb_taulop_SOURCES) $(test_allgather_SOURCES) \
+SOURCES = $(imb_taulop_SOURCES) $(suara2d_taulop_SOURCES) \
+	$(suara3d_taulop_SOURCES) $(test_allgather_SOURCES) \
 	$(test_allreduce_SOURCES) $(test_alltoall_SOURCES) \
 	$(test_axbt_SOURCES) $(test_bcast_SOURCES) \
 	$(test_comm_creation_SOURCES) $(test_comm_simple_SOURCES) \
@@ -266,7 +286,8 @@ SOURCES = $(imb_taulop_SOURCES) $(test_allgather_SOURCES) \
 	$(test_nbody_SOURCES) $(test_p2p_SOURCES) \
 	$(test_reduce_SOURCES) $(test_scatter_SOURCES) \
 	$(test_wave2d_SOURCES)
-DIST_SOURCES = $(imb_taulop_SOURCES) $(test_allgather_SOURCES) \
+DIST_SOURCES = $(imb_taulop_SOURCES) $(suara2d_taulop_SOURCES) \
+	$(suara3d_taulop_SOURCES) $(test_allgather_SOURCES) \
 	$(test_allreduce_SOURCES) $(test_alltoall_SOURCES) \
 	$(test_axbt_SOURCES) $(test_bcast_SOURCES) \
 	$(test_comm_creation_SOURCES) $(test_comm_simple_SOURCES) \
@@ -431,6 +452,12 @@ test_wave2d_LDADD = -L$(libdir) -ltaulop
 imb_taulop_SOURCES = imb/imb_taulop.cpp imb/pingpong.cpp imb/broadcast.cpp imb/reduce.cpp imb/allreduce.cpp imb/benchmark.cpp
 imb_taulop_CXXFLAGS = $(AM_CXXFLAGS)
 imb_taulop_LDADD = -L$(libdir) -ltaulop
+suara2d_taulop_SOURCES = Suara/suara2d_grid.cpp Suara/allreduce.cpp
+suara2d_taulop_CXXFLAGS = $(AM_CXXFLAGS)
+suara2d_taulop_LDADD = -L$(libdir) -ltaulop
+suara3d_taulop_SOURCES = Suara/suara3d_grid.cpp Suara/allreduce.cpp
+suara3d_taulop_CXXFLAGS = $(AM_CXXFLAGS)
+suara3d_taulop_LDADD = -L$(libdir) -ltaulop
 all: all-am
 
 .SUFFIXES:
@@ -489,6 +516,28 @@ imb/taulop-benchmark.$(OBJEXT): imb/$(am__dirstamp) \
 imb_taulop$(EXEEXT): $(imb_taulop_OBJECTS) $(imb_taulop_DEPENDENCIES) $(EXTRA_imb_taulop_DEPENDENCIES) 
 	@rm -f imb_taulop$(EXEEXT)
 	$(AM_V_CXXLD)$(imb_taulop_LINK) $(imb_taulop_OBJECTS) $(imb_taulop_LDADD) $(LIBS)
+Suara/$(am__dirstamp):
+	@$(MKDIR_P) Suara
+	@: > Suara/$(am__dirstamp)
+Suara/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) Suara/$(DEPDIR)
+	@: > Suara/$(DEPDIR)/$(am__dirstamp)
+Suara/suara2d_taulop-suara2d_grid.$(OBJEXT): Suara/$(am__dirstamp) \
+	Suara/$(DEPDIR)/$(am__dirstamp)
+Suara/suara2d_taulop-allreduce.$(OBJEXT): Suara/$(am__dirstamp) \
+	Suara/$(DEPDIR)/$(am__dirstamp)
+
+suara2d_taulop$(EXEEXT): $(suara2d_taulop_OBJECTS) $(suara2d_taulop_DEPENDENCIES) $(EXTRA_suara2d_taulop_DEPENDENCIES) 
+	@rm -f suara2d_taulop$(EXEEXT)
+	$(AM_V_CXXLD)$(suara2d_taulop_LINK) $(suara2d_taulop_OBJECTS) $(suara2d_taulop_LDADD) $(LIBS)
+Suara/suara3d_taulop-suara3d_grid.$(OBJEXT): Suara/$(am__dirstamp) \
+	Suara/$(DEPDIR)/$(am__dirstamp)
+Suara/suara3d_taulop-allreduce.$(OBJEXT): Suara/$(am__dirstamp) \
+	Suara/$(DEPDIR)/$(am__dirstamp)
+
+suara3d_taulop$(EXEEXT): $(suara3d_taulop_OBJECTS) $(suara3d_taulop_DEPENDENCIES) $(EXTRA_suara3d_taulop_DEPENDENCIES) 
+	@rm -f suara3d_taulop$(EXEEXT)
+	$(AM_V_CXXLD)$(suara3d_taulop_LINK) $(suara3d_taulop_OBJECTS) $(suara3d_taulop_LDADD) $(LIBS)
 basics/colls/$(am__dirstamp):
 	@$(MKDIR_P) basics/colls
 	@: > basics/colls/$(am__dirstamp)
@@ -651,6 +700,7 @@ mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 	-rm -f NBody/*.$(OBJEXT)
 	-rm -f ParallelAxBt/*.$(OBJEXT)
+	-rm -f Suara/*.$(OBJEXT)
 	-rm -f Wave2D/*.$(OBJEXT)
 	-rm -f basics/colls/*.$(OBJEXT)
 	-rm -f basics/communicators/*.$(OBJEXT)
@@ -664,6 +714,10 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@NBody/$(DEPDIR)/test_nbody-nbody.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@Suara/$(DEPDIR)/suara2d_taulop-allreduce.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@Suara/$(DEPDIR)/suara2d_taulop-suara2d_grid.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@Suara/$(DEPDIR)/suara3d_taulop-allreduce.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@Suara/$(DEPDIR)/suara3d_taulop-suara3d_grid.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@basics/colls/$(DEPDIR)/test_allgather-allgather.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@basics/colls/$(DEPDIR)/test_allreduce-allreduce.Po@am__quote@ # am--include-marker
@@ -796,6 +850,62 @@ imb/taulop-benchmark.obj: imb/benchmark.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='imb/benchmark.cpp' object='imb/taulop-benchmark.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(imb_taulop_CXXFLAGS) $(CXXFLAGS) -c -o imb/taulop-benchmark.obj `if test -f 'imb/benchmark.cpp'; then $(CYGPATH_W) 'imb/benchmark.cpp'; else $(CYGPATH_W) '$(srcdir)/imb/benchmark.cpp'; fi`
+
+Suara/suara2d_taulop-suara2d_grid.o: Suara/suara2d_grid.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara2d_taulop_CXXFLAGS) $(CXXFLAGS) -MT Suara/suara2d_taulop-suara2d_grid.o -MD -MP -MF Suara/$(DEPDIR)/suara2d_taulop-suara2d_grid.Tpo -c -o Suara/suara2d_taulop-suara2d_grid.o `test -f 'Suara/suara2d_grid.cpp' || echo '$(srcdir)/'`Suara/suara2d_grid.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Suara/$(DEPDIR)/suara2d_taulop-suara2d_grid.Tpo Suara/$(DEPDIR)/suara2d_taulop-suara2d_grid.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Suara/suara2d_grid.cpp' object='Suara/suara2d_taulop-suara2d_grid.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara2d_taulop_CXXFLAGS) $(CXXFLAGS) -c -o Suara/suara2d_taulop-suara2d_grid.o `test -f 'Suara/suara2d_grid.cpp' || echo '$(srcdir)/'`Suara/suara2d_grid.cpp
+
+Suara/suara2d_taulop-suara2d_grid.obj: Suara/suara2d_grid.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara2d_taulop_CXXFLAGS) $(CXXFLAGS) -MT Suara/suara2d_taulop-suara2d_grid.obj -MD -MP -MF Suara/$(DEPDIR)/suara2d_taulop-suara2d_grid.Tpo -c -o Suara/suara2d_taulop-suara2d_grid.obj `if test -f 'Suara/suara2d_grid.cpp'; then $(CYGPATH_W) 'Suara/suara2d_grid.cpp'; else $(CYGPATH_W) '$(srcdir)/Suara/suara2d_grid.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Suara/$(DEPDIR)/suara2d_taulop-suara2d_grid.Tpo Suara/$(DEPDIR)/suara2d_taulop-suara2d_grid.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Suara/suara2d_grid.cpp' object='Suara/suara2d_taulop-suara2d_grid.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara2d_taulop_CXXFLAGS) $(CXXFLAGS) -c -o Suara/suara2d_taulop-suara2d_grid.obj `if test -f 'Suara/suara2d_grid.cpp'; then $(CYGPATH_W) 'Suara/suara2d_grid.cpp'; else $(CYGPATH_W) '$(srcdir)/Suara/suara2d_grid.cpp'; fi`
+
+Suara/suara2d_taulop-allreduce.o: Suara/allreduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara2d_taulop_CXXFLAGS) $(CXXFLAGS) -MT Suara/suara2d_taulop-allreduce.o -MD -MP -MF Suara/$(DEPDIR)/suara2d_taulop-allreduce.Tpo -c -o Suara/suara2d_taulop-allreduce.o `test -f 'Suara/allreduce.cpp' || echo '$(srcdir)/'`Suara/allreduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Suara/$(DEPDIR)/suara2d_taulop-allreduce.Tpo Suara/$(DEPDIR)/suara2d_taulop-allreduce.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Suara/allreduce.cpp' object='Suara/suara2d_taulop-allreduce.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara2d_taulop_CXXFLAGS) $(CXXFLAGS) -c -o Suara/suara2d_taulop-allreduce.o `test -f 'Suara/allreduce.cpp' || echo '$(srcdir)/'`Suara/allreduce.cpp
+
+Suara/suara2d_taulop-allreduce.obj: Suara/allreduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara2d_taulop_CXXFLAGS) $(CXXFLAGS) -MT Suara/suara2d_taulop-allreduce.obj -MD -MP -MF Suara/$(DEPDIR)/suara2d_taulop-allreduce.Tpo -c -o Suara/suara2d_taulop-allreduce.obj `if test -f 'Suara/allreduce.cpp'; then $(CYGPATH_W) 'Suara/allreduce.cpp'; else $(CYGPATH_W) '$(srcdir)/Suara/allreduce.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Suara/$(DEPDIR)/suara2d_taulop-allreduce.Tpo Suara/$(DEPDIR)/suara2d_taulop-allreduce.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Suara/allreduce.cpp' object='Suara/suara2d_taulop-allreduce.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara2d_taulop_CXXFLAGS) $(CXXFLAGS) -c -o Suara/suara2d_taulop-allreduce.obj `if test -f 'Suara/allreduce.cpp'; then $(CYGPATH_W) 'Suara/allreduce.cpp'; else $(CYGPATH_W) '$(srcdir)/Suara/allreduce.cpp'; fi`
+
+Suara/suara3d_taulop-suara3d_grid.o: Suara/suara3d_grid.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara3d_taulop_CXXFLAGS) $(CXXFLAGS) -MT Suara/suara3d_taulop-suara3d_grid.o -MD -MP -MF Suara/$(DEPDIR)/suara3d_taulop-suara3d_grid.Tpo -c -o Suara/suara3d_taulop-suara3d_grid.o `test -f 'Suara/suara3d_grid.cpp' || echo '$(srcdir)/'`Suara/suara3d_grid.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Suara/$(DEPDIR)/suara3d_taulop-suara3d_grid.Tpo Suara/$(DEPDIR)/suara3d_taulop-suara3d_grid.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Suara/suara3d_grid.cpp' object='Suara/suara3d_taulop-suara3d_grid.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara3d_taulop_CXXFLAGS) $(CXXFLAGS) -c -o Suara/suara3d_taulop-suara3d_grid.o `test -f 'Suara/suara3d_grid.cpp' || echo '$(srcdir)/'`Suara/suara3d_grid.cpp
+
+Suara/suara3d_taulop-suara3d_grid.obj: Suara/suara3d_grid.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara3d_taulop_CXXFLAGS) $(CXXFLAGS) -MT Suara/suara3d_taulop-suara3d_grid.obj -MD -MP -MF Suara/$(DEPDIR)/suara3d_taulop-suara3d_grid.Tpo -c -o Suara/suara3d_taulop-suara3d_grid.obj `if test -f 'Suara/suara3d_grid.cpp'; then $(CYGPATH_W) 'Suara/suara3d_grid.cpp'; else $(CYGPATH_W) '$(srcdir)/Suara/suara3d_grid.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Suara/$(DEPDIR)/suara3d_taulop-suara3d_grid.Tpo Suara/$(DEPDIR)/suara3d_taulop-suara3d_grid.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Suara/suara3d_grid.cpp' object='Suara/suara3d_taulop-suara3d_grid.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara3d_taulop_CXXFLAGS) $(CXXFLAGS) -c -o Suara/suara3d_taulop-suara3d_grid.obj `if test -f 'Suara/suara3d_grid.cpp'; then $(CYGPATH_W) 'Suara/suara3d_grid.cpp'; else $(CYGPATH_W) '$(srcdir)/Suara/suara3d_grid.cpp'; fi`
+
+Suara/suara3d_taulop-allreduce.o: Suara/allreduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara3d_taulop_CXXFLAGS) $(CXXFLAGS) -MT Suara/suara3d_taulop-allreduce.o -MD -MP -MF Suara/$(DEPDIR)/suara3d_taulop-allreduce.Tpo -c -o Suara/suara3d_taulop-allreduce.o `test -f 'Suara/allreduce.cpp' || echo '$(srcdir)/'`Suara/allreduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Suara/$(DEPDIR)/suara3d_taulop-allreduce.Tpo Suara/$(DEPDIR)/suara3d_taulop-allreduce.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Suara/allreduce.cpp' object='Suara/suara3d_taulop-allreduce.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara3d_taulop_CXXFLAGS) $(CXXFLAGS) -c -o Suara/suara3d_taulop-allreduce.o `test -f 'Suara/allreduce.cpp' || echo '$(srcdir)/'`Suara/allreduce.cpp
+
+Suara/suara3d_taulop-allreduce.obj: Suara/allreduce.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara3d_taulop_CXXFLAGS) $(CXXFLAGS) -MT Suara/suara3d_taulop-allreduce.obj -MD -MP -MF Suara/$(DEPDIR)/suara3d_taulop-allreduce.Tpo -c -o Suara/suara3d_taulop-allreduce.obj `if test -f 'Suara/allreduce.cpp'; then $(CYGPATH_W) 'Suara/allreduce.cpp'; else $(CYGPATH_W) '$(srcdir)/Suara/allreduce.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) Suara/$(DEPDIR)/suara3d_taulop-allreduce.Tpo Suara/$(DEPDIR)/suara3d_taulop-allreduce.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='Suara/allreduce.cpp' object='Suara/suara3d_taulop-allreduce.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(suara3d_taulop_CXXFLAGS) $(CXXFLAGS) -c -o Suara/suara3d_taulop-allreduce.obj `if test -f 'Suara/allreduce.cpp'; then $(CYGPATH_W) 'Suara/allreduce.cpp'; else $(CYGPATH_W) '$(srcdir)/Suara/allreduce.cpp'; fi`
 
 basics/colls/test_allgather-allgather.o: basics/colls/allgather.cpp
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_allgather_CXXFLAGS) $(CXXFLAGS) -MT basics/colls/test_allgather-allgather.o -MD -MP -MF basics/colls/$(DEPDIR)/test_allgather-allgather.Tpo -c -o basics/colls/test_allgather-allgather.o `test -f 'basics/colls/allgather.cpp' || echo '$(srcdir)/'`basics/colls/allgather.cpp
@@ -1224,6 +1334,8 @@ distclean-generic:
 	-rm -f NBody/$(am__dirstamp)
 	-rm -f ParallelAxBt/$(DEPDIR)/$(am__dirstamp)
 	-rm -f ParallelAxBt/$(am__dirstamp)
+	-rm -f Suara/$(DEPDIR)/$(am__dirstamp)
+	-rm -f Suara/$(am__dirstamp)
 	-rm -f Wave2D/$(DEPDIR)/$(am__dirstamp)
 	-rm -f Wave2D/$(am__dirstamp)
 	-rm -f basics/colls/$(DEPDIR)/$(am__dirstamp)
@@ -1249,6 +1361,10 @@ clean-am: clean-generic clean-noinstPROGRAMS mostlyclean-am
 distclean: distclean-am
 		-rm -f NBody/$(DEPDIR)/test_nbody-nbody.Po
 	-rm -f ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po
+	-rm -f Suara/$(DEPDIR)/suara2d_taulop-allreduce.Po
+	-rm -f Suara/$(DEPDIR)/suara2d_taulop-suara2d_grid.Po
+	-rm -f Suara/$(DEPDIR)/suara3d_taulop-allreduce.Po
+	-rm -f Suara/$(DEPDIR)/suara3d_taulop-suara3d_grid.Po
 	-rm -f Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po
 	-rm -f basics/colls/$(DEPDIR)/test_allgather-allgather.Po
 	-rm -f basics/colls/$(DEPDIR)/test_allreduce-allreduce.Po
@@ -1322,6 +1438,10 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 		-rm -f NBody/$(DEPDIR)/test_nbody-nbody.Po
 	-rm -f ParallelAxBt/$(DEPDIR)/test_axbt-axbt.Po
+	-rm -f Suara/$(DEPDIR)/suara2d_taulop-allreduce.Po
+	-rm -f Suara/$(DEPDIR)/suara2d_taulop-suara2d_grid.Po
+	-rm -f Suara/$(DEPDIR)/suara3d_taulop-allreduce.Po
+	-rm -f Suara/$(DEPDIR)/suara3d_taulop-suara3d_grid.Po
 	-rm -f Wave2D/$(DEPDIR)/test_wave2d-wave2d.Po
 	-rm -f basics/colls/$(DEPDIR)/test_allgather-allgather.Po
 	-rm -f basics/colls/$(DEPDIR)/test_allreduce-allreduce.Po
