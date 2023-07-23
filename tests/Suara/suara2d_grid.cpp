@@ -63,10 +63,10 @@ double (*fxn_algs [6]) (int P, int Q, int M, int m, int ms, Map mapping, OpType 
 };
 
 
-/* 2D grid dimensions */
+/* 2D grid dimensions (avoid the use of x,y) */
 struct grid_2d_t {
-   int x;
-   int y;
+   int r;   // number of rows
+   int c;   // number of cols
 };
 
 
@@ -111,10 +111,10 @@ void generate_2Ddims_combinations (int P, list<grid_2d_t> &dims_arrangements) {
 void generate_procs_to_test (list<grid_2d_t> &dims_combination, list<int> &procs_to_test) {
    
    for (const auto& d : dims_combination) {
-      auto it = std::find(procs_to_test.begin(), procs_to_test.end(), d.x);
+      auto it = std::find(procs_to_test.begin(), procs_to_test.end(), d.r);
       
-      if (it == procs_to_test.end()) { /* Not yet in the list. Only need to test d.x */
-         procs_to_test.push_back(d.x);
+      if (it == procs_to_test.end()) { /* Not yet in the list. Only need to test d.r */
+         procs_to_test.push_back(d.r);
       }
       
    }
@@ -142,10 +142,10 @@ double exec_algorithm (int a, int P, int Q, int M, int m, int ms, Map mapping, O
  2. From the previous possible arrangements, obtain the number of processes we have to
     execute the allreduce algorithms on (procs_to_test).
  3. Execute all the allreduce algorithms for all the number of processes, and save the estimated
-    times in a matrix Axp (times_grid).
+    times in a matrix Axp (times_grid). "p" is proc_to_test.len
  4. For each number of processes, take the minimum time and algorithm (t_algs_map).
  5. Check all possible combinations os processes in the grid (dims_arrangements) to
-    obtain the minimum (PrxPc) (ar,ac) and t.
+    obtain the minimum (PrxPc), (ar,ac) and t.
  
  The cost of the function is in the order: O(A x P),
      with A the number of algorithms to evaluate and P the number of processes.
@@ -173,14 +173,15 @@ double exec_algorithm (int a, int P, int Q, int M, int m, int ms, Map mapping, O
    12: { 0.23, rab  }
  
  Times per arrangements: (t, PrxPc, ar,ac)
-   (1,12):  0.0  + 0.23 = 0.23  (   -, rab)
-   (2,6):   0.07 + 0.16 = 0.23  (  rd, rnos)
-   (3,4):   0.09 + 0.12 = 0.21  (  rd, nono)
-   (4,3):   0.12 + 0.09 = 0.21  (nono, rd)
-   (6,2):   0.16 + 0.07 = 0.23  (rnos, rd)
-   (12,1):  0.23 + 0.0  = 0.23  ( rab, - )
+   (1,12):  0.23 + 0.0  = 0.23  (rab,  - )
+   (2,6):   0.16 + 0.07 = 0.23  (rnos, rd)
+   (3,4):   0.12 + 0.09 = 0.21  (nono, rd)
+   (4,3):   0.09 + 0.12 = 0.21  (rd,   nono)
+   (6,2):   0.07 + 0.16 = 0.23  (rd,   rnos)
+   (12,1):  0.0  + 0.23 = 0.23  ( - ,  rab)
  
- Minimum cost: (3 x 4) (rd, nono) 0.21
+ Minimum cost: (3 x 4) (nono, rd) 0.21
+ (Note: ar executes with Pc processes, while ac executes with Pr processes)
  
  */
 
@@ -197,7 +198,7 @@ Optimal_t SUARA2D_find_optimals_numerically (int P, int m, int ms, string algori
    if (verbose) {
       cout << "Posible 2D grid dimensions arrangements: " << endl;
       for (const auto& d : dims_arrangements) {
-         cout << "(" << d.x << "," << d.y << ") ";
+         cout << "(" << d.r << "," << d.c << ") ";
       }
       cout << endl;
       
@@ -211,7 +212,7 @@ Optimal_t SUARA2D_find_optimals_numerically (int P, int m, int ms, string algori
    int procs_to_test_nr = procs_to_test.size();
       
    
-   /* 3. Execute estimations for all cobinations of algorithm and process number */
+   /* 3. Execute estimations for all combinations of algorithm and process number */
    
    /* 3.1. Create a matrix of times:  (procs_to_test_nr x NUM_ALGS) */
 	double **times_grid = new double * [procs_to_test_nr];
@@ -285,32 +286,44 @@ Optimal_t SUARA2D_find_optimals_numerically (int P, int m, int ms, string algori
    }
    
 
-	/* 5. Compute final: (Pr, Pc), (ar, ac), time */
+	/* 5. Compute final: (Pr, Pc), (ar, ac), time
+    
+    This cab be confusing. For example, (Pr, Pc) = (3x6), implies that the algorithms to execute are:
+      ar = min_a (Pc)  // Algorithm that has minimum time with Pc processes
+      ac = min_a (Pr)  // Algorithm that has minimum time with Pr processes
+    
+    			* * * * * *
+    			* * * * * *
+    			* * * * * *
+    
+       Algorithm in rows execute with p=6 (Pc), and in columns with p=3 (Pr)
+    
+    */
    double t_min = numeric_limits<double>::max();
    Optimal_t opt_grid;
    
    for (const auto& d : dims_arrangements) {
 
-      t_algs t_algs_x = t_algs_map[d.x];
-      t_algs t_algs_y = t_algs_map[d.y];
+      t_algs t_alg_r = t_algs_map[d.c];  // Algorithm in rows is determined by "c" dimension
+      t_algs t_alg_c = t_algs_map[d.r];  // Algorithm in cols is determined by "r" dimension
             
       if (verbose) {
-         cout << "(" << d.x << "," << d.y << "):\t ";
-         cout << std::fixed << std::setprecision(12) << t_algs_x.t + t_algs_y.t;
-         string x_name = (d.x != 1) ? algorithms[t_algs_x.a] : " - ";
-         string y_name = (d.y != 1) ? algorithms[t_algs_y.a] : " - ";
-         cout << "(" << x_name << "," << y_name << ")" << endl;
+         cout << "(" << d.r << "," << d.c << "):\t ";
+         cout << std::fixed << std::setprecision(12) << t_alg_r.t + t_alg_c.t;
+         string ar_name = (d.c != 1) ? algorithms[t_alg_r.a] : " - ";
+         string ac_name = (d.r != 1) ? algorithms[t_alg_c.a] : " - ";
+         cout << "(" << ar_name << "," << ac_name << ")" << endl;
       }
 
-      if (t_algs_x.t + t_algs_y.t < t_min) {
-         opt_grid.t  = t_algs_x.t + t_algs_y.t;
-         opt_grid.ar = t_algs_x.a;
-         opt_grid.ac = t_algs_y.a;
-         opt_grid.Pr = d.x;
-         opt_grid.Pc = d.y;
+      if (t_alg_r.t + t_alg_c.t < t_min) {
+         opt_grid.t  = t_alg_r.t + t_alg_c.t;
+         opt_grid.ar = t_alg_r.a;
+         opt_grid.ac = t_alg_c.a;
+         opt_grid.Pr = d.r;
+         opt_grid.Pc = d.c;         
          
-         opt_grid.ar_name = (d.x != 1) ? algorithms[opt_grid.ar] : " - ";
-         opt_grid.ac_name = (d.y != 1) ? algorithms[opt_grid.ac] : " - ";
+         opt_grid.ar_name = (d.c != 1) ? algorithms[t_alg_r.a] : " - ";
+         opt_grid.ac_name = (d.r != 1) ? algorithms[t_alg_c.a] : " - ";
          
          t_min = opt_grid.t;
       }
