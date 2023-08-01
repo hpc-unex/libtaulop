@@ -31,6 +31,8 @@ tests : all
 	@mv -f tests/imb_taulop $(exec_prefix)/bin/imb_taulop ;
 	@mv -f tests/suara2d_taulop $(exec_prefix)/bin/suara2d_taulop ;
 	@mv -f tests/suara3d_taulop $(exec_prefix)/bin/suara3d_taulop ;
+	@mv -f tests/suara2dmap_taulop $(exec_prefix)/bin/suara2dmap_taulop ;
+	@mv -f tests/suara3dmap_taulop $(exec_prefix)/bin/suara3dmap_taulop ;
 	@mkdir -p $(exec_prefix)/scripts ;
 	@mkdir -p $(exec_prefix)/scripts/compare ;
 	@mkdir -p $(exec_prefix)/scripts/transform ;

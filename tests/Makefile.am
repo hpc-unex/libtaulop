@@ -1,6 +1,6 @@
 AM_CXXFLAGS = -I$(includedir) -I$(top_srcdir)/tests/utils
 
-noinst_PROGRAMS =  test_p2p test_computation test_gather test_bcast test_allgather test_alltoall test_reduce test_allreduce test_scatter test_comm_creation test_comm_simple test_axbt test_wave2d test_nbody imb_taulop suara2d_taulop suara3d_taulop
+noinst_PROGRAMS =  test_p2p test_computation test_gather test_bcast test_allgather test_alltoall test_reduce test_allreduce test_scatter test_comm_creation test_comm_simple test_axbt test_wave2d test_nbody imb_taulop suara2d_taulop suara3d_taulop suara2dmap_taulop suara3dmap_taulop
 
 
 test_p2p_SOURCES = basics/p2p/p2p.cpp
@@ -70,5 +70,13 @@ suara2d_taulop_LDADD = -L$(libdir) -ltaulop
 suara3d_taulop_SOURCES = Suara/suara3d_grid.cpp Suara/allreduce.cpp
 suara3d_taulop_CXXFLAGS = $(AM_CXXFLAGS)
 suara3d_taulop_LDADD = -L$(libdir) -ltaulop
+
+suara2dmap_taulop_SOURCES = Suara/suara2d_grid_map.cpp Suara/allreduce.cpp
+suara2dmap_taulop_CXXFLAGS = $(AM_CXXFLAGS)
+suara2dmap_taulop_LDADD = -L$(libdir) -ltaulop
+
+suara3dmap_taulop_SOURCES = Suara/suara3d_grid_map.cpp Suara/allreduce.cpp
+suara3dmap_taulop_CXXFLAGS = $(AM_CXXFLAGS)
+suara3dmap_taulop_LDADD = -L$(libdir) -ltaulop
 
 
