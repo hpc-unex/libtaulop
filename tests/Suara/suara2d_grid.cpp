@@ -27,12 +27,12 @@ using namespace std;
 
 
 /* Alreduce algorithms */
-extern double allreduce_linear_ompi       (int P, int Q, int M, int m, int ms, Map mapping, OpType op);
-extern double allreduce_nonoverlap_ompi   (int P, int Q, int M, int m, int ms, Map mapping, OpType op);
-extern double allreduce_rda_ompi          (int P, int Q, int M, int m, int ms, Map mapping, OpType op);
-extern double allreduce_ring_ompi         (int P, int Q, int M, int m, int ms, Map mapping, OpType op);
-extern double allreduce_ringsegm_ompi     (int P, int Q, int M, int m, int ms, Map mapping, OpType op);
-extern double allreduce_rabenseifner_ompi (int P, int Q, int M, int m, int ms, Map mapping, OpType op);
+extern double allreduce_linear_ompi       (Communicator *comm, int P, int m, int ms, OpType op);
+extern double allreduce_nonoverlap_ompi   (Communicator *comm, int P, int m, int ms, OpType op);
+extern double allreduce_rda_ompi          (Communicator *comm, int P, int m, int ms, OpType op);
+extern double allreduce_ring_ompi         (Communicator *comm, int P, int m, int ms, OpType op);
+extern double allreduce_ringsegm_ompi     (Communicator *comm, int P, int m, int ms, OpType op);
+extern double allreduce_rabenseifner_ompi (Communicator *comm, int P, int m, int ms, OpType op);
 
 
 /* taulop mapping types */
@@ -53,7 +53,7 @@ static string channels_s[4] = { "SHM", "TCP", "IB", "ARIES"};
 
 
 /* Pointers to functions for algorithms */
-double (*fxn_algs [6]) (int P, int Q, int M, int m, int ms, Map mapping, OpType op) = {
+double (*fxn_algs [6]) (Communicator *comm, int P, int m, int ms, OpType op) = {
    allreduce_linear_ompi,
    allreduce_nonoverlap_ompi,
    allreduce_rda_ompi,
@@ -121,11 +121,11 @@ void generate_procs_to_test (list<grid_2d_t> &dims_combination, list<int> &procs
 }
 
 
-double exec_algorithm (int a, int P, int Q, int M, int m, int ms, Map mapping, OpType op) {
+double exec_algorithm (Communicator *comm, int a, int P, int m, int ms, OpType op) {
    
    double t = 0.0;
 
-   t = fxn_algs[a] (P, Q, M, m, ms, mapping, op);
+   t = fxn_algs[a] (comm, P, m, ms, op);
    
    return t;
 }
@@ -142,8 +142,8 @@ double exec_algorithm (int a, int P, int Q, int M, int m, int ms, Map mapping, O
  2. From the previous possible arrangements, obtain the number of processes we have to
     execute the allreduce algorithms on (procs_to_test).
  3. Execute all the allreduce algorithms for all the number of processes, and save the estimated
-    times in a matrix Axp (times_grid). "p" is proc_to_test.len
- 4. For each number of processes, take the minimum time and algorithm (t_algs_map).
+    times in a matrix pxA (times_grid). "p" is proc_to_test.len
+ 4. For each number of processes (rows), take the minimum time and algorithm (t_algs_map).
  5. Check all possible combinations os processes in the grid (dims_arrangements) to
     obtain the minimum (PrxPc), (ar,ac) and t.
  
@@ -213,28 +213,42 @@ Optimal_t SUARA2D_find_optimals_numerically (int P, int m, int ms, string algori
       
    
    /* 3. Execute estimations for all combinations of algorithm and process number */
+   Communicator *world = new Communicator (P);
+   Mapping *w_map = new Mapping (P, M, Q, mapping);
+   world->map(w_map);
+   // Actually, M, Q and mapping does not apply for flat algorithm
+   if (verbose) {
+      cout << "Main Communicator (note: M, Q and mapping does not apply for flat algorithm): " << endl;
+      world->show();
+   }
+
    
    /* 3.1. Create a matrix of times:  (procs_to_test_nr x NUM_ALGS) */
-	double **times_grid = new double * [procs_to_test_nr];
-   for (int i = 0; i < procs_to_test_nr; i++) {
-      times_grid[i] = new double [NUM_ALGS];
-   }
+   double times_grid [procs_to_test_nr][NUM_ALGS];
    
    
    /* 3.2. Invoke algorithms for every process number */
-   for (int a = 0; a < NUM_ALGS; a++) {
+   int i = 0;
+   for (const auto& p : procs_to_test) {
       
-      int i = 0;
-      for (const auto& p : procs_to_test) {
+      int *ranks = new int[p];
+      for (int r = 0; r < p; r++)  ranks[r] = r;
+      Communicator *comm = world->create(p, ranks);
+      
+      for (int a = 0; a < NUM_ALGS; a++) {
          
-         double t = exec_algorithm (a, p, Q, M, m, ms, mapping, op);
+         double t = exec_algorithm (comm, a, p, m, ms, op);
          if (t == 0.0 && p != 1) t = numeric_limits<double>::max();
          times_grid[i][a] = t;
-         i++;
          
       }
+      i++;
+      
+      delete [] ranks;
+      delete comm;
       
    }
+   
    
    /* 3.3. Print times */
    if (verbose) {
@@ -260,7 +274,7 @@ Optimal_t SUARA2D_find_optimals_numerically (int P, int m, int ms, string algori
    };
    map<int, t_algs> t_algs_map;
 
-   int i = 0;
+   i = 0;
    for (const auto& p : procs_to_test) {
       
       double t_min = times_grid[i][0]; /* Assume the first element is the minimum */
@@ -332,12 +346,9 @@ Optimal_t SUARA2D_find_optimals_numerically (int P, int m, int ms, string algori
    
 
    /* Free memory */
-   for (int i = 0; i < procs_to_test_nr; i++) {
-       delete[] times_grid[i];
-   }
-   delete[] times_grid;
+   delete w_map;
+   delete world;
 
-   
    return opt_grid;
 }
 

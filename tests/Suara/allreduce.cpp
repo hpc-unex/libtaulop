@@ -19,126 +19,96 @@ using namespace std;
 
 // AllReduce algorithms
 
-double allreduce_linear_ompi (int P, int Q, int M, int m, int ms, Map mapping, OpType op) {
-   
-   Communicator *world = new Communicator (P);
-   Mapping *map = new Mapping (P, M, Q, mapping);
-   world->map(map);
-      
+double allreduce_linear_ompi (Communicator *comm, int P, int m, int ms, OpType op) {
+         
    Collective *allred  = new AllreduceLinearOpenMPI();
    CollParams cp {m, op};
    
-   TauLopCost *tc = allred->evaluate(world, cp);
+   TauLopCost *tc = allred->evaluate(comm, cp);
    
    double t = tc->getTime();
    
    delete tc;
-   delete world;
 
    return t;
 }
 
 
 
-double allreduce_nonoverlap_ompi (int P, int Q, int M, int m, int ms, Map mapping, OpType op) {
+double allreduce_nonoverlap_ompi (Communicator *comm, int P, int m, int ms, OpType op) {
    
-   Communicator *world = new Communicator (P);
-   Mapping *map = new Mapping (P, M, Q, mapping);
-   world->map(map);
-      
    Collective *allred  = new AllreduceNonOverlapOpenMPI();
    CollParams cp {m, op};
    
-   TauLopCost *tc = allred->evaluate(world, cp);
+   TauLopCost *tc = allred->evaluate(comm, cp);
    
    double t = tc->getTime();
 
    delete tc;
-   delete world;
 
    return t;
 }
 
 
 
-double allreduce_rda_ompi (int P, int Q, int M, int m, int ms, Map mapping, OpType op) {
-      
-   Communicator *world = new Communicator (P);
-   Mapping *map = new Mapping (P, M, Q, mapping);
-   world->map(map);
-      
+double allreduce_rda_ompi (Communicator *comm, int P, int m, int ms, OpType op) {
+            
    Collective *allred  = new AllreduceRDA();
    CollParams cp {m, op};
    
-   TauLopCost *tc = allred->evaluate(world, cp);
+   TauLopCost *tc = allred->evaluate(comm, cp);
    
    double t = tc->getTime();
 
    delete tc;
-   delete world;
 
    return t;
 }
 
 
 
-double allreduce_ring_ompi (int P, int Q, int M, int m, int ms, Map mapping, OpType op) {
-      
-   Communicator *world = new Communicator (P);
-   Mapping *map = new Mapping (P, M, Q, mapping);
-   world->map(map);
+double allreduce_ring_ompi (Communicator *comm, int P, int m, int ms, OpType op) {
       
    Collective *allred  = new AllreduceRing();
    CollParams cp {m, op};
    
-   TauLopCost *tc = allred->evaluate(world, cp);
+   TauLopCost *tc = allred->evaluate(comm, cp);
    
    double t = tc->getTime();
 
    delete tc;
-   delete world;
 
    return t;
 }
 
 
 
-double allreduce_ringsegm_ompi (int P, int Q, int M, int m, int ms, Map mapping, OpType op) {
-      
-   Communicator *world = new Communicator (P);
-   Mapping *map = new Mapping (P, M, Q, mapping);
-   world->map(map);
+double allreduce_ringsegm_ompi (Communicator *comm, int P, int m, int ms, OpType op) {
       
    Collective *allred  = new AllreduceRingSegm();
    CollParams cp {m, op};
    
-   TauLopCost *tc = allred->evaluate(world, cp);
+   TauLopCost *tc = allred->evaluate(comm, cp);
    
    double t = tc->getTime();
 
    delete tc;
-   delete world;
 
    return t;
 }
 
 
 
-double allreduce_rabenseifner_ompi (int P, int Q, int M, int m, int ms, Map mapping, OpType op) {
-      
-   Communicator *world = new Communicator (P);
-   Mapping *map = new Mapping (P, M, Q, mapping);
-   world->map(map);
-      
+double allreduce_rabenseifner_ompi (Communicator *comm, int P, int m, int ms, OpType op) {
+            
    Collective *allred  = new AllreduceRabenseifner();
    CollParams cp {m, op};
    
-   TauLopCost *tc = allred->evaluate(world, cp);
+   TauLopCost *tc = allred->evaluate(comm, cp);
    
    double t = tc->getTime();
 
    delete tc;
-   delete world;
 
    return t;
 }
