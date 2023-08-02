@@ -194,6 +194,8 @@ To run the test, for example, with P=12 processes in a 2D grid, use the followin
 
 A similar command is available for 3D tests and a couple of scripts for running the algorithm (stage 1) with several messages sizes.
 
+As well, mapping-aware algorithms are available for 2D and 3D, named `suara2dmap_grid`and `suara2dmap_grid`.
+
 **Note: For more parameters and options, type:**
 
 **``$ ~/suara2d_grid --help``**.
